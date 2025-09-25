@@ -1,9 +1,5 @@
 ## 1.19.0 (2025-09-25)
 
-This was a version bump only, there were no code changes.
-
-## 1.18.0 (2025-09-25)
-
 ### 🚀 Features
 
 - **nx-maven:** expose the utility to get maven workspace metadata ([#1889](https://github.com/gridatek/jnxplus/pull/1889))
