@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 2 * * *'
+  pull_request:
+    branches: [main]
 
 jobs:
   e2e:
