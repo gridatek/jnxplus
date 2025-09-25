@@ -1,3 +1,13 @@
+## 1.18.0 (2025-09-25)
+
+### 🚀 Features
+
+- **nx-maven:** expose the utility to get maven workspace metadata ([#1889](https://github.com/gridatek/jnxplus/pull/1889))
+
+### ❤️ Thank You
+
+- Jonathan Gelin @jogelin
+
 ## 1.17.0 (2025-05-16)
 
 ### 🚀 Features
