@@ -35,7 +35,7 @@ jobs:
       - name: remote
         run: |
           git remote -v
-          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/khalilou88/jnxplus.git
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/kgridou/jnxplus.git
 
       - name: nx release
         run: npx nx release --specifier minor --skip-publish
