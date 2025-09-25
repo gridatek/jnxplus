@@ -16,3 +16,9 @@ export {
   applicationGenerator,
   runTaskExecutor,
 };
+
+export {
+  getWorkspaceData as getMavenWorkspaceData,
+  WorkspaceDataType,
+  MavenProjectType,
+} from './graph/graph-utils';
