@@ -35,7 +35,7 @@
     "@prettier/plugin-xml": "^3.4.1",
     "@swc-node/register": "1.11.1",
     "@swc/cli": "0.7.8",
-    "@swc/core": "1.13.5",
+    "@swc/core": "1.13.19",
     "@swc/wasm": "~1.13.5",
     "@types/jest": "30.0.0",
     "@types/kill-port": "^2.0.3",
