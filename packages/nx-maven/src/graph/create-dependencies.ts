@@ -2,185 +2,149 @@ import {
   CreateDependencies,
   CreateDependenciesContext,
   DependencyType,
-  RawProjectGraphDependency,
   joinPathFragments,
-  logger,
+  RawProjectGraphDependency,
   validateDependency,
 } from '@nx/devkit';
-import * as path from 'path';
-import { getPlugin, getSkipAggregatorProjectLinkingOption } from '../utils';
 import {
+  getNormalizedOptions,
+  getWorkspaceData,
   MavenProjectType,
   WorkspaceDataType,
-  getCachedWorkspaceData,
-  getProject,
-  removeWorkspaceDataCache,
 } from './graph-utils';
+import { NxMavenPluginOptions } from '@jnxplus/common';
 
-export const createDependencies: CreateDependencies = (
-  _,
-  context: CreateDependenciesContext,
-) => {
+export const createDependencies: CreateDependencies<
+  NxMavenPluginOptions
+> = async (opts, context: CreateDependenciesContext) => {
   const results: RawProjectGraphDependency[] = [];
+  const normalizedOpts = getNormalizedOptions(opts);
 
-  const cachedWorkspaceData: WorkspaceDataType = getCachedWorkspaceData();
-  const projects: MavenProjectType[] = cachedWorkspaceData.projects;
+  const workspaceData: WorkspaceDataType = await getWorkspaceData(opts);
+  const projects = workspaceData.projects;
 
-  const plugin = getPlugin();
-  const skipAggregatorProjectLinkingOption =
-    getSkipAggregatorProjectLinkingOption(plugin);
+  for (const project of Object.values(projects)) {
+    if (!project.skipProject) {
+      const projectSourceFile = joinPathFragments(
+        project.projectRoot,
+        'pom.xml',
+      );
 
-  Object.keys(context.filesToProcess.projectFileMap).forEach((source) => {
-    Object.values(context.filesToProcess.projectFileMap[source]).forEach(
-      (fileData) => {
-        const filePath = fileData.file;
-        if (path.basename(filePath) === 'pom.xml') {
-          const project = projects.find(
-            (element) =>
-              joinPathFragments(element.projectRoot, 'pom.xml') === filePath,
-          );
+      if (project.parentProjectArtifactId) {
+        const parentProject = projects[project.parentProjectArtifactId];
 
-          if (!project) {
-            const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
+        if (!parentProject.skipProject) {
+          const newDependency = {
+            source: project.artifactId,
+            target: parentProject.artifactId,
+            sourceFile: projectSourceFile,
+            type: DependencyType.static,
+          };
 
-            if (isVerbose) {
-              logger.warn(
-                `Can't find project for file: ${filePath}. Maybe this project is not referenced in any modules tag. If you think it's a mistake, please open an issue.`,
-              );
-            }
-          } else if (!project.skipProject) {
-            const projectSourceFile = joinPathFragments(
-              project.projectRoot,
-              'pom.xml',
-            );
+          validateDependency(newDependency, context);
+          results.push(newDependency);
+        }
+      }
 
-            if (project.parentProjectArtifactId) {
-              const parentProject = getProject(
-                projects,
-                project.parentProjectArtifactId,
-              );
+      if (!normalizedOpts.graphOptions.skipAggregatorProjectLinking) {
+        if (
+          project.aggregatorProjectArtifactId &&
+          project.aggregatorProjectArtifactId !==
+            project.parentProjectArtifactId
+        ) {
+          const aggregatorProject =
+            projects[project.aggregatorProjectArtifactId];
 
-              if (!parentProject.skipProject) {
-                const newDependency = {
-                  source: project.artifactId,
-                  target: parentProject.artifactId,
-                  sourceFile: projectSourceFile,
-                  type: DependencyType.static,
-                };
+          if (!aggregatorProject.skipProject) {
+            const newDependency = {
+              source: project.artifactId,
+              target: aggregatorProject.artifactId,
+              sourceFile: projectSourceFile,
+              type: DependencyType.static,
+            };
 
-                validateDependency(newDependency, context);
-                results.push(newDependency);
-              }
-            }
-
-            if (skipAggregatorProjectLinkingOption === false) {
-              if (
-                project.aggregatorProjectArtifactId &&
-                project.aggregatorProjectArtifactId !==
-                  project.parentProjectArtifactId
-              ) {
-                const aggregatorProject = getProject(
-                  projects,
-                  project.aggregatorProjectArtifactId,
-                );
-
-                if (!aggregatorProject.skipProject) {
-                  const newDependency = {
-                    source: project.artifactId,
-                    target: aggregatorProject.artifactId,
-                    sourceFile: projectSourceFile,
-                    type: DependencyType.static,
-                  };
-
-                  validateDependency(newDependency, context);
-                  results.push(newDependency);
-                }
-              }
-            }
-
-            const dependencies = getDependencyProjects(project, projects);
-            for (const dependency of dependencies) {
-              if (!dependency.skipProject) {
-                const newDependency = {
-                  source: project.artifactId,
-                  target: dependency.artifactId,
-                  sourceFile: projectSourceFile,
-                  type: DependencyType.static,
-                };
-
-                validateDependency(newDependency, context);
-                results.push(newDependency);
-              }
-            }
-
-            const profileDependencies = getProfileDependencyProjects(
-              project,
-              projects,
-            );
-            for (const profileDependency of profileDependencies) {
-              if (!profileDependency.skipProject) {
-                const newDependency = {
-                  source: project.artifactId,
-                  target: profileDependency.artifactId,
-                  sourceFile: projectSourceFile,
-                  type: DependencyType.static,
-                };
-
-                validateDependency(newDependency, context);
-                results.push(newDependency);
-              }
-            }
-
-            const pluginDependencies = getPluginDependencyProjects(
-              project,
-              projects,
-            );
-            for (const pluginDependency of pluginDependencies) {
-              if (!pluginDependency.skipProject) {
-                const newDependency = {
-                  source: project.artifactId,
-                  target: pluginDependency.artifactId,
-                  sourceFile: projectSourceFile,
-                  type: DependencyType.static,
-                };
-
-                validateDependency(newDependency, context);
-                results.push(newDependency);
-              }
-            }
+            validateDependency(newDependency, context);
+            results.push(newDependency);
           }
         }
-      },
-    );
-  });
+      }
 
-  // Remove cached data
-  removeWorkspaceDataCache();
+      const dependencies = getDependencyProjects(project, projects);
+      for (const dependency of dependencies) {
+        if (!dependency.skipProject) {
+          const newDependency = {
+            source: project.artifactId,
+            target: dependency.artifactId,
+            sourceFile: projectSourceFile,
+            type: DependencyType.static,
+          };
+
+          validateDependency(newDependency, context);
+          results.push(newDependency);
+        }
+      }
+
+      const profileDependencies = getProfileDependencyProjects(
+        project,
+        projects,
+      );
+      for (const profileDependency of profileDependencies) {
+        if (!profileDependency.skipProject) {
+          const newDependency = {
+            source: project.artifactId,
+            target: profileDependency.artifactId,
+            sourceFile: projectSourceFile,
+            type: DependencyType.static,
+          };
+
+          validateDependency(newDependency, context);
+          results.push(newDependency);
+        }
+      }
+
+      const pluginDependencies = getPluginDependencyProjects(project, projects);
+      for (const pluginDependency of pluginDependencies) {
+        if (!pluginDependency.skipProject) {
+          const newDependency = {
+            source: project.artifactId,
+            target: pluginDependency.artifactId,
+            sourceFile: projectSourceFile,
+            type: DependencyType.static,
+          };
+
+          validateDependency(newDependency, context);
+          results.push(newDependency);
+        }
+      }
+    }
+  }
 
   return results;
 };
 
 function getDependencyProjects(
   project: MavenProjectType,
-  projects: MavenProjectType[],
+  projects: WorkspaceDataType['projects'],
 ) {
-  return projects.filter((p) => project.dependencies.includes(p.artifactId));
+  return Object.values(projects).filter((p) =>
+    project.dependencies.includes(p.artifactId),
+  );
 }
 
 function getProfileDependencyProjects(
   project: MavenProjectType,
-  projects: MavenProjectType[],
+  projects: WorkspaceDataType['projects'],
 ) {
-  return projects.filter((p) =>
+  return Object.values(projects).filter((p) =>
     project.profileDependencies.includes(p.artifactId),
   );
 }
 
 function getPluginDependencyProjects(
   project: MavenProjectType,
-  projects: MavenProjectType[],
+  projects: WorkspaceDataType['projects'],
 ) {
-  return projects.filter((p) =>
+  return Object.values(projects).filter((p) =>
     project.pluginDependencies.includes(p.artifactId),
   );
 }

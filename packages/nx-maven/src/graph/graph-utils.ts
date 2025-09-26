@@ -1,26 +1,40 @@
-import { NxMavenPluginOptions } from '@jnxplus/common';
+import {
+  getBuildImageTargetName,
+  getBuildTargetName,
+  getIntegrationTestTargetName,
+  getServeTargetName,
+  getTestTargetName,
+  NxMavenPluginOptions,
+} from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
 import {
-  NxJsonConfiguration,
+  hashArray,
   joinPathFragments,
   logger,
   normalizePath,
+  NxJsonConfiguration,
   readJsonFile,
   workspaceRoot,
+  writeJsonFile,
 } from '@nx/devkit';
-import * as flatCache from 'flat-cache';
 import { existsSync } from 'fs';
 import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
 import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
-import * as path from 'path';
+import { join, relative } from 'path';
 import { XmlDocument, XmlElement } from 'xmldoc';
 import {
   getArtifactId,
   getExpressionValue,
   getGroupId,
   getLocalRepositoryPath,
+  getMavenRootDirectory,
+  getPlugin,
+  getSkipAggregatorProjectLinkingOption,
+  getSkipProjectWithoutProjectJsonOption,
   getVersion,
 } from '../utils';
+import { hashObject } from 'nx/src/hasher/file-hasher';
+import { hashWithWorkspaceContext } from 'nx/src/utils/workspace-context';
 
 interface PropertyType {
   key: string;
@@ -48,122 +62,136 @@ export interface WorkspaceDataType {
   mavenRootDirAbsolutePath: string;
   targetDefaults: string[];
   localRepo: string;
-  projects: MavenProjectType[];
+  projects: Record<string, MavenProjectType>;
 }
 
-const cacheId = 'workspace-data.json';
-const cacheDirectory = path.join(workspaceDataDirectory, 'nx-maven');
-const cache = flatCache.create({
-  cacheId: cacheId,
-  cacheDir: cacheDirectory,
-  ttl: 60 * 60 * 1000,
-});
-const key = 'workspace-data';
+let NORMALIZED_OPTIONS_CACHE: NxMavenPluginOptions | undefined = undefined;
 
-export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
-  const mavenRootDirectory = opts?.mavenRootDirectory
-    ? opts.mavenRootDirectory
-    : '';
-  const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
+export async function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
+  const normalizedOpts = getNormalizedOptions(opts);
 
-  const skipProjectWithoutProjectJson = opts?.graphOptions
-    ?.skipProjectWithoutProjectJson
-    ? opts.graphOptions.skipProjectWithoutProjectJson
-    : false;
+  // get hash corresponding to all pom.xml content
+  const cachePath = await getCachePath(normalizedOpts);
 
-  const projects: MavenProjectType[] = [];
-  addProjects(skipProjectWithoutProjectJson, projects, mavenRootDirectory);
+  let data = readWorkspaceDataCache(cachePath);
+  if (data) {
+    return data;
+  }
 
-  //TODO calculate versions here
-
-  const localRepositoryPath = getLocalRepositoryPath(
-    opts,
-    mavenRootDirAbsolutePath,
+  const mavenRootDirAbsolutePath = join(
+    workspaceRoot,
+    normalizedOpts.mavenRootDirectory,
   );
 
-  const data: WorkspaceDataType = {
-    mavenRootDirAbsolutePath: mavenRootDirAbsolutePath,
+  data = {
+    mavenRootDirAbsolutePath,
     targetDefaults: getTargetDefaults(),
-    localRepo: localRepositoryPath,
-    projects: projects,
+    localRepo: normalizedOpts.localRepoRelativePath,
+    projects: {},
   };
 
+  addProjects(data, normalizedOpts, normalizedOpts.mavenRootDirectory);
+
   // Store data in cache for future use
-  cache.setKey(key, data);
-  cache.save();
+  writeWorkspaceDataToCache(cachePath, data);
 
   return data;
 }
 
-export function getCachedWorkspaceData() {
-  return cache.getKey<WorkspaceDataType>(key);
+export function getNormalizedOptions(
+  opts: NxMavenPluginOptions | undefined,
+): NxMavenPluginOptions {
+  if (!NORMALIZED_OPTIONS_CACHE) {
+    const plugin = getPlugin();
+    const mavenRootDirectory = getMavenRootDirectory(plugin);
+
+    NORMALIZED_OPTIONS_CACHE = {
+      buildTargetName: getBuildTargetName(plugin),
+      testTargetName: getTestTargetName(plugin),
+      serveTargetName: getServeTargetName(plugin),
+      integrationTestTargetName: getIntegrationTestTargetName(plugin),
+      buildImageTargetName: getBuildImageTargetName(plugin),
+      mavenRootDirectory,
+      localRepoRelativePath: getLocalRepositoryPath(
+        opts,
+        join(workspaceRoot, mavenRootDirectory),
+      ),
+      graphOptions: {
+        skipAggregatorProjectLinking:
+          getSkipAggregatorProjectLinkingOption(plugin),
+        skipProjectWithoutProjectJson:
+          getSkipProjectWithoutProjectJsonOption(plugin),
+      },
+    };
+  }
+  return NORMALIZED_OPTIONS_CACHE;
 }
 
-export function removeWorkspaceDataCache() {
-  flatCache.clearCacheById(cacheId, cacheDirectory);
+/**
+ * Generate an hash filename matching all pom.xml content
+ * If one pom.xml change, hash is invalidated
+ *
+ * @param normalizedOptions
+ */
+export async function getCachePath(normalizedOptions: object): Promise<string> {
+  const hash = hashArray([
+    await hashWithWorkspaceContext(workspaceRoot, ['pom.xml', '**/pom.xml']),
+    hashObject(normalizedOptions),
+  ]);
+  return join(workspaceDataDirectory, `maven-workspace-data-${hash}.hash`);
+}
+
+export function readWorkspaceDataCache(
+  cachePath: string,
+): WorkspaceDataType | null {
+  return process.env['NX_CACHE_PROJECT_GRAPH'] !== 'false' &&
+    existsSync(cachePath)
+    ? readJsonFile<WorkspaceDataType>(cachePath)
+    : null;
+}
+
+export function writeWorkspaceDataToCache(
+  cachePath: string,
+  results: WorkspaceDataType,
+) {
+  writeJsonFile(cachePath, results);
 }
 
 export function addProjects(
-  skipProjectWithoutProjectJson: boolean,
-  projects: MavenProjectType[],
+  data: WorkspaceDataType,
+  normalizedOpts: NxMavenPluginOptions,
   projectRelativePath: string,
   aggregatorProjectArtifactId?: string,
-) {
-  //projectAbsolutePath
-  const projectAbsolutePath = path.join(workspaceRoot, projectRelativePath);
-  const pomXmlPath = path.join(projectAbsolutePath, 'pom.xml');
+): void {
+  const projectAbsolutePath = join(workspaceRoot, projectRelativePath);
+  const pomXmlPath = join(projectAbsolutePath, 'pom.xml');
+
   const pomXmlContent = readXml(pomXmlPath);
-
   const artifactId = getArtifactId(pomXmlContent);
+  const projectJsonPath = join(projectAbsolutePath, 'project.json');
 
-  const groupId = getGroupId(artifactId, pomXmlContent);
+  data.projects[artifactId] = {
+    artifactId,
+    groupId: getGroupId(artifactId, pomXmlContent),
+    version: getVersion(artifactId, pomXmlContent),
+    isRootProject: !aggregatorProjectArtifactId,
+    isPomPackaging: isPomPackagingFunction(pomXmlContent),
+    projectRoot: getProjectRoot(projectAbsolutePath),
+    parentProjectArtifactId: getParentProjectName(pomXmlContent),
+    dependencies: getDependencyArtifactIds(pomXmlContent),
+    profileDependencies: getProfileDependencyArtifactIds(pomXmlContent),
+    pluginDependencies: getPluginDependencyArtifactIds(pomXmlContent),
+    properties: getProperties(pomXmlContent),
+    projectAbsolutePath,
+    skipProject:
+      normalizedOpts.graphOptions.skipProjectWithoutProjectJson &&
+      !existsSync(projectJsonPath),
+  };
 
-  const version = getVersion(artifactId, pomXmlContent);
-
-  const isRootProject = !aggregatorProjectArtifactId;
-
-  const isPomPackaging = isPomPackagingFunction(pomXmlContent);
-
-  const projectRoot = getProjectRoot(projectAbsolutePath);
-
-  const parentProjectArtifactId = getParentProjectName(pomXmlContent);
-
-  const dependencies = getDependencyArtifactIds(pomXmlContent);
-
-  const profileDependencies = getProfileDependencyArtifactIds(pomXmlContent);
-
-  const pluginDependencies = getPluginDependencyArtifactIds(pomXmlContent);
-
-  const properties = getProperties(pomXmlContent);
-
-  const projectJsonPath = path.join(projectAbsolutePath, 'project.json');
-  const skipProject =
-    skipProjectWithoutProjectJson && !existsSync(projectJsonPath);
-
-  projects.push({
-    artifactId: artifactId,
-    groupId: groupId,
-    version: version,
-    isRootProject: isRootProject,
-    isPomPackaging: isPomPackaging,
-    projectRoot: projectRoot,
-    projectAbsolutePath: projectAbsolutePath,
-    dependencies: dependencies,
-    profileDependencies: profileDependencies,
-    pluginDependencies: pluginDependencies,
-    parentProjectArtifactId: parentProjectArtifactId,
-    aggregatorProjectArtifactId: aggregatorProjectArtifactId,
-    properties: properties,
-    skipProject: skipProject,
-  });
-
-  const modulesXmlElement = pomXmlContent.childNamed('modules');
-  if (modulesXmlElement === undefined) {
-    return;
-  }
-
-  const moduleXmlElementArray = modulesXmlElement.childrenNamed('module');
-  if (moduleXmlElementArray.length === 0) {
+  const moduleXmlElementArray = pomXmlContent
+    ?.childNamed('modules')
+    ?.childrenNamed('module');
+  if (moduleXmlElementArray === undefined) {
     return;
   }
 
@@ -172,19 +200,12 @@ export function addProjects(
       projectRelativePath,
       moduleXmlElement.val.trim(),
     );
-    addProjects(
-      skipProjectWithoutProjectJson,
-      projects,
-      moduleRelativePath,
-      artifactId,
-    );
+    addProjects(data, normalizedOpts, moduleRelativePath, artifactId);
   }
 }
 
 function getProjectRoot(projectAbsolutePath: string) {
-  let projectRoot = normalizePath(
-    path.relative(workspaceRoot, projectAbsolutePath),
-  );
+  let projectRoot = normalizePath(relative(workspaceRoot, projectAbsolutePath));
 
   // projectRoot should not be an empty string
   if (!projectRoot) {
@@ -285,13 +306,13 @@ export function getEffectiveVersion(
 function getVersionFromParentProject(
   newVersion: string,
   parentProjectArtifactId: string | undefined,
-  projects: MavenProjectType[],
+  projects: WorkspaceDataType['projects'],
 ) {
   if (!parentProjectArtifactId) {
     return newVersion;
   }
 
-  const parentProject = getProject(projects, parentProjectArtifactId);
+  const parentProject = projects[parentProjectArtifactId];
   newVersion = getVersionFromProperties(newVersion, parentProject.properties);
 
   if (isConstantVersion(newVersion)) {
@@ -325,7 +346,7 @@ export function validateTargetInputs(
 
 function getTargetDefaults() {
   const targetDefaults = [];
-  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
+  const nxJsonPath = join(workspaceRoot, 'nx.json');
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
   if (nxJson.targetDefaults) {
@@ -343,16 +364,6 @@ function getTargetDefaults() {
   }
 
   return targetDefaults;
-}
-
-export function getProject(projects: MavenProjectType[], artifactId: string) {
-  const project = projects.find((project) => project.artifactId === artifactId);
-
-  if (!project) {
-    throw new Error(`Project ${artifactId} not found`);
-  }
-
-  return project;
 }
 
 function isConstantVersion(version: string): boolean {
@@ -524,7 +535,7 @@ export function getOutputDirLocalRepo(
   artifactId: string,
   projectVersion: string,
 ) {
-  return path.join(
+  return join(
     localRepositoryPath,
     `${groupId.replace(
       new RegExp(/\./, 'g'),

@@ -71,9 +71,9 @@ function isWrapperExistsFunction(mavenRootDirectory: string) {
   return fs.existsSync(mvnwPath);
 }
 
-export function getMavenRootDirectory(): string {
-  const plugin = getPlugin();
-
+export function getMavenRootDirectory(
+  plugin: PluginConfiguration | undefined = getPlugin(),
+): string {
   if (typeof plugin === 'string') {
     return '';
   }
@@ -431,6 +431,31 @@ export function getSkipAggregatorProjectLinkingOption(
       typeof graphOptions.skipAggregatorProjectLinking === 'boolean'
     ) {
       return graphOptions.skipAggregatorProjectLinking;
+    }
+  }
+
+  return false;
+}
+
+export function getSkipProjectWithoutProjectJsonOption(
+  plugin: PluginConfiguration | undefined,
+): boolean {
+  if (typeof plugin === 'string') {
+    return false;
+  }
+
+  const options = plugin?.options;
+
+  if (typeof options === 'object' && options && 'graphOptions' in options) {
+    const graphOptions = options?.graphOptions;
+
+    if (
+      typeof graphOptions === 'object' &&
+      graphOptions &&
+      'skipProjectWithoutProjectJson' in graphOptions &&
+      typeof graphOptions.skipProjectWithoutProjectJson === 'boolean'
+    ) {
+      return graphOptions.skipProjectWithoutProjectJson;
     }
   }
 
