@@ -3,25 +3,24 @@ import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
 import {
-  MavenProjectType,
-  WorkspaceDataType,
   getEffectiveVersion,
   getOutputDirLocalRepo,
   getTask,
   getWorkspaceData,
   ifOutputDirLocalRepoNotPresent,
   validateTargetInputs,
+  WorkspaceDataType,
 } from './graph-utils';
 
 export const createNodes: CreateNodes<NxMavenPluginOptions> = [
   'nx.json',
-  (_, opts) => {
-    const workspaceData: WorkspaceDataType = getWorkspaceData(opts);
-    const mavenProjects: MavenProjectType[] = workspaceData.projects;
+  async (_, opts) => {
+    const workspaceData: WorkspaceDataType = await getWorkspaceData(opts);
+    const mavenProjects = workspaceData.projects;
 
     const projects: Record<string, ProjectConfiguration> = {};
 
-    for (const project of mavenProjects) {
+    for (const project of Object.values(mavenProjects)) {
       if (project.skipProject) {
         continue;
       }
