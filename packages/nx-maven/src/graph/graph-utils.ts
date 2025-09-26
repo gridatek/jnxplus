@@ -66,13 +66,43 @@ export interface WorkspaceDataType {
 }
 
 let NORMALIZED_OPTIONS_CACHE: NxMavenPluginOptions | undefined = undefined;
+const WORKSPACE_DATA_PROMISE_CACHE: Map<
+  string,
+  Promise<WorkspaceDataType>
+> = new Map();
 
-export async function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
+export async function getWorkspaceData(
+  opts: NxMavenPluginOptions | undefined,
+): Promise<WorkspaceDataType> {
   const normalizedOpts = getNormalizedOptions(opts);
-
-  // get hash corresponding to all pom.xml content
   const cachePath = await getCachePath(normalizedOpts);
 
+  // Check if we already have a promise for this cache path
+  if (WORKSPACE_DATA_PROMISE_CACHE.has(cachePath)) {
+    const cachedPromise = WORKSPACE_DATA_PROMISE_CACHE.get(cachePath);
+    if (cachedPromise) {
+      return cachedPromise;
+    }
+  }
+
+  // Create and cache the promise
+  const workspaceDataPromise = computeWorkspaceData(normalizedOpts, cachePath);
+  WORKSPACE_DATA_PROMISE_CACHE.set(cachePath, workspaceDataPromise);
+
+  try {
+    return await workspaceDataPromise;
+  } catch (error) {
+    // Remove failed promise from cache so it can be retried
+    WORKSPACE_DATA_PROMISE_CACHE.delete(cachePath);
+    throw error;
+  }
+}
+
+async function computeWorkspaceData(
+  normalizedOpts: NxMavenPluginOptions,
+  cachePath: string,
+): Promise<WorkspaceDataType> {
+  // Check file system cache first
   let data = readWorkspaceDataCache(cachePath);
   if (data) {
     return data;
