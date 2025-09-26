@@ -14,7 +14,6 @@ import {
   getTask,
   getWorkspaceData,
   ifOutputDirLocalRepoNotPresent,
-  MavenProjectType,
   validateTargetInputs,
   WorkspaceDataType,
 } from './graph-utils';
@@ -38,12 +37,12 @@ async function createNodesInternal(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: CreateNodesContext,
 ) {
-  const workspaceData: WorkspaceDataType = getWorkspaceData(options);
-  const mavenProjects: MavenProjectType[] = workspaceData.projects;
+  const workspaceData: WorkspaceDataType = await getWorkspaceData(options);
+  const mavenProjects = workspaceData.projects;
 
   const projects: Record<string, ProjectConfiguration> = {};
 
-  for (const project of mavenProjects) {
+  for (const project of Object.values(mavenProjects)) {
     if (project.skipProject) {
       continue;
     }
