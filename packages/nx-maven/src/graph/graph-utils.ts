@@ -72,7 +72,7 @@ const WORKSPACE_DATA_PROMISE_CACHE: Map<
 > = new Map();
 
 export async function getWorkspaceData(
-  opts: NxMavenPluginOptions | undefined,
+  opts?: NxMavenPluginOptions,
 ): Promise<WorkspaceDataType> {
   const normalizedOpts = getNormalizedOptions(opts);
   const cachePath = await getCachePath(normalizedOpts);
