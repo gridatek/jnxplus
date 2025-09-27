@@ -72,7 +72,7 @@
     "verdaccio": "6.1.6",
     "typescript-eslint": "^8.44.1",
     "xmldoc": "^2.0.2",
-    "yargs": "^18.0.0",
+    "yargs": "17.7.2",
     "jest-util": "30.0.5"
   },
   "nx": {
