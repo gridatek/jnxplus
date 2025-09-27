@@ -207,12 +207,13 @@ export function addProjects(
     isRootProject: !aggregatorProjectArtifactId,
     isPomPackaging: isPomPackagingFunction(pomXmlContent),
     projectRoot: getProjectRoot(projectAbsolutePath),
-    parentProjectArtifactId: getParentProjectName(pomXmlContent),
+    projectAbsolutePath,
     dependencies: getDependencyArtifactIds(pomXmlContent),
     profileDependencies: getProfileDependencyArtifactIds(pomXmlContent),
     pluginDependencies: getPluginDependencyArtifactIds(pomXmlContent),
+    parentProjectArtifactId: getParentProjectName(pomXmlContent),
+    aggregatorProjectArtifactId: aggregatorProjectArtifactId,
     properties: getProperties(pomXmlContent),
-    projectAbsolutePath,
     skipProject:
       normalizedOpts.graphOptions.skipProjectWithoutProjectJson &&
       !existsSync(projectJsonPath),
