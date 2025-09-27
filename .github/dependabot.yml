@@ -13,3 +13,4 @@ updates:
       # Ignore all updates
       - dependency-name: 'chalk'
       - dependency-name: 'prettier-plugin-java'
+      - dependency-name: 'yargs'
