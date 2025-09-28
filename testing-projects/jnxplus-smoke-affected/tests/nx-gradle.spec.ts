@@ -51,7 +51,7 @@ describe('nx-gradle spring-boot smoke-affected', () => {
     execSync('git init', execSyncOptions());
 
     execSync(
-      `npm i --save-dev @jnxplus/nx-gradle@${process.env.NPM_TAG}`,
+      `npm i --save-dev @jnxplus/nx-gradle@${process.env.NPM_TAG} --legacy-peer-deps`,
       execSyncOptions(),
     );
 
