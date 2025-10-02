@@ -128,7 +128,7 @@ async function main() {
   console.log(`Creating the workspace: ${name}`);
 
   // This assumes "@jnxplus/nx-maven" and "create-nx-maven-workspace" are at the same version
-
+   
   const presetVersion = require('../package.json').version;
 
   console.log(`Using version v${presetVersion} of nx-maven`);
