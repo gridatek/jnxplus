@@ -38,11 +38,11 @@ describe('nx-maven spring-boot bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
+      `generate @jnxplus/nx-maven:init --javaVersion none --dependencyManagement spring-boot-bom --aggregatorProjectName ${aggregatorProjectName}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --dependencyManagement spring-boot-bom --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --javaVersion 17 --dependencyManagement none --language kotlin`,
     );
 
     await runNxCommandAsync(
