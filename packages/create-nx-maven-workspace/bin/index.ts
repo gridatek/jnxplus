@@ -29,7 +29,10 @@ async function main() {
         initial: 'none' as any,
         type: 'autocomplete',
         choices: [
-          { name: 'none', message: 'None - Set version later' },
+          {
+            name: 'none',
+            message: 'None - I will set it later in a parent project',
+          },
           { name: '17', message: '17' },
           { name: '21', message: '21' },
           { name: '25', message: '25' },
