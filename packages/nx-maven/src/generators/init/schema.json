@@ -79,32 +79,32 @@
       "type": "string",
       "default": "none",
       "x-prompt": {
-        "message": "How to manage dependencies?",
+        "message": "Which dependency management strategy would you like to use?",
         "type": "list",
         "items": [
           {
             "value": "none",
-            "label": "skip for now, will do that later in a parent project"
-          },
-          {
-            "value": "spring-boot-bom",
-            "label": "spring-boot-bom"
-          },
-          {
-            "value": "quarkus-bom",
-            "label": "quarkus-bom"
-          },
-          {
-            "value": "micronaut-bom",
-            "label": "micronaut-bom"
+            "label": "None - Configure manually later"
           },
           {
             "value": "spring-boot-parent-pom",
-            "label": "I want to add Spring Boot parent POM to root POM.xml"
+            "label": "Spring Boot Parent POM"
+          },
+          {
+            "value": "spring-boot-bom",
+            "label": "Spring Boot BOM (Bill of Materials)"
+          },
+          {
+            "value": "quarkus-bom",
+            "label": "Quarkus BOM (Bill of Materials)"
           },
           {
             "value": "micronaut-parent-pom",
-            "label": "I want to add Micronaut parent POM to root POM.xml"
+            "label": "Micronaut Parent POM"
+          },
+          {
+            "value": "micronaut-bom",
+            "label": "Micronaut BOM (Bill of Materials)"
           }
         ]
       }
@@ -136,6 +136,8 @@
     }
   },
   "required": [
+    "javaVersion",
+    "dependencyManagement",
     "aggregatorProjectGroupId",
     "aggregatorProjectName",
     "aggregatorProjectVersion",
