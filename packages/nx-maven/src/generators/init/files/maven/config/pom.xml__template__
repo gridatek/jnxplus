@@ -24,12 +24,12 @@
     </parent>
     <% } -%>
 
-    <% if(javaVersion !== 'none' || dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom') { -%>
+    <% if(dependencyManagement !== 'none') { -%>
     <properties>
         <% if(javaVersion !== 'none') { -%>
         <java.version><%= javaVersion %></java.version>
         <% } -%>
-        <% if(javaVersion === 'none' && (dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom')) { -%>
+        <% if(javaVersion === 'none') { -%>
         <java.version>17</java.version>
         <% } -%>
         <% if(dependencyManagement === 'spring-boot-bom') { -%>
