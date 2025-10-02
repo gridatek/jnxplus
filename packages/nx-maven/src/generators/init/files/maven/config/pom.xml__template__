@@ -29,13 +29,16 @@
         <% if(javaVersion !== 'none') { -%>
         <java.version><%= javaVersion %></java.version>
         <% } -%>
-        <% if(dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'spring-boot-parent-pom') { -%>
+        <% if(javaVersion === 'none' && (dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom')) { -%>
+        <java.version>17</java.version>
+        <% } -%>
+        <% if(dependencyManagement === 'spring-boot-bom') { -%>
         <spring-boot.version><%= springBootVersion %></spring-boot.version>
         <% } -%>
         <% if(dependencyManagement === 'quarkus-bom') { -%>
         <quarkus.version><%= quarkusVersion %></quarkus.version>
         <% } -%>
-        <% if(dependencyManagement === 'micronaut-bom' || dependencyManagement === 'micronaut-parent-pom') { -%>
+        <% if(dependencyManagement === 'micronaut-bom') { -%>
         <micronaut.version><%= micronautVersion %></micronaut.version>
         <% } -%>
         <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
