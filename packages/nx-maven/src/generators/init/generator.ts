@@ -5,6 +5,9 @@ import {
   prettierVersion,
   prettierrcNameOptions,
   updateNxJsonConfiguration,
+  micronautVersion,
+  quarkusVersion,
+  springBootVersion,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -25,6 +28,9 @@ import { NxMavenInitGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxMavenInitGeneratorSchema {
   dot: string;
+  springBootVersion: string;
+  quarkusVersion: string;
+  micronautVersion: string;
 }
 
 function normalizeOptions(
@@ -36,6 +42,9 @@ function normalizeOptions(
   return {
     ...options,
     dot,
+    springBootVersion,
+    quarkusVersion,
+    micronautVersion,
   };
 }
 
