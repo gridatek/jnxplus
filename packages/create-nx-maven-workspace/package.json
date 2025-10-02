@@ -5,7 +5,8 @@
     "create-nx-workspace": ">=20.0.0",
     "enquirer": "^2.4.1",
     "yargs": "17.7.2",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "@jnxplus/common": "1.19.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",
