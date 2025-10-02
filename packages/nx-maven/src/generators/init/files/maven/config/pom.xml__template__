@@ -26,12 +26,53 @@
 
         <properties>
             <java.version><%= javaVersion %></java.version>
+    <% if(dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'spring-boot-parent-pom') { -%>
+            <spring-boot.version><%= springBootVersion %></spring-boot.version>
+    <% } -%>
+    <% if(dependencyManagement === 'quarkus-bom') { -%>
+            <quarkus.version><%= quarkusVersion %></quarkus.version>
+    <% } -%>
+    <% if(dependencyManagement === 'micronaut-bom' || dependencyManagement === 'micronaut-parent-pom') { -%>
+            <micronaut.version><%= micronautVersion %></micronaut.version>
+    <% } -%>
     <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
             <jdk.version>${java.version}</jdk.version>
             <release.version>${java.version}</release.version>
     <% } -%>
         </properties>
 
-
+    <% if(dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom') { -%>
+        <dependencyManagement>
+            <dependencies>
+        <% if(dependencyManagement === 'spring-boot-bom') { -%>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-dependencies</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+        <% } -%>
+        <% if(dependencyManagement === 'quarkus-bom') { -%>
+                <dependency>
+                    <groupId>io.quarkus.platform</groupId>
+                    <artifactId>quarkus-bom</artifactId>
+                    <version>${quarkus.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+        <% } -%>
+        <% if(dependencyManagement === 'micronaut-bom') { -%>
+                <dependency>
+                    <groupId>io.micronaut.platform</groupId>
+                    <artifactId>micronaut-bom</artifactId>
+                    <version>${micronaut.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+        <% } -%>
+            </dependencies>
+        </dependencyManagement>
+    <% } -%>
 
 </project>
