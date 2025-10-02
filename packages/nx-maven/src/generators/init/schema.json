@@ -14,11 +14,15 @@
           "type": "number"
         }
       ],
-      "default": "17",
+      "default": "none",
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
         "items": [
+          {
+            "value": "none",
+            "label": "None - Set version later"
+          },
           {
             "value": "17",
             "label": "17"

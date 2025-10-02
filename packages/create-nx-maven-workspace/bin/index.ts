@@ -22,13 +22,14 @@ async function main() {
   let javaVersion = args['javaVersion'];
   if (!javaVersion) {
     javaVersion = (
-      await prompt<{ javaVersion: '17' | '21' | '25' }>({
+      await prompt<{ javaVersion: 'none' | '17' | '21' | '25' }>({
         name: 'javaVersion',
         message: 'Which version of Java would you like to use?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: '17' as any,
+        initial: 'none' as any,
         type: 'autocomplete',
         choices: [
+          { name: 'none', message: 'None - Set version later' },
           { name: '17', message: '17' },
           { name: '21', message: '21' },
           { name: '25', message: '25' },
@@ -122,7 +123,7 @@ async function main() {
   console.log(`Creating the workspace: ${name}`);
 
   // This assumes "@jnxplus/nx-maven" and "create-nx-maven-workspace" are at the same version
-   
+
   const presetVersion = require('../package.json').version;
 
   console.log(`Using version v${presetVersion} of nx-maven`);

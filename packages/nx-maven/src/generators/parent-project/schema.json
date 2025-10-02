@@ -20,6 +20,10 @@
         "type": "list",
         "items": [
           {
+            "value": "none",
+            "label": "None - Set version later"
+          },
+          {
             "value": "17",
             "label": "17"
           },
