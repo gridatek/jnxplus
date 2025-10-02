@@ -24,7 +24,7 @@
     </parent>
     <% } -%>
 
-    <% if(javaVersion !== 'none' || dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'spring-boot-parent-pom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom' || dependencyManagement === 'micronaut-parent-pom') { -%>
+    <% if(javaVersion !== 'none' || dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom') { -%>
     <properties>
         <% if(javaVersion !== 'none') { -%>
         <java.version><%= javaVersion %></java.version>
