@@ -88,7 +88,7 @@
         "items": [
           {
             "value": "none",
-            "label": "None - I will configure it manually (for advanced use cases)"
+            "label": "None - I will configure it later in a parent project (for advanced use cases)"
           },
           {
             "value": "spring-boot-parent-pom",
