@@ -31,7 +31,8 @@ async function main() {
         choices: [
           {
             name: 'none',
-            message: 'None - I will set it later in a parent project',
+            message:
+              'None - I will set it later in a parent project (for advanced use cases)',
           },
           { name: '17', message: '17' },
           { name: '21', message: '21' },
@@ -96,7 +97,8 @@ async function main() {
         choices: [
           {
             name: 'none',
-            message: 'None - Configure manually later',
+            message:
+              'None - I will configure it manually (for advanced use cases)',
           },
           {
             name: 'spring-boot-parent-pom',
