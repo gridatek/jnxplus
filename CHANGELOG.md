@@ -2,11 +2,8 @@
 
 ### 🚀 Features
 
-- make nx-maven init user friendly ([#1919](https://github.com/gridatek/jnxplus/pull/1919))
-
-### 🩹 Fixes
-
-- **nx-maven:** fix aggregator project ([#1898](https://github.com/gridatek/jnxplus/pull/1898))
+- **nx-maven:** make nx-maven init user friendly ([#1919](https://github.com/gridatek/jnxplus/pull/1919))
+- **nx-maven:** improve workspace data caching (#1890)
 
 ### ❤️ Thank You
 
