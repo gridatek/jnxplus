@@ -149,7 +149,63 @@ Key options:
 | Format a Java project                | `nx format --projects my-project`               |
 | Visualize project's dependency graph | `nx graph`                                      |
 
-### 6. Understanding parent projects vs aggregator projects
+### 6. Environment variables
+
+You can customize nx-maven behavior using environment variables:
+
+#### NX_MAVEN_CLI
+
+Controls which Maven executable to use. Accepts: `mvnw`, `mvn`, or `mvnd`.
+
+**Examples:**
+
+```bash
+# Linux/macOS
+export NX_MAVEN_CLI=mvn
+nx build my-app
+
+# Windows (PowerShell)
+$env:NX_MAVEN_CLI='mvnd'
+nx build my-app
+
+# Windows (CMD)
+set NX_MAVEN_CLI=mvn
+nx build my-app
+```
+
+**Default behavior (when not set):**
+
+- Uses `mvnw` (Maven wrapper) if it exists in the workspace
+- Falls back to `mvn` if wrapper doesn't exist
+
+#### NX_MAVEN_CLI_OPTS
+
+Pass additional arguments to Maven commands globally. Useful for CI/CD environments or consistent build settings.
+
+**Examples:**
+
+```bash
+# Linux/macOS - disable transfer progress and enable verbose plugin validation
+export NX_MAVEN_CLI_OPTS='--no-transfer-progress -Dmaven.plugin.validation=VERBOSE'
+nx build my-app
+
+# Windows (PowerShell) - run in batch mode
+$env:NX_MAVEN_CLI_OPTS='--batch-mode'
+nx test my-app
+
+# Windows (CMD) - use offline mode
+set NX_MAVEN_CLI_OPTS=--offline
+nx build my-app
+```
+
+**Common options:**
+
+- `--no-transfer-progress` - Disable download progress output (useful in CI)
+- `--batch-mode` - Run in non-interactive mode
+- `--offline` - Work offline (use cached dependencies only)
+- `-Dmaven.plugin.validation=VERBOSE` - Enable verbose plugin validation
+
+### 7. Understanding parent projects vs aggregator projects
 
 In Maven, there are two important concepts that serve different purposes. **Note:** The patterns described here are recommendations to help you get started, but you can configure your projects however best suits your needs.
 
@@ -233,7 +289,7 @@ The aggregator project **coordinates builds** of its submodules but doesn't nece
    nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --aggregatorProject apps-aggregator
    ```
 
-### 7. Typical workflows
+### 8. Typical workflows
 
 #### For beginners (recommended)
 
