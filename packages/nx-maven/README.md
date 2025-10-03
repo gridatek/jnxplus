@@ -111,6 +111,22 @@ workspace-root/
 
 **Note:** Once set during init, the `mavenRootDirectory` should remain consistent for all Maven projects in the workspace.
 
+The init command will configure the plugin in your `nx.json` file:
+
+```json
+{
+  "plugins": [
+    {
+      "plugin": "@jnxplus/nx-maven",
+      "options": {
+        "mavenRootDirectory": "nx-maven",
+        "localRepoRelativePath": ".m2/repository"
+      }
+    }
+  ]
+}
+```
+
 ### 3. Generate a parent project (optional)
 
 Parent projects help organize your applications and libraries with shared dependency management. Use parent projects when you need custom dependency management, want to organize projects into logical groups, or need to support multiple frameworks in your workspace.
@@ -254,7 +270,9 @@ nx build my-app
 
 ### 7. Understanding parent projects vs aggregator projects
 
-In Maven, there are two important concepts that serve different purposes. **Note:** The patterns described here are recommendations to help you get started, but you can configure your projects however best suits your needs.
+In Maven, there are two important concepts that serve different purposes. In nx-maven, separating these concerns improves Nx's project graph performance: **parent projects remain stable** (only configuration changes), while **aggregator projects only change when you add/remove projects**. This allows Nx to better cache and track dependencies.
+
+**Note:** The patterns described here are recommendations to help you get started, but you can configure your projects however best suits your needs.
 
 #### Parent Project (`--parentProject`)
 
