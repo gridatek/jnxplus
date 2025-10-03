@@ -111,7 +111,11 @@ workspace-root/
 
 **Note:** Once set during init, the `mavenRootDirectory` should remain consistent for all Maven projects in the workspace.
 
-The init command will configure the plugin in your `nx.json` file:
+### 3. Plugin configuration
+
+The init command configures the plugin in your `nx.json` file. You can customize these options to fit your workspace needs.
+
+**Example configuration:**
 
 ```json
 {
@@ -120,14 +124,33 @@ The init command will configure the plugin in your `nx.json` file:
       "plugin": "@jnxplus/nx-maven",
       "options": {
         "mavenRootDirectory": "nx-maven",
-        "localRepoRelativePath": ".m2/repository"
+        "localRepoRelativePath": ".m2/repository",
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "integrationTestTargetName": "integration-test",
+        "buildImageTargetName": "build-image",
+        "skipAggregatorProjectLinking": false,
+        "skipProjectWithoutProjectJson": false
       }
     }
   ]
 }
 ```
 
-### 3. Generate a parent project (optional)
+**Available options:**
+
+- `mavenRootDirectory` - Subdirectory for Maven files (default: workspace root)
+- `localRepoRelativePath` - Path to Maven local repository (default: .m2/repository)
+- `buildTargetName` - Name for the build target (default: build)
+- `testTargetName` - Name for the test target (default: test)
+- `serveTargetName` - Name for the serve target (default: serve)
+- `integrationTestTargetName` - Name for the integration test target (default: integration-test)
+- `buildImageTargetName` - Name for the build image target (default: build-image)
+- `skipAggregatorProjectLinking` - Skip linking aggregator projects in the dependency graph for better performance (default: false)
+- `skipProjectWithoutProjectJson` - Skip projects that don't have a project.json file (default: false)
+
+### 4. Generate a parent project (optional)
 
 Parent projects help organize your applications and libraries with shared dependency management. Use parent projects when you need custom dependency management, want to organize projects into logical groups, or need to support multiple frameworks in your workspace.
 
@@ -143,7 +166,7 @@ Key options:
 - `--parentProject` - Parent project to inherit from (for nested parent projects)
 - `--aggregatorProject` - Aggregator project that manages a group of submodules
 
-### 4. Generate applications and libraries
+### 5. Generate applications and libraries
 
 #### Generate an application
 
@@ -200,7 +223,7 @@ nx generate @jnxplus/nx-maven:library my-lib --directory backend
 nx generate @jnxplus/nx-maven:library my-lib --directory backend --simpleName false --simplePackageName false
 ```
 
-### 5. Common tasks
+### 6. Common tasks
 
 | Action                               | Command                                         |
 | ------------------------------------ | ----------------------------------------------- |
@@ -212,7 +235,7 @@ nx generate @jnxplus/nx-maven:library my-lib --directory backend --simpleName fa
 | Format a Java project                | `nx format --projects my-project`               |
 | Visualize project's dependency graph | `nx graph`                                      |
 
-### 6. Environment variables
+### 7. Environment variables
 
 You can customize nx-maven behavior using environment variables:
 
@@ -268,7 +291,7 @@ nx build my-app
 - `--offline` - Work offline (use cached dependencies only)
 - `-Dmaven.plugin.validation=VERBOSE` - Enable verbose plugin validation
 
-### 7. Understanding parent projects vs aggregator projects
+### 8. Understanding parent projects vs aggregator projects
 
 In Maven, there are two important concepts that serve different purposes. In nx-maven, separating these concerns improves Nx's project graph performance: **parent projects remain stable** (only configuration changes), while **aggregator projects only change when you add/remove projects**. This allows Nx to better cache and track dependencies.
 
@@ -354,7 +377,7 @@ The aggregator project **coordinates builds** of its submodules but doesn't nece
    nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --aggregatorProject apps-aggregator
    ```
 
-### 8. Typical workflows
+### 9. Typical workflows
 
 #### For beginners (recommended)
 
