@@ -360,14 +360,20 @@ The aggregator project **coordinates builds** of its submodules but doesn't nece
    nx generate @jnxplus/nx-maven:init --javaVersion none --dependencyManagement none
    ```
 
-2. Create custom parent projects with specific configurations:
+2. Create a common parent project for Java version:
 
    ```bash
-   nx generate @jnxplus/nx-maven:parent-project spring-parent --javaVersion 21 --dependencyManagement spring-boot-bom
-   nx generate @jnxplus/nx-maven:parent-project quarkus-parent --javaVersion 21 --dependencyManagement quarkus-bom
+   nx generate @jnxplus/nx-maven:parent-project common-parent --javaVersion 21 --dependencyManagement none
    ```
 
-3. Generate projects using different parent projects:
+3. Create framework-specific parent projects that inherit from the common parent:
+
+   ```bash
+   nx generate @jnxplus/nx-maven:parent-project spring-parent --javaVersion none --dependencyManagement spring-boot-bom --parentProject common-parent
+   nx generate @jnxplus/nx-maven:parent-project quarkus-parent --javaVersion none --dependencyManagement quarkus-bom --parentProject common-parent
+   ```
+
+4. Generate projects using framework-specific parent projects:
    ```bash
    nx generate @jnxplus/nx-maven:application spring-app --framework spring-boot --parentProject spring-parent
    nx generate @jnxplus/nx-maven:application quarkus-app --framework quarkus --parentProject quarkus-parent
