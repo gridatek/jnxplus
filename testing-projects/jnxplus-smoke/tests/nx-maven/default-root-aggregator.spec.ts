@@ -97,17 +97,17 @@ describe('nx-maven default root as parent and aggregator smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp5} --framework spring-boot --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp6} --framework spring-boot --language kotlin --packaging war`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --framework spring-boot --packaging war`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --framework spring-boot --language kotlin --projects ${testApp5},${testApp6}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --framework spring-boot --projects ${testApp5},${testApp6}`,
       execSyncOptions(),
     );
 
