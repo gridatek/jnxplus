@@ -46,7 +46,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --javaVersion 17 --parentProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`,
     );
   }, 240000);
 
