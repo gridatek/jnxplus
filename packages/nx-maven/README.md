@@ -4,6 +4,27 @@
 
 This plugin adds Maven multi-module capabilities to Nx workspace.
 
+## Quick Start
+
+Get started with nx-maven in 5 steps:
+
+```bash
+# 1. Install the plugin
+npm install --save-dev @jnxplus/nx-maven
+
+# 2. Initialize workspace with Maven support (Java 17 + Spring Boot)
+nx generate @jnxplus/nx-maven:init --javaVersion 17 --dependencyManagement spring-boot-parent-pom
+
+# 3. Generate a library
+nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot
+
+# 4. Generate an application that uses the library
+nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --projects my-lib
+
+# 5. Serve the application
+nx serve my-app
+```
+
 ## Supported versions
 
 | @jnxplus/nx-maven | Nx            | Spring Boot | Quarkus | Micronaut |
@@ -112,7 +133,7 @@ Key options:
 - `--language` - Language: java or kotlin (default: java)
 - `--parentProject` - Parent project to use (required)
 - `--port` - Server port for the application
-- `--packaging` - Packaging type: jar orwar (default: jar)
+- `--packaging` - Packaging type: jar or war (default: jar)
 - `--minimal` - Generate minimal application without starter code
 - `--groupId` - Maven groupId (default: com.example)
 - `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
@@ -299,7 +320,7 @@ The aggregator project **coordinates builds** of its submodules but doesn't nece
    nx generate @jnxplus/nx-maven:init
    ```
 
-   When prompted, select a Java version (e.g., 17 or 21) and a dependency management strategy (e.g., Spring Boot Parent POM)
+   **Important:** When prompted, select a concrete Java version (17, 21, or 25) and a dependency management strategy (Spring Boot Parent POM, Quarkus BOM, etc.) rather than "none". The "none" option is for advanced users only.
 
 2. Generate a parent project (optional, for organizing projects):
 
