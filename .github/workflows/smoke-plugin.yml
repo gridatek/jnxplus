@@ -37,6 +37,7 @@ on:
           - nx-maven quarkus smoke
           - nx-maven spring-boot smoke
           - nx-maven spring-boot bom smoke
+          - nx-maven default root as parent and aggregator smoke
       os:
         type: choice
         description: Os
