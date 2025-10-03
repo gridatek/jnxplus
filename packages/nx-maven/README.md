@@ -293,20 +293,20 @@ nx build my-app
 
 ### 8. Understanding parent projects vs aggregator projects
 
-In Maven, there are two important concepts that serve different purposes. In nx-maven, separating these concerns improves Nx's project graph performance: **parent projects remain stable** (only configuration changes), while **aggregator projects only change when you add/remove projects**. This allows Nx to better cache and track dependencies.
-
-**Note:** The patterns described here are recommendations to help you get started, but you can configure your projects however best suits your needs.
+**Why separate them?** In nx-maven, keeping parent projects (configuration) separate from aggregator projects (module lists) improves Nx graph performance. Parent projects stay stable, aggregators only change when adding/removing projects.
 
 #### Parent Project (`--parentProject`)
 
-A **parent project** defines shared configuration and dependency management that child projects inherit from. It's used for:
+**What it does:** Child projects inherit configuration and dependency management.
 
-- Sharing dependency versions across projects
-- Defining common plugin configurations
-- Setting Java version and other properties
-- Inheriting framework configurations (Spring Boot, Quarkus, Micronaut)
+**Contains:**
 
-When you specify `--parentProject my-parent` when generating an app or library, the generated `pom.xml` will have:
+- Dependency versions (`<dependencyManagement>`)
+- Plugin configurations
+- Java version and properties
+- Framework configurations (Spring Boot, Quarkus, Micronaut)
+
+**Example `pom.xml`:**
 
 ```xml
 <parent>
@@ -316,17 +316,16 @@ When you specify `--parentProject my-parent` when generating an app or library, 
 </parent>
 ```
 
-Child projects **inherit** configuration from their parent project.
-
 #### Aggregator Project (`--aggregatorProject`)
 
-An **aggregator project** is a Maven project that contains submodules for build coordination. It's used for:
+**What it does:** Lists submodules for coordinated Maven builds.
 
-- Building multiple submodules together as a group
-- Managing the build order based on dependencies between submodules
-- Organizing projects into logical groups
+**Contains:**
 
-When you specify `--aggregatorProject my-aggregator` when generating a project, that project will be added as a `<module>` (submodule) to the aggregator's `pom.xml`:
+- Only `<modules>` declarations
+- No configuration or dependency management (use parent projects for that)
+
+**Example `pom.xml`:**
 
 ```xml
 <modules>
@@ -335,47 +334,44 @@ When you specify `--aggregatorProject my-aggregator` when generating a project, 
 </modules>
 ```
 
-The aggregator project **coordinates builds** of its submodules but doesn't necessarily provide inheritance.
+#### Comparison
 
-#### Key differences
+| Aspect       | Parent Project             | Aggregator Project              |
+| ------------ | -------------------------- | ------------------------------- |
+| Purpose      | Configuration inheritance  | Build coordination              |
+| Direction    | Bottom-up (child → parent) | Top-down (aggregator → modules) |
+| Changes when | Configuration updates      | Projects added/removed          |
 
-| Aspect          | Parent Project                                   | Aggregator Project                               |
-| --------------- | ------------------------------------------------ | ------------------------------------------------ |
-| Purpose         | Share configuration and dependencies             | Coordinate multi-module builds                   |
-| Relationship    | Inheritance (child inherits from parent)         | Composition (aggregator contains submodules)     |
-| Direction       | Bottom-up (child references parent)              | Top-down (aggregator lists submodules)           |
-| Can be combined | Yes, a project can be both parent and aggregator | Yes, a project can be both parent and aggregator |
+#### Patterns
 
-#### Common patterns (recommended, but not required)
+**1. Separate parent and aggregator (recommended for performance):**
 
-1. **Parent without aggregator**: Child projects inherit configuration but are not built together
+```bash
+# Create parent for configuration
+nx generate @jnxplus/nx-maven:parent-project shared-config --javaVersion 17
 
-   ```bash
-   nx generate @jnxplus/nx-maven:parent-project shared-config --javaVersion 17
-   nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config
-   nx generate @jnxplus/nx-maven:application app2 --parentProject shared-config
-   ```
+# Create aggregator (modules only, no config)
+nx generate @jnxplus/nx-maven:parent-project apps-aggregator --javaVersion none --dependencyManagement none
 
-2. **Parent with aggregator** (most common): Projects inherit configuration AND are built together
+# Projects inherit from parent, listed in aggregator
+nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --aggregatorProject apps-aggregator
+```
 
-   ```bash
-   nx generate @jnxplus/nx-maven:parent-project shared-parent --javaVersion 17
-   nx generate @jnxplus/nx-maven:application app1 --parentProject shared-parent --aggregatorProject shared-parent
-   nx generate @jnxplus/nx-maven:library lib1 --parentProject shared-parent --aggregatorProject shared-parent
-   ```
+**Tip:** When using this pattern, enable `skipAggregatorProjectLinking: true` in your `nx.json` plugin options to optimize Nx graph performance since aggregators only contain module lists.
 
-3. **Separate parent and aggregator**: Use different projects for inheritance vs build coordination
+**2. Combined parent and aggregator (simpler, but less optimal for Nx):**
 
-   ```bash
-   # Parent for configuration
-   nx generate @jnxplus/nx-maven:parent-project shared-config --javaVersion 17
+```bash
+nx generate @jnxplus/nx-maven:parent-project shared-parent --javaVersion 17
+nx generate @jnxplus/nx-maven:application app1 --parentProject shared-parent --aggregatorProject shared-parent
+```
 
-   # Aggregator for apps (without dependency management)
-   nx generate @jnxplus/nx-maven:parent-project apps-aggregator --javaVersion none --dependencyManagement none
+**3. Parent only (no aggregation):**
 
-   # Apps inherit from shared-config but are aggregated by apps-aggregator
-   nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --aggregatorProject apps-aggregator
-   ```
+```bash
+nx generate @jnxplus/nx-maven:parent-project shared-config --javaVersion 17
+nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config
+```
 
 ### 9. Typical workflows
 
