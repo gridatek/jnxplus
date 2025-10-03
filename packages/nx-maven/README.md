@@ -65,6 +65,16 @@ You will be prompted for:
   - `micronaut-bom` - Micronaut BOM
   - `none` - Configure manually later in a parent project (for advanced use cases)
 
+**Additional options:**
+
+- `--mavenRootDirectory` - Subdirectory for Maven files (default: workspace root). See [Maven Root Directory](#important-maven-root-directory) section.
+- `--aggregatorProjectGroupId` - GroupId for root aggregator project (default: com.example)
+- `--aggregatorProjectName` - Name for root aggregator project (default: root-aggregator-project)
+- `--aggregatorProjectVersion` - Version for root aggregator project (default: 0.0.1-SNAPSHOT)
+- `--localRepoRelativePath` - Maven local repository path relative to mavenRootDirectory (default: .m2/repository)
+- `--skipWrapper` - Skip generating Maven wrapper (default: false)
+- `--formatter` - Code formatter to use: prettier or none (default: prettier)
+
 #### Important: Maven Root Directory
 
 By default, Maven files (wrapper, config, and projects) are placed at the workspace root. However, you can specify a subdirectory using the `--mavenRootDirectory` option:
