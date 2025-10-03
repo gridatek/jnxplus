@@ -1,3 +1,18 @@
+## 1.21.0 (2025-10-03)
+
+### 🚀 Features
+
+- make nx-maven init user friendly ([#1919](https://github.com/gridatek/jnxplus/pull/1919))
+
+### 🩹 Fixes
+
+- **nx-maven:** fix aggregator project ([#1898](https://github.com/gridatek/jnxplus/pull/1898))
+
+### ❤️ Thank You
+
+- Jonathan Gelin @jogelin
+- Khalil LAGRIDA @kgridou
+
 ## 1.19.0 (2025-09-25)
 
 ### 🚀 Features
