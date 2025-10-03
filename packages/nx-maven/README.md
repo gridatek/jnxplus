@@ -71,7 +71,7 @@ You will be prompted for:
 - `--aggregatorProjectGroupId` - GroupId for root aggregator project (default: com.example)
 - `--aggregatorProjectName` - Name for root aggregator project (default: root-aggregator-project)
 - `--aggregatorProjectVersion` - Version for root aggregator project (default: 0.0.1-SNAPSHOT)
-- `--localRepoRelativePath` - Maven local repository path relative to mavenRootDirectory (default: .m2/repository)
+- `--localRepoRelativePath` - Path to Maven local repository where dependencies are stored, relative to mavenRootDirectory (default: .m2/repository). Must be a subfolder within the workspace so Nx can cache and restore dependencies between builds
 - `--skipWrapper` - Skip generating Maven wrapper (default: false)
 - `--formatter` - Code formatter to use: prettier or none (default: prettier)
 
