@@ -47,7 +47,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement spring-boot-parent-pom`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement spring-boot-parent-pom`,
     );
   }, 240000);
 
@@ -1150,7 +1150,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   it('aggregatorProject - should generate java apps that use a parent project and aggregatorProject', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parent-project ${parentProjectName} `,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --javaVersion 17 --parent-project ${parentProjectName} `,
     );
 
     const randomName = uniq('boot-maven-app-');
@@ -1164,7 +1164,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --javaVersion 17 --parent-project ${appsParentProject}`,
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -1180,7 +1180,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --javaVersion 17 --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -1240,7 +1240,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   it('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parent-project ${parentProjectName} `,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --javaVersion 17 --parent-project ${parentProjectName} `,
     );
 
     const randomName = uniq('boot-maven-app-');
@@ -1254,7 +1254,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --javaVersion 17 --parent-project ${appsParentProject}`,
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -1270,7 +1270,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --javaVersion 17 --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -1331,7 +1331,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --parent-project ${parentProjectName} `,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --javaVersion 17 --parent-project ${parentProjectName} `,
     );
 
     const libName = uniq('boot-maven-lib-');
@@ -1346,7 +1346,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --javaVersion 17 --parent-project ${libsParentProject}`,
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1366,7 +1366,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --javaVersion 17 --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1427,7 +1427,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --parent-project ${parentProjectName} `,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --javaVersion 17 --parent-project ${parentProjectName} `,
     );
 
     const libName = uniq('boot-maven-lib-');
@@ -1442,7 +1442,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --javaVersion 17 --parent-project ${libsParentProject}`,
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1462,7 +1462,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --javaVersion 17 --parent-project ${secondParentProject} --directory ${parentProjectDir} --simpleName false`,
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1806,7 +1806,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   it('should generate java app inside a parent project', async () => {
     const parentProject = uniq('parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProject} --parent-project ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProject} --javaVersion 17 --parent-project ${parentProjectName}`,
     );
 
     const randomName = uniq('boot-maven-app-');
@@ -1847,7 +1847,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   it('should --aggregator-project option works and generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parent-project ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --javaVersion 17 --parent-project ${parentProjectName}`,
     );
     const localTmpDir = path.dirname(tmpProjPath());
     const projectJson1 = path.join(
@@ -1867,7 +1867,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --javaVersion 17 --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -1880,7 +1880,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject} --directory ${parentProjectDir}`,
+      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --javaVersion 17 --simpleName --parent-project ${secondParentProject} --directory ${parentProjectDir}`,
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -1940,7 +1940,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   it('optional project.json', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parent-project ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --javaVersion 17 --parent-project ${parentProjectName}`,
     );
 
     //graph

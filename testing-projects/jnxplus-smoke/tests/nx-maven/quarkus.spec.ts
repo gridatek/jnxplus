@@ -60,7 +60,7 @@ describe('nx-maven quarkus smoke', () => {
     );
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement quarkus-bom --language kotlin`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --dependencyManagement quarkus-bom --language kotlin`,
       execSyncOptions(),
     );
   });

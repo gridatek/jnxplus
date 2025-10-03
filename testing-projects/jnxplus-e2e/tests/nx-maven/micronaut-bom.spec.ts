@@ -40,7 +40,7 @@ describe('nx-maven micronaut bom e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement micronaut-bom --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --dependencyManagement micronaut-bom --language kotlin`,
     );
   }, 240000);
 

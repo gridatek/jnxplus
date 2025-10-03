@@ -32,7 +32,7 @@ describe('nx-maven all bom e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --aggregatorProjectName ${aggregatorProjectName} --language kotlin`,
     );
   }, 240000);
 

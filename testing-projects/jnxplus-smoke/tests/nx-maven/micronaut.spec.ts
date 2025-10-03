@@ -71,7 +71,7 @@ describe('nx-maven micronaut smoke', () => {
     );
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement micronaut-parent-pom --language kotlin`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --dependencyManagement micronaut-parent-pom --language kotlin`,
       execSyncOptions(),
     );
   });
