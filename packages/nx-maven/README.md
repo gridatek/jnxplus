@@ -102,7 +102,7 @@ workspace-root/
 **When to use `mavenRootDirectory`:**
 
 - ✅ **Monorepo organization** - Keep Maven projects isolated in their own directory
-- ✅ **Cleaner separation** - Separate Java/Maven projects from the Nx workspace root
+- ✅ **Better Nx caching** - Separating Maven files improves Nx cache calculations and project graph performance
 
 **When to skip `mavenRootDirectory` (use root):**
 
