@@ -147,7 +147,7 @@ The init command configures the plugin in your `nx.json` file. You can customize
 - `serveTargetName` - Name for the serve target (default: serve)
 - `integrationTestTargetName` - Name for the integration test target (default: integration-test)
 - `buildImageTargetName` - Name for the build image target (default: build-image)
-- `skipAggregatorProjectLinking` - Skip linking aggregator projects in the dependency graph for better performance (default: false)
+- `skipAggregatorProjectLinking` - Skip linking aggregator projects in the dependency graph. Enable this when aggregator projects only contain `<modules>` declarations and all configuration is handled by parent projects. This improves Nx graph performance by reducing unnecessary dependency links. See [Understanding parent projects vs aggregator projects](#8-understanding-parent-projects-vs-aggregator-projects) for more details (default: false)
 - `skipProjectWithoutProjectJson` - Skip projects that don't have a project.json file (default: false)
 
 ### 4. Generate a parent project (optional)
