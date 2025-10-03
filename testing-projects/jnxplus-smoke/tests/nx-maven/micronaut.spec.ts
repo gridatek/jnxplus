@@ -50,7 +50,7 @@ describe('nx-maven micronaut smoke', () => {
     //execSync('npm i', execSyncOptions());
 
     execSync(
-      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip`,
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip --interactive false`,
       {
         cwd: smokeDirectory,
         env: process.env,

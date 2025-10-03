@@ -39,7 +39,7 @@ describe('nx-maven micronaut bom smoke', () => {
     }));
 
     execSync(
-      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip`,
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip --interactive false`,
       {
         cwd: smokeDirectory,
         env: process.env,

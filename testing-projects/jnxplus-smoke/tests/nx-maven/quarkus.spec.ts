@@ -39,7 +39,7 @@ describe('nx-maven quarkus smoke', () => {
     }));
 
     execSync(
-      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset ts --nxCloud skip`,
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset ts --nxCloud skip --interactive false`,
       {
         cwd: smokeDirectory,
         env: process.env,
