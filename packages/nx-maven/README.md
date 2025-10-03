@@ -101,15 +101,13 @@ workspace-root/
 
 **When to use `mavenRootDirectory`:**
 
-- ✅ **Hybrid workspaces** - Mix Maven projects with other technologies (Node.js, Python, etc.)
 - ✅ **Monorepo organization** - Keep Maven projects isolated in their own directory
-- ✅ **Multiple build tools** - Use both Maven and Gradle in the same workspace
+- ✅ **Cleaner separation** - Separate Java/Maven projects from the Nx workspace root
 
 **When to skip `mavenRootDirectory` (use root):**
 
-- ✅ **Maven-only workspace** - All projects use Maven
 - ✅ **Simpler structure** - Fewer nested directories
-- ✅ **Default Maven conventions** - Maven users expect files at the root
+- ✅ **Hybrid workspaces** - Mix Maven projects with other technologies (Node.js, Python, etc.) at the root level
 
 **Note:** Once set during init, the `mavenRootDirectory` should remain consistent for all Maven projects in the workspace.
 
