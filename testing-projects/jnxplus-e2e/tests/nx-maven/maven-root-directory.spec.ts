@@ -45,19 +45,19 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${noneParentProjectName} --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${noneParentProjectName} --javaVersion 17 --language kotlin`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${springBootParentProjectName} --dependencyManagement spring-boot-bom --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${springBootParentProjectName} --javaVersion 17 --dependencyManagement spring-boot-bom --language kotlin`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${quarkusParentProjectName} --dependencyManagement quarkus-bom --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${quarkusParentProjectName} --javaVersion 17 --dependencyManagement quarkus-bom --language kotlin`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${micronautParentProjectName} --dependencyManagement micronaut-bom --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${micronautParentProjectName} --javaVersion 17 --dependencyManagement micronaut-bom --language kotlin`,
     );
   }, 240000);
 

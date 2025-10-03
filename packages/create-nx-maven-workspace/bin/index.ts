@@ -3,6 +3,7 @@
 import { createWorkspace } from 'create-nx-workspace';
 import { prompt } from 'enquirer';
 import * as yargs from 'yargs';
+import { DependencyManagementType } from '@jnxplus/common';
 
 async function main() {
   let name = process.argv[2];
@@ -17,6 +18,29 @@ async function main() {
   }
 
   const args = yargs.argv;
+
+  let javaVersion = args['javaVersion'];
+  if (!javaVersion) {
+    javaVersion = (
+      await prompt<{ javaVersion: 'none' | '17' | '21' | '25' }>({
+        name: 'javaVersion',
+        message: 'Which version of Java would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: 'none' as any,
+        type: 'autocomplete',
+        choices: [
+          {
+            name: 'none',
+            message:
+              'None - I will set it later in a parent project (for advanced use cases)',
+          },
+          { name: '17', message: '17' },
+          { name: '21', message: '21' },
+          { name: '25', message: '25' },
+        ],
+      })
+    ).javaVersion;
+  }
 
   let aggregatorProjectGroupId = args['aggregatorProjectGroupId'];
   if (!aggregatorProjectGroupId) {
@@ -59,10 +83,52 @@ async function main() {
     ).aggregatorProjectVersion;
   }
 
+  let dependencyManagement = args['dependencyManagement'];
+  if (!dependencyManagement) {
+    dependencyManagement = (
+      await prompt<{
+        dependencyManagement: DependencyManagementType;
+      }>({
+        name: 'dependencyManagement',
+        message: 'Which dependency management strategy would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: 'none' as any,
+        type: 'autocomplete',
+        choices: [
+          {
+            name: 'none',
+            message:
+              'None - I will configure it manually (for advanced use cases)',
+          },
+          {
+            name: 'spring-boot-parent-pom',
+            message: 'Spring Boot Parent POM',
+          },
+          {
+            name: 'spring-boot-bom',
+            message: 'Spring Boot BOM (Bill of Materials)',
+          },
+          {
+            name: 'quarkus-bom',
+            message: 'Quarkus BOM (Bill of Materials)',
+          },
+          {
+            name: 'micronaut-parent-pom',
+            message: 'Micronaut Parent POM',
+          },
+          {
+            name: 'micronaut-bom',
+            message: 'Micronaut BOM (Bill of Materials)',
+          },
+        ],
+      })
+    ).dependencyManagement;
+  }
+
   console.log(`Creating the workspace: ${name}`);
 
   // This assumes "@jnxplus/nx-maven" and "create-nx-maven-workspace" are at the same version
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+   
   const presetVersion = require('../package.json').version;
 
   console.log(`Using version v${presetVersion} of nx-maven`);
@@ -74,6 +140,8 @@ async function main() {
       nxCloud: 'skip',
       packageManager: 'npm',
       //init generator
+      javaVersion,
+      dependencyManagement,
       aggregatorProjectGroupId,
       aggregatorProjectName,
       aggregatorProjectVersion,

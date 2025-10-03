@@ -21,7 +21,9 @@
 
 <% if(dependencyManagement === 'none') { -%>
     <properties>
+        <% if(javaVersion !== 'none') { -%>
         <java.version><%= javaVersion %></java.version>
+        <% } -%>
         <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
             <kotlin.version><%= kotlinVersion %></kotlin.version>
         <% } -%>
@@ -38,7 +40,9 @@
     </parent>
 
     <properties>
+        <% if(javaVersion !== 'none') { -%>
         <java.version><%= javaVersion %></java.version>
+        <% } -%>
         <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
             <kotlin.version><%= kotlinVersion %></kotlin.version>
         <% } -%>
@@ -54,7 +58,9 @@
     </parent>
 
     <properties>
+        <% if(javaVersion !== 'none') { -%>
         <java.version><%= javaVersion %></java.version>
+        <% } -%>
         <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
             <kotlin.version><%= kotlinVersion %></kotlin.version>
         <% } -%>
@@ -65,7 +71,9 @@
 
 <% if(dependencyManagement === 'spring-boot-bom') { -%>
   <properties>
+    <% if(javaVersion !== 'none') { -%>
     <java.version><%= javaVersion %></java.version>
+    <% } -%>
     <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
       <kotlin.version><%= kotlinVersion %></kotlin.version>
     <% } -%>
@@ -180,7 +188,9 @@
 
 <% if(dependencyManagement === 'quarkus-bom') { -%>
   <properties>
+    <% if(javaVersion !== 'none') { -%>
     <java.version><%= javaVersion %></java.version>
+    <% } -%>
     <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
       <kotlin.version><%= kotlinVersion %></kotlin.version>
     <% } -%>
@@ -228,7 +238,9 @@
 
 <% if(dependencyManagement === 'micronaut-bom') { -%>
   <properties>
+      <% if(javaVersion !== 'none') { -%>
       <java.version><%= javaVersion %></java.version>
+      <% } -%>
     <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
       <kotlin.version><%= kotlinVersion %></kotlin.version>
     <% } -%>

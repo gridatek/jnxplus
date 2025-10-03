@@ -47,7 +47,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement spring-boot-parent-pom`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement spring-boot-parent-pom`,
     );
   }, 240000);
 

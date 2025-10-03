@@ -63,7 +63,7 @@ describe('nx-maven spring-boot bom smoke', () => {
     );
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement spring-boot-bom --language kotlin`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --dependencyManagement spring-boot-bom --language kotlin`,
       execSyncOptions(),
     );
   });

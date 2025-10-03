@@ -22,7 +22,7 @@ async function main() {
   let javaVersion = args['javaVersion'];
   if (!javaVersion) {
     javaVersion = (
-      await prompt<{ javaVersion: '17' | '21' }>({
+      await prompt<{ javaVersion: '17' | '21' | '25' }>({
         name: 'javaVersion',
         message: 'Which version of Java would you like to use?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,6 +31,7 @@ async function main() {
         choices: [
           { name: '17', message: '17' },
           { name: '21', message: '21' },
+          { name: '25', message: '25' },
         ],
       })
     ).javaVersion;
@@ -104,7 +105,7 @@ async function main() {
   console.log(`Creating the workspace: ${name}`);
 
   // This assumes "@jnxplus/nx-gradle" and "create-nx-gradle-workspace" are at the same version
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+   
   const presetVersion = require('../package.json').version;
 
   console.log(`Using version v${presetVersion} of nx-gradle`);

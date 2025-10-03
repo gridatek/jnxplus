@@ -1,4 +1,8 @@
+import { DependencyManagementType } from '@jnxplus/common';
+
 export interface NxMavenInitGeneratorSchema {
+  javaVersion: string | number;
+  dependencyManagement: DependencyManagementType;
   aggregatorProjectGroupId: string;
   aggregatorProjectName: string;
   aggregatorProjectVersion: string;

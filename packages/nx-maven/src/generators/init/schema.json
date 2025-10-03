@@ -4,6 +4,40 @@
   "title": "Init",
   "type": "object",
   "properties": {
+    "javaVersion": {
+      "description": "Java version",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": "none",
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "none",
+            "label": "None - I will set it later in a parent project (for advanced use cases)"
+          },
+          {
+            "value": "17",
+            "label": "17"
+          },
+          {
+            "value": "21",
+            "label": "21"
+          },
+          {
+            "value": "25",
+            "label": "25"
+          }
+        ]
+      }
+    },
     "aggregatorProjectGroupId": {
       "type": "string",
       "default": "com.example",
@@ -44,6 +78,41 @@
       "type": "boolean",
       "default": false
     },
+    "dependencyManagement": {
+      "description": "Dependency Management",
+      "type": "string",
+      "default": "none",
+      "x-prompt": {
+        "message": "Which dependency management strategy would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "none",
+            "label": "None - I will configure it later in a parent project (for advanced use cases)"
+          },
+          {
+            "value": "spring-boot-parent-pom",
+            "label": "Spring Boot Parent POM"
+          },
+          {
+            "value": "spring-boot-bom",
+            "label": "Spring Boot BOM (Bill of Materials)"
+          },
+          {
+            "value": "quarkus-bom",
+            "label": "Quarkus BOM (Bill of Materials)"
+          },
+          {
+            "value": "micronaut-parent-pom",
+            "label": "Micronaut Parent POM"
+          },
+          {
+            "value": "micronaut-bom",
+            "label": "Micronaut BOM (Bill of Materials)"
+          }
+        ]
+      }
+    },
     "formatter": {
       "description": "The tool to use for code formatting.",
       "type": "string",
@@ -71,6 +140,8 @@
     }
   },
   "required": [
+    "javaVersion",
+    "dependencyManagement",
     "aggregatorProjectGroupId",
     "aggregatorProjectName",
     "aggregatorProjectVersion",

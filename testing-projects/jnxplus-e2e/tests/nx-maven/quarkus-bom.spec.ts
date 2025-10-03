@@ -46,7 +46,7 @@ describe('nx-maven quarkus bom e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement quarkus-bom --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 17 --dependencyManagement quarkus-bom --language kotlin`,
     );
   }, 240000);
 
