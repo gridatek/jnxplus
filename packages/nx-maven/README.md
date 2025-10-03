@@ -137,7 +137,9 @@ Key options:
 - `--minimal` - Generate minimal application without starter code
 - `--groupId` - Maven groupId (default: com.example)
 - `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory to place the project
+- `--directory` - Subdirectory where the project will be created (e.g., `apps/backend` creates the project in that path)
+- `--simpleName` - Don't include the directory in the project name (default: true)
+- `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)
 
 #### Generate a library
@@ -155,8 +157,24 @@ Key options:
 - `--skipStarterCode` - Skip generating starter code
 - `--groupId` - Maven groupId (default: com.example)
 - `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory to place the project
+- `--directory` - Subdirectory where the project will be created (e.g., `libs/shared` creates the project in that path)
+- `--simpleName` - Don't include the directory in the project name (default: true)
+- `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)
+
+**Example with directory:**
+
+```bash
+# Creates project at: libs/backend/my-lib
+# Project name (with simpleName=true): my-lib
+# Package name (with simplePackageName=true): com.example.mylib
+nx generate @jnxplus/nx-maven:library my-lib --directory backend
+
+# Creates project at: libs/backend/my-lib
+# Project name (with simpleName=false): backend-my-lib
+# Package name (with simplePackageName=false): com.example.backend.mylib
+nx generate @jnxplus/nx-maven:library my-lib --directory backend --simpleName false --simplePackageName false
+```
 
 ### 5. Common tasks
 
