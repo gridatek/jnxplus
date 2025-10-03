@@ -370,51 +370,6 @@ nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --a
 
 **Tip:** When using this pattern, enable `skipAggregatorProjectLinking: true` in your `nx.json` plugin options to optimize Nx graph performance since aggregators only contain module lists.
 
-### 9. Typical workflows
-
-#### For beginners (recommended)
-
-1. Initialize workspace and select your preferred Java version and dependency management:
-
-   ```bash
-   nx generate @jnxplus/nx-maven:init
-   ```
-
-   **Important:** When prompted, select a concrete Java version (17, 21, or 25) and a dependency management strategy (Spring Boot Parent POM, Quarkus BOM, etc.) rather than "none". The "none" option is for advanced users only.
-
-2. Generate applications and libraries:
-   ```bash
-   nx generate @jnxplus/nx-maven:application my-app --framework spring-boot
-   nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot
-   ```
-
-#### For advanced users
-
-1. Initialize workspace without defaults:
-
-   ```bash
-   nx generate @jnxplus/nx-maven:init --javaVersion none --dependencyManagement none
-   ```
-
-2. Create a common parent project for Java version:
-
-   ```bash
-   nx generate @jnxplus/nx-maven:parent-project common-parent --javaVersion 21 --dependencyManagement none
-   ```
-
-3. Create framework-specific parent projects that inherit from the common parent:
-
-   ```bash
-   nx generate @jnxplus/nx-maven:parent-project spring-parent --javaVersion none --dependencyManagement spring-boot-bom --parentProject common-parent
-   nx generate @jnxplus/nx-maven:parent-project quarkus-parent --javaVersion none --dependencyManagement quarkus-bom --parentProject common-parent
-   ```
-
-4. Generate projects using framework-specific parent projects:
-   ```bash
-   nx generate @jnxplus/nx-maven:application spring-app --framework spring-boot --parentProject spring-parent
-   nx generate @jnxplus/nx-maven:application quarkus-app --framework quarkus --parentProject quarkus-parent
-   ```
-
 ## License
 
 MIT © 2021-2025 Khalil LAGRIDA
