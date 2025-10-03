@@ -33,18 +33,248 @@ The following command adds Maven support (Maven wrapper and config files) to the
 nx generate @jnxplus/nx-maven:init
 ```
 
-### 3. Usage
+You will be prompted for:
 
-| Action                               | Command                                                          |
-| ------------------------------------ | ---------------------------------------------------------------- |
-| Generate a parent project            | `nx generate @jnxplus/nx-maven:parent-project my-parent-project` |
-| Generate an application              | `nx generate @jnxplus/nx-maven:application my-app`               |
-| Generate a library                   | `nx generate @jnxplus/nx-maven:library my-lib`                   |
-| Build a project                      | `nx build my-project`                                            |
-| Serve an application                 | `nx serve my-app`                                                |
-| Test a project                       | `nx test my-project`                                             |
-| Format a java project                | `nx format --projects my-project`                                |
-| Visualize project's dependency graph | `nx graph`                                                       |
+- **Java version** (default: 17) - Options: 17, 21, 25, or none for advanced users
+- **Dependency management strategy** (default: spring-boot-parent-pom) - Options:
+  - `spring-boot-parent-pom` - Spring Boot Parent POM
+  - `spring-boot-bom` - Spring Boot BOM (Bill of Materials)
+  - `quarkus-bom` - Quarkus BOM
+  - `micronaut-parent-pom` - Micronaut Parent POM
+  - `micronaut-bom` - Micronaut BOM
+  - `none` - For advanced users who will configure manually
+
+#### Important: Maven Root Directory
+
+By default, Maven files (wrapper, config, and projects) are placed at the workspace root. However, you can specify a subdirectory using the `--mavenRootDirectory` option:
+
+```bash
+nx generate @jnxplus/nx-maven:init --mavenRootDirectory maven
+```
+
+This creates the following structure:
+
+```
+workspace-root/
+├── maven/                    # Maven root directory
+│   ├── .mvn/                # Maven wrapper config
+│   ├── mvnw, mvnw.cmd       # Maven wrapper scripts
+│   ├── pom.xml              # Root aggregator POM
+│   ├── .m2/repository/      # Local Maven repository
+│   └── my-app/              # Your projects
+│       └── pom.xml
+├── apps/                    # Other Nx apps (non-Maven)
+├── libs/                    # Other Nx libs (non-Maven)
+└── package.json
+```
+
+**When to use `mavenRootDirectory`:**
+
+- ✅ **Hybrid workspaces** - Mix Maven projects with other technologies (Node.js, Python, etc.)
+- ✅ **Monorepo organization** - Keep Maven projects isolated in their own directory
+- ✅ **Multiple build tools** - Use both Maven and Gradle in the same workspace
+
+**When to skip `mavenRootDirectory` (use root):**
+
+- ✅ **Maven-only workspace** - All projects use Maven
+- ✅ **Simpler structure** - Fewer nested directories
+- ✅ **Default Maven conventions** - Maven users expect files at the root
+
+**Note:** Once set during init, the `mavenRootDirectory` should remain consistent for all Maven projects in the workspace.
+
+### 3. Generate a parent project (optional)
+
+Parent projects help organize your applications and libraries with shared dependency management.
+
+```bash
+nx generate @jnxplus/nx-maven:parent-project my-parent-project
+```
+
+Key options:
+
+- `--javaVersion` - Java version (17, 21, 25, or none)
+- `--dependencyManagement` - Dependency management strategy (same options as init)
+- `--language` - Language for sub-projects: java, kotlin, or java-kotlin
+- `--parentProject` - Parent project to inherit from (for nested parent projects)
+- `--aggregatorProject` - Aggregator project that manages a group of submodules
+
+### 4. Generate applications and libraries
+
+#### Generate an application
+
+```bash
+nx generate @jnxplus/nx-maven:application my-app
+```
+
+Key options:
+
+- `--framework` - Framework to use: spring-boot, quarkus, micronaut, or none
+- `--language` - Language: java or kotlin (default: java)
+- `--parentProject` - Parent project to use (required)
+- `--port` - Server port for the application
+- `--packaging` - Packaging type: jar orwar (default: jar)
+- `--minimal` - Generate minimal application without starter code
+- `--groupId` - Maven groupId (default: com.example)
+- `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
+- `--directory` - Directory to place the project
+- `--tags` - Tags for the project (comma-separated)
+
+#### Generate a library
+
+```bash
+nx generate @jnxplus/nx-maven:library my-lib
+```
+
+Key options:
+
+- `--framework` - Framework to use: spring-boot, quarkus, micronaut, or none
+- `--language` - Language: java or kotlin (default: java)
+- `--parentProject` - Parent project to use (required)
+- `--projects` - Projects that will use this library (comma-separated)
+- `--skipStarterCode` - Skip generating starter code
+- `--groupId` - Maven groupId (default: com.example)
+- `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
+- `--directory` - Directory to place the project
+- `--tags` - Tags for the project (comma-separated)
+
+### 5. Common tasks
+
+| Action                               | Command                                         |
+| ------------------------------------ | ----------------------------------------------- |
+| Build a project                      | `nx build my-project`                           |
+| Serve an application                 | `nx serve my-app`                               |
+| Test a project                       | `nx test my-project`                            |
+| Build a Docker image                 | `nx build-image my-app`                         |
+| Run custom Maven task                | `nx run-task my-project --task="clean install"` |
+| Format a Java project                | `nx format --projects my-project`               |
+| Visualize project's dependency graph | `nx graph`                                      |
+
+### 6. Understanding parent projects vs aggregator projects
+
+In Maven, there are two important concepts that serve different purposes. **Note:** The patterns described here are recommendations to help you get started, but you can configure your projects however best suits your needs.
+
+#### Parent Project (`--parentProject`)
+
+A **parent project** defines shared configuration and dependency management that child projects inherit from. It's used for:
+
+- Sharing dependency versions across projects
+- Defining common plugin configurations
+- Setting Java version and other properties
+- Inheriting framework configurations (Spring Boot, Quarkus, Micronaut)
+
+When you specify `--parentProject my-parent` when generating an app or library, the generated `pom.xml` will have:
+
+```xml
+<parent>
+  <groupId>com.example</groupId>
+  <artifactId>my-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+</parent>
+```
+
+Child projects **inherit** configuration from their parent project.
+
+#### Aggregator Project (`--aggregatorProject`)
+
+An **aggregator project** is a Maven project that contains submodules for build coordination. It's used for:
+
+- Building multiple submodules together as a group
+- Managing the build order based on dependencies between submodules
+- Organizing projects into logical groups
+
+When you specify `--aggregatorProject my-aggregator` when generating a project, that project will be added as a `<module>` (submodule) to the aggregator's `pom.xml`:
+
+```xml
+<modules>
+  <module>my-app</module>
+  <module>my-lib</module>
+</modules>
+```
+
+The aggregator project **coordinates builds** of its submodules but doesn't necessarily provide inheritance.
+
+#### Key differences
+
+| Aspect          | Parent Project                                   | Aggregator Project                               |
+| --------------- | ------------------------------------------------ | ------------------------------------------------ |
+| Purpose         | Share configuration and dependencies             | Coordinate multi-module builds                   |
+| Relationship    | Inheritance (child inherits from parent)         | Composition (aggregator contains submodules)     |
+| Direction       | Bottom-up (child references parent)              | Top-down (aggregator lists submodules)           |
+| Can be combined | Yes, a project can be both parent and aggregator | Yes, a project can be both parent and aggregator |
+
+#### Common patterns (recommended, but not required)
+
+1. **Parent without aggregator**: Child projects inherit configuration but are not built together
+
+   ```bash
+   nx generate @jnxplus/nx-maven:parent-project shared-config --javaVersion 17
+   nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config
+   nx generate @jnxplus/nx-maven:application app2 --parentProject shared-config
+   ```
+
+2. **Parent with aggregator** (most common): Projects inherit configuration AND are built together
+
+   ```bash
+   nx generate @jnxplus/nx-maven:parent-project shared-parent --javaVersion 17
+   nx generate @jnxplus/nx-maven:application app1 --parentProject shared-parent --aggregatorProject shared-parent
+   nx generate @jnxplus/nx-maven:library lib1 --parentProject shared-parent --aggregatorProject shared-parent
+   ```
+
+3. **Separate parent and aggregator**: Use different projects for inheritance vs build coordination
+
+   ```bash
+   # Parent for configuration
+   nx generate @jnxplus/nx-maven:parent-project shared-config --javaVersion 17
+
+   # Aggregator for apps (without dependency management)
+   nx generate @jnxplus/nx-maven:parent-project apps-aggregator --javaVersion none --dependencyManagement none
+
+   # Apps inherit from shared-config but are aggregated by apps-aggregator
+   nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --aggregatorProject apps-aggregator
+   ```
+
+### 7. Typical workflows
+
+#### For beginners (recommended)
+
+1. Initialize workspace with defaults (Java 17 + Spring Boot Parent POM):
+
+   ```bash
+   nx generate @jnxplus/nx-maven:init
+   ```
+
+2. Generate a parent project (optional, for organizing projects):
+
+   ```bash
+   nx generate @jnxplus/nx-maven:parent-project shared-parent
+   ```
+
+3. Generate applications and libraries:
+   ```bash
+   nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --parentProject shared-parent
+   nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot --parentProject shared-parent
+   ```
+
+#### For advanced users
+
+1. Initialize workspace without defaults:
+
+   ```bash
+   nx generate @jnxplus/nx-maven:init --javaVersion none --dependencyManagement none
+   ```
+
+2. Create custom parent projects with specific configurations:
+
+   ```bash
+   nx generate @jnxplus/nx-maven:parent-project spring-parent --javaVersion 21 --dependencyManagement spring-boot-bom
+   nx generate @jnxplus/nx-maven:parent-project quarkus-parent --javaVersion 21 --dependencyManagement quarkus-bom
+   ```
+
+3. Generate projects using different parent projects:
+   ```bash
+   nx generate @jnxplus/nx-maven:application spring-app --framework spring-boot --parentProject spring-parent
+   nx generate @jnxplus/nx-maven:application quarkus-app --framework quarkus --parentProject quarkus-parent
+   ```
 
 ## License
 
