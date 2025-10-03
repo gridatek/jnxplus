@@ -12,7 +12,7 @@ Get started with nx-maven in 5 steps:
 # 1. Install the plugin
 npm install --save-dev @jnxplus/nx-maven
 
-# 2. Initialize workspace with Maven support (Java 17 + Spring Boot)
+# 2. Initialize workspace with Maven support (Java 17 + Spring Boot Parent POM)
 nx generate @jnxplus/nx-maven:init --javaVersion 17 --dependencyManagement spring-boot-parent-pom
 
 # 3. Generate a library
@@ -115,7 +115,7 @@ workspace-root/
 
 ### 3. Generate a parent project (optional)
 
-Parent projects help organize your applications and libraries with shared dependency management.
+Parent projects help organize your applications and libraries with shared dependency management. Use parent projects when you need custom dependency management, want to organize projects into logical groups, or need to support multiple frameworks in your workspace.
 
 ```bash
 nx generate @jnxplus/nx-maven:parent-project my-parent-project
@@ -141,7 +141,7 @@ Key options:
 
 - `--framework` - Framework to use: spring-boot, quarkus, micronaut, or none
 - `--language` - Language: java or kotlin (default: java)
-- `--parentProject` - Parent project to use (required)
+- `--parentProject` - Parent project to use (uses root aggregator project if not specified)
 - `--port` - Server port for the application
 - `--packaging` - Packaging type: jar or war (default: jar)
 - `--minimal` - Generate minimal application without starter code
@@ -162,7 +162,7 @@ Key options:
 
 - `--framework` - Framework to use: spring-boot, quarkus, micronaut, or none
 - `--language` - Language: java or kotlin (default: java)
-- `--parentProject` - Parent project to use (required)
+- `--parentProject` - Parent project to use (uses root aggregator project if not specified)
 - `--projects` - Projects that will use this library (comma-separated)
 - `--skipStarterCode` - Skip generating starter code
 - `--groupId` - Maven groupId (default: com.example)
