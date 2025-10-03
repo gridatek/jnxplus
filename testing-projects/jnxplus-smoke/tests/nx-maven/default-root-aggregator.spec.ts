@@ -20,7 +20,6 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
 });
 
 const workspaceName = uniq('workspace-');
-const aggregatorProjectName = uniq('aggregator-project-');
 
 const testApp = uniq('test-app-');
 const testLib = uniq('test-lib-');
@@ -57,7 +56,7 @@ describe('nx-maven default root as parent and aggregator smoke', () => {
     );
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:init --mavenRootDirectory . --aggregatorProjectName ${aggregatorProjectName}`,
+      `npx nx generate @jnxplus/nx-maven:init --javaVersion 17 --dependencyManagement spring-boot-parent-pom`,
       execSyncOptions(),
     );
   });
