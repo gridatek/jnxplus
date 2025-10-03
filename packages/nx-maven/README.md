@@ -35,14 +35,14 @@ nx generate @jnxplus/nx-maven:init
 
 You will be prompted for:
 
-- **Java version** (default: 17) - Options: 17, 21, 25, or none for advanced users
-- **Dependency management strategy** (default: spring-boot-parent-pom) - Options:
+- **Java version** (default: none) - Options: none, 17, 21, or 25
+- **Dependency management strategy** (default: none) - Options:
   - `spring-boot-parent-pom` - Spring Boot Parent POM
   - `spring-boot-bom` - Spring Boot BOM (Bill of Materials)
   - `quarkus-bom` - Quarkus BOM
   - `micronaut-parent-pom` - Micronaut Parent POM
   - `micronaut-bom` - Micronaut BOM
-  - `none` - For advanced users who will configure manually
+  - `none` - Configure manually later in a parent project (for advanced use cases)
 
 #### Important: Maven Root Directory
 
@@ -293,11 +293,13 @@ The aggregator project **coordinates builds** of its submodules but doesn't nece
 
 #### For beginners (recommended)
 
-1. Initialize workspace with defaults (Java 17 + Spring Boot Parent POM):
+1. Initialize workspace and select your preferred Java version and dependency management:
 
    ```bash
    nx generate @jnxplus/nx-maven:init
    ```
+
+   When prompted, select a Java version (e.g., 17 or 21) and a dependency management strategy (e.g., Spring Boot Parent POM)
 
 2. Generate a parent project (optional, for organizing projects):
 
