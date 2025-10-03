@@ -340,16 +340,10 @@ The aggregator project **coordinates builds** of its submodules but doesn't nece
 
    **Important:** When prompted, select a concrete Java version (17, 21, or 25) and a dependency management strategy (Spring Boot Parent POM, Quarkus BOM, etc.) rather than "none". The "none" option is for advanced users only.
 
-2. Generate a parent project (optional, for organizing projects):
-
+2. Generate applications and libraries:
    ```bash
-   nx generate @jnxplus/nx-maven:parent-project shared-parent
-   ```
-
-3. Generate applications and libraries:
-   ```bash
-   nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --parentProject shared-parent
-   nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot --parentProject shared-parent
+   nx generate @jnxplus/nx-maven:application my-app --framework spring-boot
+   nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot
    ```
 
 #### For advanced users
