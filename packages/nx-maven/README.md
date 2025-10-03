@@ -344,7 +344,18 @@ nx build my-app
 
 #### Patterns
 
-**1. Separate parent and aggregator (recommended for performance):**
+**1. Default (root as parent and aggregator):**
+
+```bash
+# Generate applications and libraries directly
+# They inherit from root pom.xml and are listed there as modules
+nx generate @jnxplus/nx-maven:application my-app --framework spring-boot
+nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot
+```
+
+All projects inherit configuration from and are aggregated by the root `pom.xml`.
+
+**2. Separate parent and aggregator (recommended for advanced performance):**
 
 ```bash
 # Create parent for configuration
@@ -358,20 +369,6 @@ nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --a
 ```
 
 **Tip:** When using this pattern, enable `skipAggregatorProjectLinking: true` in your `nx.json` plugin options to optimize Nx graph performance since aggregators only contain module lists.
-
-**2. Combined parent and aggregator (simpler, but less optimal for Nx):**
-
-```bash
-nx generate @jnxplus/nx-maven:parent-project shared-parent --javaVersion 17
-nx generate @jnxplus/nx-maven:application app1 --parentProject shared-parent --aggregatorProject shared-parent
-```
-
-**3. Parent only (no aggregation):**
-
-```bash
-nx generate @jnxplus/nx-maven:parent-project shared-config --javaVersion 17
-nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config
-```
 
 ### 9. Typical workflows
 
