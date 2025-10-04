@@ -291,6 +291,18 @@ nx build my-app
 - `--offline` - Work offline (use cached dependencies only)
 - `-Dmaven.plugin.validation=VERBOSE` - Enable verbose plugin validation
 
+#### Using a .env file
+
+Create a `.env` file in your workspace root to persist environment variables across sessions:
+
+```bash
+# .env file example
+NX_MAVEN_CLI=mvnd
+NX_MAVEN_CLI_OPTS=--no-transfer-progress --batch-mode
+```
+
+**Note:** The `.env` file is automatically loaded by Nx. Variables defined here will be available to all nx-maven commands.
+
 ### 8. Understanding parent projects vs aggregator projects
 
 **Why separate them?** In nx-maven, keeping parent projects (configuration) separate from aggregator projects (module lists) improves Nx graph performance. Parent projects stay stable, aggregators only change when adding/removing projects.
