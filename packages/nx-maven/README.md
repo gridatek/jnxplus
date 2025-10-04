@@ -566,6 +566,65 @@ nx generate @jnxplus/nx-maven:application my-app --tags=backend,api
 # Projects will have both auto and custom tags: ['nx-maven', 'backend', 'api']
 ```
 
+### 13. Version management
+
+nx-maven handles both static and property-based versions from `pom.xml` files.
+
+#### Static versions
+
+```xml
+<version>0.0.1-SNAPSHOT</version>
+```
+
+Static versions are used directly for dependency resolution and project graph construction.
+
+#### Property-based versions
+
+nx-maven supports Maven's [CI-friendly versions](https://maven.apache.org/guides/mini/guide-maven-ci-friendly.html) using properties like `${revision}`, `${sha1}`, or `${changelist}`:
+
+```xml
+<version>${revision}</version>
+
+<properties>
+  <revision>1.0.0-SNAPSHOT</revision>
+</properties>
+```
+
+**Version resolution process:**
+
+When nx-maven encounters a property-based version, it resolves it in this order:
+
+1. **Project properties** - Check `<properties>` in the current project's `pom.xml`
+2. **Parent properties** - Recursively check parent project properties
+3. **Maven evaluation** - As a fallback, use `mvn help:evaluate` (with performance warning)
+
+**Example with CI-friendly versions:**
+
+```xml
+<!-- Parent pom.xml -->
+<groupId>com.example</groupId>
+<artifactId>parent</artifactId>
+<version>${revision}</version>
+
+<properties>
+  <revision>1.0.0-SNAPSHOT</revision>
+</properties>
+
+<!-- Child pom.xml -->
+<parent>
+  <groupId>com.example</groupId>
+  <artifactId>parent</artifactId>
+  <version>${revision}</version>
+</parent>
+<!-- Child inherits revision property from parent -->
+```
+
+**Limitations:**
+
+- nx-maven resolves versions statically when building the project graph, not at runtime. If you override versions at build time (e.g., `mvn clean install -Drevision=1.2.3`), the graph will still use the version defined in `<properties>`.
+
+**Note:** If nx-maven cannot resolve a version using properties (e.g., `${project.parent.version}`), it will fall back to `mvn help:evaluate`, which is slower. If you encounter performance issues, please [open an issue](https://github.com/khalilou88/jnxplus/issues).
+
 ## License
 
 MIT © 2021-2025 Khalil LAGRIDA
