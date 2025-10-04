@@ -111,46 +111,7 @@ workspace-root/
 
 **Note:** Once set during init, the `mavenRootDirectory` should remain consistent for all Maven projects in the workspace.
 
-### 3. Plugin configuration
-
-The init command configures the plugin in your `nx.json` file. You can customize these options to fit your workspace needs.
-
-**Example configuration with default values:**
-
-```json
-{
-  "plugins": [
-    {
-      "plugin": "@jnxplus/nx-maven",
-      "options": {
-        "mavenRootDirectory": "nx-maven",
-        "localRepoRelativePath": ".m2/repository",
-        "buildTargetName": "build",
-        "testTargetName": "test",
-        "serveTargetName": "serve",
-        "integrationTestTargetName": "integration-test",
-        "buildImageTargetName": "build-image",
-        "skipAggregatorProjectLinking": false,
-        "skipProjectWithoutProjectJson": false
-      }
-    }
-  ]
-}
-```
-
-**Available options:**
-
-- `mavenRootDirectory` - Subdirectory for Maven files (default: workspace root)
-- `localRepoRelativePath` - Path to Maven local repository (default: .m2/repository)
-- `buildTargetName` - Name for the build target (default: build)
-- `testTargetName` - Name for the test target (default: test)
-- `serveTargetName` - Name for the serve target (default: serve)
-- `integrationTestTargetName` - Name for the integration test target (default: integration-test)
-- `buildImageTargetName` - Name for the build image target (default: build-image)
-- `skipAggregatorProjectLinking` - Skip linking aggregator projects in the dependency graph. Enable this when aggregator projects only contain `<modules>` declarations and all configuration is handled by parent projects. This improves Nx graph performance by reducing unnecessary dependency links. See [Understanding parent projects vs aggregator projects](#8-understanding-parent-projects-vs-aggregator-projects) for more details (default: false)
-- `skipProjectWithoutProjectJson` - Skip projects that don't have a project.json file (default: false)
-
-### 4. Generate a parent project (optional)
+### 3. Generate a parent project (optional)
 
 Parent projects help organize your applications and libraries with shared dependency management. Use parent projects when you need custom dependency management, want to organize projects into logical groups, or need to support multiple frameworks in your workspace.
 
@@ -166,7 +127,7 @@ Key options:
 - `--parentProject` - Parent project to inherit from (for nested parent projects)
 - `--aggregatorProject` - Aggregator project that manages a group of submodules
 
-### 5. Generate applications and libraries
+### 4. Generate applications and libraries
 
 #### Generate an application
 
@@ -223,7 +184,7 @@ nx generate @jnxplus/nx-maven:library my-lib --directory backend
 nx generate @jnxplus/nx-maven:library my-lib --directory backend --simpleName false --simplePackageName false
 ```
 
-### 6. Common tasks
+### 5. Common tasks
 
 | Action                               | Command                                         |
 | ------------------------------------ | ----------------------------------------------- |
@@ -235,7 +196,114 @@ nx generate @jnxplus/nx-maven:library my-lib --directory backend --simpleName fa
 | Format a Java project                | `nx format --projects my-project`               |
 | Visualize project's dependency graph | `nx graph`                                      |
 
-### 7. Environment variables
+### 6. Executors
+
+nx-maven primarily uses the `run-task` executor for all Maven operations. Most targets (build, test, serve, etc.) internally use `run-task` to execute Maven commands.
+
+#### run-task
+
+Execute arbitrary Maven tasks on a project:
+
+```bash
+nx run-task my-project --task="clean install"
+```
+
+**Options:**
+
+- `--task` (required) - Maven task(s) to execute. Can be a string or array of strings
+- `--outputDirLocalRepo` - Sub-directory in Maven local repository where artifacts from install phase will be placed
+- `--skipProject` - Skip specifying the project with `-pl :project` flag
+- `--cwd` - Working directory for the command. Can be relative (to Maven root) or absolute
+- `--skipExecutor` - Skip executor execution (useful for conditional runs)
+
+**Examples:**
+
+```bash
+# Single task
+nx run-task my-app --task="clean package"
+
+# Multiple tasks
+nx run-task my-app --task="clean" --task="test" --task="package"
+
+# With custom working directory
+nx run-task my-app --task="compile" --cwd="custom-path"
+
+# Skip project specification (run from Maven root)
+nx run-task my-app --task="dependency:tree" --skipProject
+```
+
+#### quarkus-build-image
+
+Build a Docker image for Quarkus applications:
+
+```bash
+nx build-image my-quarkus-app
+```
+
+**Options:**
+
+- `--imageType` - Image type to build (default: jvm). Options: jvm, native, etc.
+- `--imageNamePrefix` - Image name prefix (default: quarkus)
+- `--imageNameSuffix` - Image name suffix
+
+**Examples:**
+
+```bash
+# Build JVM image (default)
+nx build-image my-quarkus-app
+
+# Build native image
+nx build-image my-quarkus-app --imageType=native
+
+# Custom image name
+nx build-image my-quarkus-app --imageNamePrefix=myapp --imageNameSuffix=latest
+```
+
+**Note:** For Spring Boot and Micronaut applications, the build-image target uses the `run-task` executor with framework-specific commands:
+
+- Spring Boot: `spring-boot:build-image`
+- Micronaut: `package -Dpackaging=docker`
+
+### 7. Plugin configuration
+
+The init command configures the plugin in your `nx.json` file. You can customize these options to fit your workspace needs.
+
+**Example configuration with default values:**
+
+```json
+{
+  "plugins": [
+    {
+      "plugin": "@jnxplus/nx-maven",
+      "options": {
+        "mavenRootDirectory": "nx-maven",
+        "localRepoRelativePath": ".m2/repository",
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "integrationTestTargetName": "integration-test",
+        "buildImageTargetName": "build-image",
+        "skipAggregatorProjectLinking": false,
+        "skipProjectWithoutProjectJson": false
+      }
+    }
+  ]
+}
+```
+
+**Available options:**
+
+- `mavenRootDirectory` - Subdirectory for Maven files (default: workspace root)
+- `localRepoRelativePath` - Path to Maven local repository (default: .m2/repository)
+- `buildTargetName` - Name for the build target (default: build)
+- `testTargetName` - Name for the test target (default: test)
+- `serveTargetName` - Name for the serve target (default: serve)
+- `integrationTestTargetName` - Name for the integration test target (default: integration-test)
+- `buildImageTargetName` - Name for the build image target (default: build-image)
+- `skipAggregatorProjectLinking` - Skip linking aggregator projects in the dependency graph. Enable this when aggregator projects only contain `<modules>` declarations and all configuration is handled by parent projects. This improves Nx graph performance by reducing unnecessary dependency links. See [Understanding parent projects vs aggregator projects](#10-understanding-parent-projects-vs-aggregator-projects) for more details (default: false)
+- `skipProjectWithoutProjectJson` - Skip projects that don't have a project.json file (default: false)
+
+### 8. Environment variables
 
 You can customize nx-maven behavior using environment variables:
 
@@ -303,7 +371,59 @@ NX_MAVEN_CLI_OPTS=--no-transfer-progress --batch-mode
 
 **Note:** The `.env` file is automatically loaded by Nx. Variables defined here will be available to all nx-maven commands.
 
-### 8. Understanding parent projects vs aggregator projects
+### 9. Visualizing the project graph
+
+Nx provides a powerful project graph visualization to understand dependencies between your Maven projects:
+
+```bash
+nx graph
+```
+
+This opens an interactive view showing:
+
+- **Project dependencies** - How your applications and libraries depend on each other
+- **Build order** - Understanding which projects need to be built first
+- **Impact analysis** - See what projects are affected by changes
+
+**Useful graph commands:**
+
+```bash
+# View the full project graph
+nx graph
+
+# Show what's affected by changes
+nx graph --affected
+
+# Focus on a specific project and its dependencies
+nx graph --focus=my-app
+
+# Show only projects that depend on a specific project
+nx graph --exclude=*,!tag:my-tag
+```
+
+**How nx-maven builds the graph:**
+
+- **Maven dependencies** - Extracted from `pom.xml` files (`<dependencies>` sections)
+- **Profile dependencies** - Dependencies defined within Maven profiles (`<profiles>` → `<dependencies>`)
+- **Plugin dependencies** - Dependencies used by Maven plugins (`<build>` → `<plugins>` → `<dependencies>`). Note: Plugin dependencies can sometimes create cyclic dependency issues in the graph
+- **Parent projects** - Child projects depend on their parent (`<parent>` section)
+- **Aggregator projects** - Optional linking based on `<modules>` (controlled by `skipAggregatorProjectLinking`)
+
+**Limitations:**
+
+- Profile dependencies are always included in the graph, regardless of whether the profile is active. This ensures the dependency graph remains consistent but may show dependencies that aren't used in your current build configuration.
+
+**Skipping projects:**
+
+You can exclude certain projects from the graph by setting `skipProjectWithoutProjectJson: true` in your plugin configuration. This will skip any Maven projects that don't have a `project.json` file, which is useful for ignoring Maven modules that aren't managed by Nx.
+
+This integration allows Nx to:
+
+- Run only affected tests when you make changes
+- Build projects in the correct order
+- Cache and distribute builds efficiently
+
+### 10. Understanding parent projects vs aggregator projects
 
 **Why separate them?** In nx-maven, keeping parent projects (configuration) separate from aggregator projects (module lists) improves Nx graph performance. Parent projects stay stable, aggregators only change when adding/removing projects.
 
@@ -382,156 +502,7 @@ nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --a
 
 **Tip:** When using this pattern, enable `skipAggregatorProjectLinking: true` in your `nx.json` plugin options to optimize Nx graph performance since aggregators only contain module lists.
 
-### 9. Other generators
-
-#### Preset
-
-The preset generator is used when creating a new Nx workspace with Maven support from scratch:
-
-```bash
-npx create-nx-workspace@latest my-workspace --preset=@jnxplus/nx-maven
-```
-
-This combines workspace creation and Maven initialization in one step.
-
-#### Wrapper
-
-Update or add the Maven wrapper to your workspace:
-
-```bash
-nx generate @jnxplus/nx-maven:wrapper
-```
-
-**Options:**
-
-- `--skipGitignore` - Don't add Maven Wrapper to .gitignore (default: false)
-- `--skipFormat` - Skip formatting files (default: false)
-
-Use this generator to:
-
-- Update to the latest Maven wrapper version
-- Add the wrapper if it was skipped during init (`--skipWrapper`)
-- Restore the wrapper if it was accidentally deleted
-
-### 10. Executors
-
-#### run-task
-
-Execute arbitrary Maven tasks on a project:
-
-```bash
-nx run-task my-project --task="clean install"
-```
-
-**Options:**
-
-- `--task` (required) - Maven task(s) to execute. Can be a string or array of strings
-- `--outputDirLocalRepo` - Sub-directory in Maven local repository where artifacts from install phase will be placed
-- `--skipProject` - Skip specifying the project with `-pl :project` flag
-- `--cwd` - Working directory for the command. Can be relative (to Maven root) or absolute
-- `--skipExecutor` - Skip executor execution (useful for conditional runs)
-
-**Examples:**
-
-```bash
-# Single task
-nx run-task my-app --task="clean package"
-
-# Multiple tasks
-nx run-task my-app --task="clean" --task="test" --task="package"
-
-# With custom working directory
-nx run-task my-app --task="compile" --cwd="custom-path"
-
-# Skip project specification (run from Maven root)
-nx run-task my-app --task="dependency:tree" --skipProject
-```
-
-#### quarkus-build-image
-
-Build a Docker image for Quarkus applications:
-
-```bash
-nx build-image my-quarkus-app
-```
-
-**Options:**
-
-- `--imageType` - Image type to build (default: jvm). Options: jvm, native, etc.
-- `--imageNamePrefix` - Image name prefix (default: quarkus)
-- `--imageNameSuffix` - Image name suffix
-
-**Examples:**
-
-```bash
-# Build JVM image (default)
-nx build-image my-quarkus-app
-
-# Build native image
-nx build-image my-quarkus-app --imageType=native
-
-# Custom image name
-nx build-image my-quarkus-app --imageNamePrefix=myapp --imageNameSuffix=latest
-```
-
-**Note:** For Spring Boot and Micronaut applications, the build-image target uses the `run-task` executor with framework-specific commands:
-
-- Spring Boot: `spring-boot:build-image`
-- Micronaut: `package -Dpackaging=docker`
-
-### 11. Visualizing the project graph
-
-Nx provides a powerful project graph visualization to understand dependencies between your Maven projects:
-
-```bash
-nx graph
-```
-
-This opens an interactive view showing:
-
-- **Project dependencies** - How your applications and libraries depend on each other
-- **Build order** - Understanding which projects need to be built first
-- **Impact analysis** - See what projects are affected by changes
-
-**Useful graph commands:**
-
-```bash
-# View the full project graph
-nx graph
-
-# Show what's affected by changes
-nx graph --affected
-
-# Focus on a specific project and its dependencies
-nx graph --focus=my-app
-
-# Show only projects that depend on a specific project
-nx graph --exclude=*,!tag:my-tag
-```
-
-**How nx-maven builds the graph:**
-
-- **Maven dependencies** - Extracted from `pom.xml` files (`<dependencies>` sections)
-- **Profile dependencies** - Dependencies defined within Maven profiles (`<profiles>` → `<dependencies>`)
-- **Plugin dependencies** - Dependencies used by Maven plugins (`<build>` → `<plugins>` → `<dependencies>`). Note: Plugin dependencies can sometimes create cyclic dependency issues in the graph
-- **Parent projects** - Child projects depend on their parent (`<parent>` section)
-- **Aggregator projects** - Optional linking based on `<modules>` (controlled by `skipAggregatorProjectLinking`)
-
-**Limitations:**
-
-- Profile dependencies are always included in the graph, regardless of whether the profile is active. This ensures the dependency graph remains consistent but may show dependencies that aren't used in your current build configuration.
-
-**Skipping projects:**
-
-You can exclude certain projects from the graph by setting `skipProjectWithoutProjectJson: true` in your plugin configuration. This will skip any Maven projects that don't have a `project.json` file, which is useful for ignoring Maven modules that aren't managed by Nx.
-
-This integration allows Nx to:
-
-- Run only affected tests when you make changes
-- Build projects in the correct order
-- Cache and distribute builds efficiently
-
-### 12. Project tagging
+### 11. Project tagging
 
 All projects generated by nx-maven are automatically tagged with `nx-maven`. This allows you to:
 
@@ -566,7 +537,7 @@ nx generate @jnxplus/nx-maven:application my-app --tags=backend,api
 # Projects will have both auto and custom tags: ['nx-maven', 'backend', 'api']
 ```
 
-### 13. Version management
+### 12. Version management
 
 nx-maven handles both static and property-based versions from `pom.xml` files.
 
@@ -624,6 +595,37 @@ When nx-maven encounters a property-based version, it resolves it in this order:
 - nx-maven resolves versions statically when building the project graph, not at runtime. If you override versions at build time (e.g., `mvn clean install -Drevision=1.2.3`), the graph will still use the version defined in `<properties>`.
 
 **Note:** If nx-maven cannot resolve a version using properties (e.g., `${project.parent.version}`), it will fall back to `mvn help:evaluate`, which is slower. If you encounter performance issues, please [open an issue](https://github.com/khalilou88/jnxplus/issues).
+
+### 13. Other generators
+
+#### Preset
+
+The preset generator is used when creating a new Nx workspace with Maven support from scratch:
+
+```bash
+npx create-nx-workspace@latest my-workspace --preset=@jnxplus/nx-maven
+```
+
+This combines workspace creation and Maven initialization in one step.
+
+#### Wrapper
+
+Update or add the Maven wrapper to your workspace:
+
+```bash
+nx generate @jnxplus/nx-maven:wrapper
+```
+
+**Options:**
+
+- `--skipGitignore` - Don't add Maven Wrapper to .gitignore (default: false)
+- `--skipFormat` - Skip formatting files (default: false)
+
+Use this generator to:
+
+- Update to the latest Maven wrapper version
+- Add the wrapper if it was skipped during init (`--skipWrapper`)
+- Restore the wrapper if it was accidentally deleted
 
 ## License
 
