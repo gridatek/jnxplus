@@ -1,3 +1,13 @@
+## 1.21.1 (2025-10-04)
+
+### 🩹 Fixes
+
+- if no parentProject is specified, use the root project ([#1923](https://github.com/gridatek/jnxplus/pull/1923))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @kgridou
+
 ## 1.21.0 (2025-10-03)
 
 ### 🚀 Features
