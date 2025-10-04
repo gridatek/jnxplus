@@ -115,7 +115,7 @@ workspace-root/
 
 The init command configures the plugin in your `nx.json` file. You can customize these options to fit your workspace needs.
 
-**Example configuration:**
+**Example configuration with default values:**
 
 ```json
 {
