@@ -9,7 +9,7 @@
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-maven</description>
 
-<% if(parentProjectName) { -%>
+<% if(parentProjectName && dependencyManagement !== 'spring-boot-parent-pom' && dependencyManagement !== 'micronaut-parent-pom') { -%>
   <parent>
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>

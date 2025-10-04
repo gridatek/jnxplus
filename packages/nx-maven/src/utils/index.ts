@@ -386,15 +386,10 @@ export function getParentProjectValues(
   projectRoot: string,
   parentProject: string,
 ) {
-  if (!parentProject) {
-    return ['', '', '', ''];
-  }
-
-  const parentProjectRoot = getProjectRootFromTree(
-    tree,
-    mavenRootDirectory,
-    parentProject,
-  );
+  // If no parentProject is specified, use the root project
+  const parentProjectRoot = parentProject
+    ? getProjectRootFromTree(tree, mavenRootDirectory, parentProject)
+    : mavenRootDirectory;
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
