@@ -382,6 +382,103 @@ nx generate @jnxplus/nx-maven:application app1 --parentProject shared-config --a
 
 **Tip:** When using this pattern, enable `skipAggregatorProjectLinking: true` in your `nx.json` plugin options to optimize Nx graph performance since aggregators only contain module lists.
 
+### 9. Other generators
+
+#### Preset
+
+The preset generator is used when creating a new Nx workspace with Maven support from scratch:
+
+```bash
+npx create-nx-workspace@latest my-workspace --preset=@jnxplus/nx-maven
+```
+
+This combines workspace creation and Maven initialization in one step.
+
+#### Wrapper
+
+Update or add the Maven wrapper to your workspace:
+
+```bash
+nx generate @jnxplus/nx-maven:wrapper
+```
+
+**Options:**
+
+- `--skipGitignore` - Don't add Maven Wrapper to .gitignore (default: false)
+- `--skipFormat` - Skip formatting files (default: false)
+
+Use this generator to:
+
+- Update to the latest Maven wrapper version
+- Add the wrapper if it was skipped during init (`--skipWrapper`)
+- Restore the wrapper if it was accidentally deleted
+
+### 10. Executors
+
+#### run-task
+
+Execute arbitrary Maven tasks on a project:
+
+```bash
+nx run-task my-project --task="clean install"
+```
+
+**Options:**
+
+- `--task` (required) - Maven task(s) to execute. Can be a string or array of strings
+- `--outputDirLocalRepo` - Sub-directory in Maven local repository where artifacts from install phase will be placed
+- `--skipProject` - Skip specifying the project with `-pl :project` flag
+- `--cwd` - Working directory for the command. Can be relative (to Maven root) or absolute
+- `--skipExecutor` - Skip executor execution (useful for conditional runs)
+
+**Examples:**
+
+```bash
+# Single task
+nx run-task my-app --task="clean package"
+
+# Multiple tasks
+nx run-task my-app --task="clean" --task="test" --task="package"
+
+# With custom working directory
+nx run-task my-app --task="compile" --cwd="custom-path"
+
+# Skip project specification (run from Maven root)
+nx run-task my-app --task="dependency:tree" --skipProject
+```
+
+#### quarkus-build-image
+
+Build a Docker image for Quarkus applications:
+
+```bash
+nx build-image my-quarkus-app
+```
+
+**Options:**
+
+- `--imageType` - Image type to build (default: jvm). Options: jvm, native, etc.
+- `--imageNamePrefix` - Image name prefix (default: quarkus)
+- `--imageNameSuffix` - Image name suffix
+
+**Examples:**
+
+```bash
+# Build JVM image (default)
+nx build-image my-quarkus-app
+
+# Build native image
+nx build-image my-quarkus-app --imageType=native
+
+# Custom image name
+nx build-image my-quarkus-app --imageNamePrefix=myapp --imageNameSuffix=latest
+```
+
+**Note:** For Spring Boot and Micronaut applications, the build-image target uses the `run-task` executor with framework-specific commands:
+
+- Spring Boot: `spring-boot:build-image`
+- Micronaut: `package -Dpackaging=docker`
+
 ## License
 
 MIT © 2021-2025 Khalil LAGRIDA
