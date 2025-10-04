@@ -87,7 +87,7 @@ This creates the following structure:
 
 ```
 workspace-root/
-├── maven/                    # Maven root directory
+├── maven/                   # Maven root directory
 │   ├── .mvn/                # Maven wrapper config
 │   ├── mvnw, mvnw.cmd       # Maven wrapper scripts
 │   ├── pom.xml              # Root aggregator POM
