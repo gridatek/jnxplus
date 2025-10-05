@@ -83,8 +83,17 @@ nx test nx-maven
 # Run all tests
 nx run-many -t test
 
-# Lint
+# Run smoke tests (integration tests with real Maven/Gradle projects)
+nx smoke jnxplus-smoke
+
+# Run e2e tests (end-to-end tests with workspace creation)
+nx e2e jnxplus-e2e
+
+# Lint all packages
 nx run-many -t lint
+
+# Run specific test suites in CI mode with coverage
+nx test nx-maven --configuration=ci
 ```
 
 ### Development Workflow
@@ -174,3 +183,19 @@ Advanced users can select "None (Advanced users only)" for javaVersion or depend
 - Test/example projects go in `testing-projects/` directory
 - Monorepo uses fixed versioning (all packages released together)
 - Parallel execution is set to 1 in nx.json
+
+## Testing Architecture
+
+The project has two main test suites beyond unit tests:
+
+- **Smoke Tests** (`jnxplus-smoke`) - Integration tests that create real Maven/Gradle projects and test plugin functionality with actual build tools
+- **E2E Tests** (`jnxplus-e2e`) - End-to-end tests that test workspace creation CLIs and full plugin workflows
+
+Both test suites use Jest with `runInBand: true` to avoid parallel execution issues with file system operations.
+
+# important-instruction-reminders
+
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (\*.md) or README files. Only create documentation files if explicitly requested by the User.
