@@ -15,11 +15,11 @@ npm install --save-dev @jnxplus/nx-maven
 # 2. Initialize workspace with Maven support (Java 17 + Spring Boot Parent POM)
 nx generate @jnxplus/nx-maven:init --javaVersion 17 --dependencyManagement spring-boot-parent-pom
 
-# 3. Generate a library
-nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot --directory libs
+# 3. Generate a library (created at libs/my-lib by default)
+nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot
 
-# 4. Generate an application that uses the library
-nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --projects my-lib --directory apps
+# 4. Generate an application that uses the library (created at apps/my-app by default)
+nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --projects my-lib
 
 # 5. Serve the application
 nx serve my-app
@@ -116,6 +116,7 @@ workspace-root/
 Parent projects help organize your applications and libraries with shared dependency management. Use parent projects when you need custom dependency management, want to organize projects into logical groups, or need to support multiple frameworks in your workspace.
 
 ```bash
+# Creates parent project in libs/ by default (libs/my-parent-project/)
 nx generate @jnxplus/nx-maven:parent-project my-parent-project
 ```
 
@@ -124,6 +125,7 @@ Key options:
 - `--javaVersion` - Java version (17, 21, 25, or none)
 - `--dependencyManagement` - Dependency management strategy (same options as init)
 - `--language` - Language for sub-projects: java, kotlin, or java-kotlin
+- `--directory` - Directory where the project will be created (default: libs)
 - `--parentProject` - Parent project to inherit from (for nested parent projects)
 - `--aggregatorProject` - Aggregator project that manages a group of submodules
 
@@ -145,7 +147,7 @@ Key options:
 - `--minimal` - Generate minimal application without starter code
 - `--groupId` - Maven groupId (default: com.example)
 - `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory where the project will be created (e.g., `backend` creates at `backend/my-app`, `apps/backend` creates at `apps/backend/my-app`)
+- `--directory` - Directory where the project will be created (default: apps). Examples: `backend` creates at `backend/my-app`, `apps/backend` creates at `apps/backend/my-app`
 - `--simpleName` - Don't include the directory in the project name (default: true)
 - `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)
@@ -165,7 +167,7 @@ Key options:
 - `--skipStarterCode` - Skip generating starter code
 - `--groupId` - Maven groupId (default: com.example)
 - `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory where the project will be created (e.g., `backend` creates at `backend/my-lib`, `libs/backend` creates at `libs/backend/my-lib`)
+- `--directory` - Directory where the project will be created (default: libs). Examples: `backend` creates at `backend/my-lib`, `libs/backend` creates at `libs/backend/my-lib`
 - `--simpleName` - Don't include the directory in the project name (default: true)
 - `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)

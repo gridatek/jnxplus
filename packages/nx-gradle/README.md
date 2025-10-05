@@ -15,11 +15,11 @@ npm install --save-dev @jnxplus/nx-gradle
 # 2. Initialize workspace with Gradle support (Java 17 + Spring Boot)
 nx generate @jnxplus/nx-gradle:init --javaVersion 17 --preset spring-boot
 
-# 3. Generate a library
-nx generate @jnxplus/nx-gradle:library my-lib --framework spring-boot --directory libs
+# 3. Generate a library (created at libs/my-lib by default)
+nx generate @jnxplus/nx-gradle:library my-lib --framework spring-boot
 
-# 4. Generate an application that uses the library
-nx generate @jnxplus/nx-gradle:application my-app --framework spring-boot --projects my-lib --directory apps
+# 4. Generate an application that uses the library (created at apps/my-app by default)
+nx generate @jnxplus/nx-gradle:application my-app --framework spring-boot --projects my-lib
 
 # 5. Serve the application
 nx serve my-app
@@ -132,7 +132,7 @@ Key options:
 - `--minimal` - Generate minimal application without starter code
 - `--groupId` - Gradle groupId (default: com.example)
 - `--projectVersion` - Project version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory where the project will be created (e.g., `backend` creates at `backend/my-app`, `apps/backend` creates at `apps/backend/my-app`)
+- `--directory` - Directory where the project will be created (default: apps). Examples: `backend` creates at `backend/my-app`, `apps/backend` creates at `apps/backend/my-app`
 - `--simpleName` - Don't include the directory in the project name (default: true)
 - `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)
@@ -151,7 +151,7 @@ Key options:
 - `--skipStarterCode` - Skip generating starter code
 - `--groupId` - Gradle groupId (default: com.example)
 - `--projectVersion` - Project version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory where the project will be created (e.g., `backend` creates at `backend/my-lib`, `libs/backend` creates at `libs/backend/my-lib`)
+- `--directory` - Directory where the project will be created (default: libs). Examples: `backend` creates at `backend/my-lib`, `libs/backend` creates at `libs/backend/my-lib`
 - `--simpleName` - Don't include the directory in the project name (default: true)
 - `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)
