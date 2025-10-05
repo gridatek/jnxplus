@@ -100,7 +100,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --directory ""  --parentProject ${appsParentProject}`,
     );
 
     expect(() =>
@@ -201,13 +201,13 @@ describe('nx-maven spring-boot bom e2e', () => {
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --directory ""  --parentProject ${appsParentProject}`,
     );
 
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName} --parentProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --directory ""  --projects ${appName} --parentProject ${libsParentProject}`,
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -280,11 +280,11 @@ describe('nx-maven spring-boot bom e2e', () => {
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --packaging war --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --directory ""  --language kotlin --packaging war --parentProject ${appsParentProject}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --projects ${appName} --parentProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --directory ""  --language kotlin --projects ${appName} --parentProject ${libsParentProject}`,
     );
 
     expect(() =>
@@ -365,7 +365,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parentProject ${appsParentProject} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>

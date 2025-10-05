@@ -81,7 +81,7 @@ describe('nx-maven micronaut bom e2e', () => {
     const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --directory ""  --framework micronaut --parentProject ${parentProjectName}`,
     );
 
     expect(() =>
@@ -158,7 +158,7 @@ describe('nx-maven micronaut bom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --directory ""  --framework micronaut --parentProject ${parentProjectName}`,
     );
 
     expect(() =>
@@ -219,7 +219,7 @@ describe('nx-maven micronaut bom e2e', () => {
     const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --directory ""  --framework micronaut --language kotlin --parentProject ${parentProjectName}`,
     );
 
     // Making sure the pom.xml file contains the correct information
@@ -279,11 +279,11 @@ describe('nx-maven micronaut bom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --directory ""  --framework micronaut --parentProject ${parentProjectName}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --projects ${appName} --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --directory ""  --framework micronaut --projects ${appName} --parentProject ${parentProjectName}`,
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -356,11 +356,11 @@ describe('nx-maven micronaut bom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --packaging war --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --directory ""  --framework micronaut --language kotlin --packaging war --parentProject ${parentProjectName}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --projects ${appName} --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --directory ""  --framework micronaut --language kotlin --projects ${appName} --parentProject ${parentProjectName}`,
     );
 
     // Making sure the app pom.xml file contains the lib

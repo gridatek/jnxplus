@@ -71,7 +71,7 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     const appName = uniq('gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework none`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework none`,
     );
 
     expect(() =>
@@ -111,7 +111,7 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     const appName = uniq('gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework none --language kotlin`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework none --language kotlin`,
     );
 
     expect(() =>
@@ -149,7 +149,7 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     const libName = uniq('gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework none`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework none`,
     );
 
     expect(() =>
@@ -183,7 +183,7 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     const libName = uniq('gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework none --language kotlin`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework none --language kotlin`,
     );
 
     expect(() =>
@@ -216,11 +216,11 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName}`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --projects ${appName}`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --projects ${appName}`,
     );
 
     // Making sure the app build.gradle.kts file contains the lib
@@ -294,11 +294,11 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --language kotlin --packaging war`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --language kotlin --packaging war`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --language kotlin --projects ${appName}`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --language kotlin --projects ${appName}`,
     );
 
     expect(() =>

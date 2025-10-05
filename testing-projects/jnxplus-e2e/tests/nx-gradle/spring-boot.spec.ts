@@ -84,7 +84,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const appName = uniq('g-sb-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot`,
     );
 
     expect(() =>
@@ -179,7 +179,7 @@ describe('nx-gradle spring-boot e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('g-sb-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`,
+        `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot`,
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
@@ -195,7 +195,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.j-nx-plus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-gradle:application ${randomName} --directory ${appDir} --groupId com.j-nx-plus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -294,7 +294,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --simpleName false --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `generate @jnxplus/nx-gradle:application ${randomName} --directory ${appDir} --groupId com.jnxplus --simplePackageName --simpleName false --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -379,7 +379,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --port ${port}`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot --language kotlin --port ${port}`,
     );
 
     expect(() =>
@@ -473,7 +473,7 @@ describe('nx-gradle spring-boot e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('g-sb-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin`,
+        `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot --language kotlin`,
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
@@ -575,7 +575,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --directory deep/sub-dir --port ${port} --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-gradle:application ${randomName} --directory deep/sub-dir --port ${port} --simplePackageName false --simpleName false`,
     );
 
     //graph
@@ -608,7 +608,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework spring-boot`,
     );
 
     expect(() =>
@@ -672,7 +672,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework spring-boot --language kotlin`,
     );
 
     expect(() =>
@@ -748,7 +748,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -821,7 +821,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --simpleName false`,
+      `generate @jnxplus/nx-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --simpleName false`,
     );
 
     expect(() =>
@@ -944,11 +944,11 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --projects ${appName}`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework spring-boot --projects ${appName}`,
     );
 
     // Making sure the app build.gradle file contains the lib
@@ -1022,11 +1022,11 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --packaging war`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot --language kotlin --packaging war`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin --projects ${appName}`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework spring-boot --language kotlin --projects ${appName}`,
     );
 
     expect(() =>
@@ -1107,7 +1107,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false`,
     );
 
     expect(() =>
@@ -1190,7 +1190,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false`,
     );
 
     expect(() =>
@@ -1251,7 +1251,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --minimal --port ${port}`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot --minimal --port ${port}`,
     );
 
     expect(() =>
@@ -1299,7 +1299,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --minimal --port ${port}`,
+      `generate @jnxplus/nx-gradle:application ${appName} --directory ""  --framework spring-boot --language kotlin --minimal --port ${port}`,
     );
 
     expect(() =>
@@ -1347,7 +1347,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --skipStarterCode`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework spring-boot --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`${libName}/build.gradle`)).not.toThrow();
@@ -1371,7 +1371,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin --skipStarterCode`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework spring-boot --language kotlin --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`${libName}/build.gradle`)).not.toThrow();
@@ -1396,7 +1396,7 @@ describe('nx-gradle spring-boot e2e', () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot`,
+      `generate @jnxplus/nx-gradle:library ${libName} --directory ""  --framework spring-boot`,
     );
 
     //graph
