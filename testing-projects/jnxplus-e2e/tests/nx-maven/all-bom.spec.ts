@@ -78,13 +78,13 @@ describe('nx-maven all bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.java`,
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.java`,
       ),
@@ -140,13 +140,13 @@ describe('nx-maven all bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.kt`,
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.kt`,
       ),
@@ -178,11 +178,11 @@ describe('nx-maven all bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.java`,
       ),
@@ -212,11 +212,11 @@ describe('nx-maven all bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.kt`,
       ),

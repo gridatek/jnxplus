@@ -92,28 +92,28 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/java/.gitkeep`,
-        `${appName}/src/test/java/.gitkeep`,
-        `${appName}/src/native-test/java/.gitkeep`,
+        `apps/${appName}/src/main/java/.gitkeep`,
+        `apps/${appName}/src/test/java/.gitkeep`,
+        `apps/${appName}/src/native-test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle.kts`,
-        `${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
 
-        `${appName}/src/main/java/org/acme/${names(
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `${appName}/src/test/java/org/acme/${names(
+        `apps/${appName}/src/test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -125,11 +125,11 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -140,14 +140,14 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`${appName}/project.json`);
+    const projectJson = readJson(`apps/${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-gradle:run-task',
       },
     };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="test"`,
     );
@@ -351,12 +351,12 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle.kts`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/org/acme/${names(
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `${appName}/src/test/kotlin/org/acme/${names(
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
       ),
@@ -364,14 +364,14 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/kotlin/.gitkeep`,
-        `${appName}/src/test/kotlin/.gitkeep`,
-        `${appName}/src/native-test/kotlin/.gitkeep`,
+        `apps/${appName}/src/main/kotlin/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/.gitkeep`,
+        `apps/${appName}/src/native-test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -383,11 +383,11 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -557,11 +557,11 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/build.gradle.kts`,
-        `${libName}/src/main/java/org/acme/${names(
+        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `${libName}/src/test/java/org/acme/${names(
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
@@ -569,13 +569,13 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/java/.gitkeep`,
-        `${libName}/src/test/java/.gitkeep`,
+        `libs/${libName}/src/main/java/.gitkeep`,
+        `libs/${libName}/src/test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`${libName}/build.gradle.kts`);
+    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -587,11 +587,11 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -625,11 +625,11 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/build.gradle.kts`,
-        `${libName}/src/main/kotlin/org/acme/${names(
+        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `${libName}/src/test/kotlin/org/acme/${names(
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
@@ -637,13 +637,13 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/kotlin/.gitkeep`,
-        `${libName}/src/test/kotlin/.gitkeep`,
+        `libs/${libName}/src/main/kotlin/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`${libName}/build.gradle.kts`);
+    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -655,11 +655,11 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -872,10 +872,10 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
     );
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `${appName}/src/main/java/org/acme/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
       appName,
     ).className.toLocaleLowerCase()}/GreetingResource.java`;
     const greetingResourceContent = readFile(greetingResourcePath);
@@ -950,10 +950,10 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
     );
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `${appName}/src/main/kotlin/org/acme/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
       appName,
     ).className.toLocaleLowerCase()}/GreetingResource.kt`;
     const greetingResourceContent = readFile(greetingResourcePath);
@@ -1151,20 +1151,20 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle.kts`,
-        `${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/java/org/acme/${names(
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `${appName}/src/test/java/org/acme/${names(
+        `apps/${appName}/src/test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
-        `${appName}/src/native-test/java/org/acme/${names(
+        `apps/${appName}/src/native-test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceIT.java`,
       ),
@@ -1180,20 +1180,20 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle.kts`,
-        `${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/kotlin/org/acme/${names(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `${appName}/src/test/kotlin/org/acme/${names(
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
-        `${appName}/src/native-test/kotlin/org/acme/${names(
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`,
       ),
@@ -1207,14 +1207,16 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`${libName}/build.gradle.kts`)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`libs/${libName}/build.gradle.kts`),
+    ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/java/org/acme/${names(
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `${libName}/src/test/java/org/acme/${names(
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
@@ -1228,14 +1230,16 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`${libName}/build.gradle.kts`)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`libs/${libName}/build.gradle.kts`),
+    ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/kotlin/org/acme/${names(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `${libName}/src/test/kotlin/org/acme/${names(
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),

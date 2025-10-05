@@ -93,26 +93,26 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -121,15 +121,15 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -140,14 +140,14 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`${appName}/project.json`);
+    const projectJson = readJson(`apps/${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-maven:run-task',
       },
     };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="clean install -DskipTests=true"`,
     );
@@ -291,26 +291,26 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
 
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -333,11 +333,11 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -583,21 +583,21 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${libName}/pom.xml`);
+    const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -609,11 +609,11 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -647,21 +647,21 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${libName}/pom.xml`);
+    const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -670,14 +670,14 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
     expect(() =>
       checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
     ).not.toThrow();
 
     //should recreate target folder and outputDirLocalRepo
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
     const outputDirLocalRepo = path.join(
       localTmpDir,
@@ -685,12 +685,12 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       `.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`,
     );
     rmSync(outputDirLocalRepo, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
     expect(() =>
       checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
     ).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
     expect(() =>
       checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
     ).not.toThrow();
@@ -916,10 +916,10 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     );
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -1003,7 +1003,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${parentProjectName} --projects ${appName}`,
     );
 
-    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -1050,17 +1050,17 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -1127,7 +1127,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     );
 
     const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
-    const pomXml = `${libName}/pom.xml`;
+    const pomXml = `libs/${libName}/pom.xml`;
     const pomXmlContent = readFile(pomXml);
     const updatedPomXmlContent = pomXmlContent.replace(regex, '');
     updateFile(pomXml, updatedPomXmlContent);
@@ -1670,14 +1670,14 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
@@ -1687,11 +1687,11 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
       ),
@@ -1715,14 +1715,14 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
@@ -1732,15 +1732,15 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/resources/application.properties`,
 
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`,
       ),
@@ -1761,17 +1761,17 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${parentProjectName} --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
       ),
@@ -1785,18 +1785,18 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${parentProjectName} --language kotlin --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `${libName}/src/test/resources/junit-platform.properties`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/resources/junit-platform.properties`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`,
       ),

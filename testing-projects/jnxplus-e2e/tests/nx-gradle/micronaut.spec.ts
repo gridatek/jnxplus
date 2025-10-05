@@ -89,24 +89,24 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/Application.java`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -118,11 +118,11 @@ describe('nx-gradle micronaut e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -133,14 +133,14 @@ describe('nx-gradle micronaut e2e', () => {
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`${appName}/project.json`);
+    const projectJson = readJson(`apps/${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-gradle:run-task',
       },
     };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="test"`,
     );
@@ -361,26 +361,26 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/Application.kt`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -392,11 +392,11 @@ describe('nx-gradle micronaut e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -569,18 +569,18 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/build.gradle`,
-        `${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/build.gradle`,
+        `libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`${libName}/build.gradle`);
+    const buildGradle = readFile(`libs/${libName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -592,11 +592,11 @@ describe('nx-gradle micronaut e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -630,18 +630,18 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/build.gradle`,
-        `${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/build.gradle`,
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`${libName}/build.gradle`);
+    const buildGradle = readFile(`libs/${libName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -653,11 +653,11 @@ describe('nx-gradle micronaut e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -870,10 +870,10 @@ describe('nx-gradle micronaut e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -948,10 +948,10 @@ describe('nx-gradle micronaut e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -1161,12 +1161,12 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/Application.java`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${names(appName).className}Test.java`,
       ),
@@ -1174,10 +1174,10 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
@@ -1201,12 +1201,12 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/Application.kt`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`,
       ),
@@ -1214,10 +1214,10 @@ describe('nx-gradle micronaut e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
       ),
@@ -1238,14 +1238,14 @@ describe('nx-gradle micronaut e2e', () => {
       `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`${libName}/build.gradle`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
@@ -1259,15 +1259,15 @@ describe('nx-gradle micronaut e2e', () => {
       `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`${libName}/build.gradle`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `${libName}/src/test/resources/junit-platform.properties`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/resources/junit-platform.properties`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
       ),

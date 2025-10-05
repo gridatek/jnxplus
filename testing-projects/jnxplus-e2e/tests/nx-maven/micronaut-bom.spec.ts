@@ -86,36 +86,36 @@ describe('nx-maven micronaut bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/Application.java`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -163,18 +163,18 @@ describe('nx-maven micronaut bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${libName}/pom.xml`);
+    const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -183,11 +183,11 @@ describe('nx-maven micronaut bom e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -223,21 +223,21 @@ describe('nx-maven micronaut bom e2e', () => {
     );
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -287,10 +287,10 @@ describe('nx-maven micronaut bom e2e', () => {
     );
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -364,10 +364,10 @@ describe('nx-maven micronaut bom e2e', () => {
     );
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
