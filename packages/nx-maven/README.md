@@ -16,10 +16,10 @@ npm install --save-dev @jnxplus/nx-maven
 nx generate @jnxplus/nx-maven:init --javaVersion 17 --dependencyManagement spring-boot-parent-pom
 
 # 3. Generate a library
-nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot
+nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot --directory libs
 
 # 4. Generate an application that uses the library
-nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --projects my-lib
+nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --projects my-lib --directory apps
 
 # 5. Serve the application
 nx serve my-app

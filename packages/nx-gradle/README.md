@@ -16,10 +16,10 @@ npm install --save-dev @jnxplus/nx-gradle
 nx generate @jnxplus/nx-gradle:init --javaVersion 17 --preset spring-boot
 
 # 3. Generate a library
-nx generate @jnxplus/nx-gradle:library my-lib --framework spring-boot
+nx generate @jnxplus/nx-gradle:library my-lib --framework spring-boot --directory libs
 
 # 4. Generate an application that uses the library
-nx generate @jnxplus/nx-gradle:application my-app --framework spring-boot --projects my-lib
+nx generate @jnxplus/nx-gradle:application my-app --framework spring-boot --projects my-lib --directory apps
 
 # 5. Serve the application
 nx serve my-app
