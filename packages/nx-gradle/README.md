@@ -12,14 +12,14 @@ Get started with nx-gradle in 5 steps:
 # 1. Install the plugin
 npm install --save-dev @jnxplus/nx-gradle
 
-# 2. Initialize workspace with Gradle support (Java 17 + Spring Boot)
-nx generate @jnxplus/nx-gradle:init --javaVersion 17 --preset spring-boot
+# 2. Initialize workspace with Gradle support
+nx generate @jnxplus/nx-gradle:init --javaVersion=17 --dsl=groovy --preset=spring-boot --versionManagement=version-catalog --rootProjectName=root-project --gradleRootDirectory="" --skipWrapper=false --formatter=prettier
 
-# 3. Generate a library (created at libs/my-lib by default)
-nx generate @jnxplus/nx-gradle:library my-lib --framework spring-boot
+# 3. Generate a library
+nx generate @jnxplus/nx-gradle:library my-lib --framework=spring-boot --language=java --groupId=com.example --projectVersion=0.0.1-SNAPSHOT
 
-# 4. Generate an application that uses the library (created at apps/my-app by default)
-nx generate @jnxplus/nx-gradle:application my-app --framework spring-boot --projects my-lib
+# 4. Generate an application that uses the library
+nx generate @jnxplus/nx-gradle:application my-app --framework=spring-boot --language=java --groupId=com.example --projectVersion=0.0.1-SNAPSHOT --projects=my-lib --configFormat=.properties
 
 # 5. Serve the application
 nx serve my-app

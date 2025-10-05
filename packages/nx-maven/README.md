@@ -12,14 +12,14 @@ Get started with nx-maven in 5 steps:
 # 1. Install the plugin
 npm install --save-dev @jnxplus/nx-maven
 
-# 2. Initialize workspace with Maven support (Java 17 + Spring Boot Parent POM)
-nx generate @jnxplus/nx-maven:init --javaVersion 17 --dependencyManagement spring-boot-parent-pom
+# 2. Initialize workspace with Maven support
+nx generate @jnxplus/nx-maven:init --javaVersion=17 --dependencyManagement=spring-boot-parent-pom --mavenRootDirectory="" --skipWrapper=false --formatter=prettier
 
-# 3. Generate a library (created at libs/my-lib by default)
-nx generate @jnxplus/nx-maven:library my-lib --framework spring-boot
+# 3. Generate a library
+nx generate @jnxplus/nx-maven:library my-lib --framework=spring-boot --language=java --groupId=com.example --projectVersion=0.0.1-SNAPSHOT
 
-# 4. Generate an application that uses the library (created at apps/my-app by default)
-nx generate @jnxplus/nx-maven:application my-app --framework spring-boot --projects my-lib
+# 4. Generate an application that uses the library
+nx generate @jnxplus/nx-maven:application my-app --framework=spring-boot --language=java --groupId=com.example --projectVersion=0.0.1-SNAPSHOT --projects=my-lib --configFormat=.properties
 
 # 5. Serve the application
 nx serve my-app
