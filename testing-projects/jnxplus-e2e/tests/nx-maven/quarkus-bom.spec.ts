@@ -92,19 +92,19 @@ describe('nx-maven quarkus bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/org/acme/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `${appName}/src/test/java/org/acme/${names(
+        `apps/${appName}/src/test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -113,15 +113,15 @@ describe('nx-maven quarkus bom e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -132,14 +132,14 @@ describe('nx-maven quarkus bom e2e', () => {
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`${appName}/project.json`);
+    const projectJson = readJson(`apps/${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-maven:run-task',
       },
     };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="clean install -DskipTests=true"`,
     );
@@ -186,7 +186,7 @@ describe('nx-maven quarkus bom e2e', () => {
       );
 
       //test run-task
-      const projectJson = readJson(`${appName}/project.json`);
+      const projectJson = readJson(`apps/${appName}/project.json`);
       projectJson.targets = {
         ...projectJson.targets,
         build: {
@@ -196,7 +196,7 @@ describe('nx-maven quarkus bom e2e', () => {
           },
         },
       };
-      updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+      updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
       //end test run-task
 
       await runNxCommandAsync(`build ${appName}`);
@@ -291,19 +291,19 @@ describe('nx-maven quarkus bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/org/acme/${names(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `${appName}/src/test/kotlin/org/acme/${names(
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -326,11 +326,11 @@ describe('nx-maven quarkus bom e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -361,7 +361,7 @@ describe('nx-maven quarkus bom e2e', () => {
       );
 
       //test run-task
-      const projectJson = readJson(`${appName}/project.json`);
+      const projectJson = readJson(`apps/${appName}/project.json`);
       projectJson.targets = {
         ...projectJson.targets,
         build: {
@@ -371,7 +371,7 @@ describe('nx-maven quarkus bom e2e', () => {
           },
         },
       };
-      updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+      updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
       //end test run-task
 
       await runNxCommandAsync(`build ${appName}`);
@@ -572,18 +572,18 @@ describe('nx-maven quarkus bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/java/org/acme/${names(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `${libName}/src/test/java/org/acme/${names(
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${libName}/pom.xml`);
+    const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -595,11 +595,11 @@ describe('nx-maven quarkus bom e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -633,18 +633,18 @@ describe('nx-maven quarkus bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/kotlin/org/acme/${names(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `${libName}/src/test/kotlin/org/acme/${names(
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${libName}/pom.xml`);
+    const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -656,11 +656,11 @@ describe('nx-maven quarkus bom e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
     rmSync(targetDir, { recursive: true, force: true });
-    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -873,10 +873,10 @@ describe('nx-maven quarkus bom e2e', () => {
     );
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `${appName}/src/main/java/org/acme/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
       appName,
     ).className.toLocaleLowerCase()}/GreetingResource.java`;
     const greetingResourceContent = readFile(greetingResourcePath);
@@ -950,10 +950,10 @@ describe('nx-maven quarkus bom e2e', () => {
     );
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `${appName}/src/main/kotlin/org/acme/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
       appName,
     ).className.toLocaleLowerCase()}/GreetingResource.kt`;
     const greetingResourceContent = readFile(greetingResourcePath);
@@ -1020,7 +1020,7 @@ describe('nx-maven quarkus bom e2e', () => {
     );
 
     const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
-    const pomXml = `${libName}/pom.xml`;
+    const pomXml = `libs/${libName}/pom.xml`;
     const pomXmlContent = readFile(pomXml);
     const updatedPomXmlContent = pomXmlContent.replace(regex, '');
     updateFile(pomXml, updatedPomXmlContent);
@@ -1528,20 +1528,20 @@ describe('nx-maven quarkus bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/java/org/acme/${names(
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `${appName}/src/test/java/org/acme/${names(
+        `apps/${appName}/src/test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
-        `${appName}/src/native-test/java/org/acme/${names(
+        `apps/${appName}/src/native-test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceIT.java`,
       ),
@@ -1557,20 +1557,20 @@ describe('nx-maven quarkus bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/kotlin/org/acme/${names(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `${appName}/src/test/kotlin/org/acme/${names(
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
-        `${appName}/src/native-test/kotlin/org/acme/${names(
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`,
       ),
@@ -1584,14 +1584,14 @@ describe('nx-maven quarkus bom e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --skipStarterCode --parent-project ${parentProjectName}`,
     );
 
-    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/java/org/acme/${names(
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `${libName}/src/test/java/org/acme/${names(
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
@@ -1605,14 +1605,14 @@ describe('nx-maven quarkus bom e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --language kotlin --skipStarterCode --parent-project ${parentProjectName}`,
     );
 
-    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/kotlin/org/acme/${names(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `${libName}/src/test/kotlin/org/acme/${names(
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
@@ -1662,11 +1662,11 @@ describe('nx-maven quarkus bom e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
-
+      'libs',
       appsParentProject,
       'project.json',
     );
-    rmSync(projectJson1);
+    rmSync(projectJson1, { force: true });
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );

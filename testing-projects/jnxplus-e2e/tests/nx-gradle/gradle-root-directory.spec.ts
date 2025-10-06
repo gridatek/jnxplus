@@ -76,13 +76,13 @@ describe('nx-gradle gradle-root-directory e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `nx-gradle/${appName}/build.gradle`,
-        `nx-gradle/${appName}/src/main/resources/application.properties`,
-        `nx-gradle/${appName}/src/main/java/com/example/${names(
+        `nx-gradle/apps/${appName}/build.gradle`,
+        `nx-gradle/apps/${appName}/src/main/resources/application.properties`,
+        `nx-gradle/apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.java`,
-        `nx-gradle/${appName}/src/test/resources/application.properties`,
-        `nx-gradle/${appName}/src/test/java/com/example/${names(
+        `nx-gradle/apps/${appName}/src/test/resources/application.properties`,
+        `nx-gradle/apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.java`,
       ),
@@ -120,13 +120,13 @@ describe('nx-gradle gradle-root-directory e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `nx-gradle/${appName}/build.gradle`,
-        `nx-gradle/${appName}/src/main/resources/application.properties`,
-        `nx-gradle/${appName}/src/main/kotlin/com/example/${names(
+        `nx-gradle/apps/${appName}/build.gradle`,
+        `nx-gradle/apps/${appName}/src/main/resources/application.properties`,
+        `nx-gradle/apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.kt`,
-        `nx-gradle/${appName}/src/test/resources/application.properties`,
-        `nx-gradle/${appName}/src/test/kotlin/com/example/${names(
+        `nx-gradle/apps/${appName}/src/test/resources/application.properties`,
+        `nx-gradle/apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.kt`,
       ),
@@ -158,11 +158,11 @@ describe('nx-gradle gradle-root-directory e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `nx-gradle/${libName}/build.gradle`,
-        `nx-gradle/${libName}/src/main/java/com/example/${names(
+        `nx-gradle/libs/${libName}/build.gradle`,
+        `nx-gradle/libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.java`,
-        `nx-gradle/${libName}/src/test/java/com/example/${names(
+        `nx-gradle/libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.java`,
       ),
@@ -192,11 +192,11 @@ describe('nx-gradle gradle-root-directory e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `nx-gradle/${libName}/build.gradle`,
-        `nx-gradle/${libName}/src/main/kotlin/com/example/${names(
+        `nx-gradle/libs/${libName}/build.gradle`,
+        `nx-gradle/libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.kt`,
-        `nx-gradle/${libName}/src/test/kotlin/com/example/${names(
+        `nx-gradle/libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.kt`,
       ),
@@ -228,10 +228,10 @@ describe('nx-gradle gradle-root-directory e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`nx-gradle/${appName}/build.gradle`);
+    const buildGradle = readFile(`nx-gradle/apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `nx-gradle/${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `nx-gradle/apps/${appName}/src/main/java/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -307,17 +307,17 @@ describe('nx-gradle gradle-root-directory e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `nx-gradle/${appName}/src/main/kotlin/com/example/${names(
+        `nx-gradle/apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`nx-gradle/${appName}/build.gradle`);
+    const buildGradle = readFile(`nx-gradle/apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `nx-gradle/${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `nx-gradle/apps/${appName}/src/main/kotlin/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);

@@ -124,6 +124,7 @@ Key options:
 - `--javaVersion` - Java version (17, 21, 25, or none)
 - `--dependencyManagement` - Dependency management strategy (same options as init)
 - `--language` - Language for sub-projects: java, kotlin, or java-kotlin
+- `--directory` - Directory where the project will be created (default: `libs`)
 - `--parentProject` - Parent project to inherit from (for nested parent projects)
 - `--aggregatorProject` - Aggregator project that manages a group of submodules
 
@@ -145,7 +146,7 @@ Key options:
 - `--minimal` - Generate minimal application without starter code
 - `--groupId` - Maven groupId (default: com.example)
 - `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory where the project will be created (e.g., `backend` creates at `backend/my-app`, `apps/backend` creates at `apps/backend/my-app`)
+- `--directory` - Directory where the project will be created (default: `apps`, e.g., `backend` creates at `backend/my-app`, `apps/backend` creates at `apps/backend/my-app`)
 - `--simpleName` - Don't include the directory in the project name (default: true)
 - `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)
@@ -165,7 +166,7 @@ Key options:
 - `--skipStarterCode` - Skip generating starter code
 - `--groupId` - Maven groupId (default: com.example)
 - `--projectVersion` - Maven version (default: 0.0.1-SNAPSHOT)
-- `--directory` - Directory where the project will be created (e.g., `backend` creates at `backend/my-lib`, `libs/backend` creates at `libs/backend/my-lib`)
+- `--directory` - Directory where the project will be created (default: `libs`, e.g., `backend` creates at `backend/my-lib`, `libs/backend` creates at `libs/backend/my-lib`)
 - `--simpleName` - Don't include the directory in the project name (default: true)
 - `--simplePackageName` - Don't include the directory in the package name (default: true)
 - `--tags` - Tags for the project (comma-separated)

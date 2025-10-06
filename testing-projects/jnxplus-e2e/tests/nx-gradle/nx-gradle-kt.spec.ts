@@ -76,13 +76,13 @@ describe('nx-gradle all kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle.kts`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.java`,
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.java`,
       ),
@@ -120,13 +120,13 @@ describe('nx-gradle all kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/build.gradle.kts`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.kt`,
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.kt`,
       ),
@@ -158,11 +158,11 @@ describe('nx-gradle all kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/build.gradle.kts`,
-        `${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.java`,
-        `${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.java`,
       ),
@@ -192,11 +192,11 @@ describe('nx-gradle all kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${libName}/build.gradle.kts`,
-        `${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.kt`,
       ),
@@ -228,10 +228,10 @@ describe('nx-gradle all kotlin dsl e2e', () => {
     );
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -307,17 +307,17 @@ describe('nx-gradle all kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);

@@ -56,7 +56,8 @@
     "directory": {
       "type": "string",
       "description": "A directory where the project is placed",
-      "alias": "dir"
+      "alias": "dir",
+      "default": "libs"
     },
     "simpleName": {
       "description": "Don't include the directory in the project name",
