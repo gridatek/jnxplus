@@ -1408,7 +1408,7 @@ describe('nx-gradle spring-boot e2e', () => {
       libName,
       'project.json',
     );
-    rmSync(projectJson);
+    rmSync(projectJson, { force: true });
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );

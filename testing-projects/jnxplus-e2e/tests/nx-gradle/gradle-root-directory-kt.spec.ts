@@ -76,13 +76,13 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `deep/subdir/${appName}/build.gradle.kts`,
-        `deep/subdir/${appName}/src/main/resources/application.properties`,
-        `deep/subdir/${appName}/src/main/java/com/example/${names(
+        `deep/subdir/apps/${appName}/build.gradle.kts`,
+        `deep/subdir/apps/${appName}/src/main/resources/application.properties`,
+        `deep/subdir/apps/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.java`,
-        `deep/subdir/${appName}/src/test/resources/application.properties`,
-        `deep/subdir/${appName}/src/test/java/com/example/${names(
+        `deep/subdir/apps/${appName}/src/test/resources/application.properties`,
+        `deep/subdir/apps/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.java`,
       ),
@@ -116,13 +116,13 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `deep/subdir/${appName}/build.gradle.kts`,
-        `deep/subdir/${appName}/src/main/resources/application.properties`,
-        `deep/subdir/${appName}/src/main/kotlin/com/example/${names(
+        `deep/subdir/apps/${appName}/build.gradle.kts`,
+        `deep/subdir/apps/${appName}/src/main/resources/application.properties`,
+        `deep/subdir/apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.kt`,
-        `deep/subdir/${appName}/src/test/resources/application.properties`,
-        `deep/subdir/${appName}/src/test/kotlin/com/example/${names(
+        `deep/subdir/apps/${appName}/src/test/resources/application.properties`,
+        `deep/subdir/apps/${appName}/src/test/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.kt`,
       ),
@@ -154,11 +154,11 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `deep/subdir/${libName}/build.gradle.kts`,
-        `deep/subdir/${libName}/src/main/java/com/example/${names(
+        `deep/subdir/libs/${libName}/build.gradle.kts`,
+        `deep/subdir/libs/${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.java`,
-        `deep/subdir/${libName}/src/test/java/com/example/${names(
+        `deep/subdir/libs/${libName}/src/test/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.java`,
       ),
@@ -188,11 +188,11 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `deep/subdir/${libName}/build.gradle.kts`,
-        `deep/subdir/${libName}/src/main/kotlin/com/example/${names(
+        `deep/subdir/libs/${libName}/build.gradle.kts`,
+        `deep/subdir/libs/${libName}/src/main/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/Library.kt`,
-        `deep/subdir/${libName}/src/test/kotlin/com/example/${names(
+        `deep/subdir/libs/${libName}/src/test/kotlin/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/LibraryTest.kt`,
       ),
@@ -224,10 +224,12 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     );
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`deep/subdir/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(
+      `deep/subdir/apps/${appName}/build.gradle.kts`,
+    );
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `deep/subdir/${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `deep/subdir/apps/${appName}/src/main/java/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -303,17 +305,19 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `deep/subdir/${appName}/src/main/kotlin/com/example/${names(
+        `deep/subdir/apps/${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`deep/subdir/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(
+      `deep/subdir/apps/${appName}/build.gradle.kts`,
+    );
     expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `deep/subdir/${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `deep/subdir/apps/${appName}/src/main/kotlin/com/example/${names(
       appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
