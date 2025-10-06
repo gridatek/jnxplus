@@ -1722,7 +1722,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       parentProjectName,
       'project.json',
     );
-    rmSync(projectJson1);
+    rmSync(projectJson1, { force: true });
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );

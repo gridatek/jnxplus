@@ -1857,7 +1857,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       appsParentProject,
       'project.json',
     );
-    rmSync(projectJson1);
+    rmSync(projectJson1, { force: true });
 
     const appName = uniq('boot-maven-app-');
     await runNxCommandAsync(
@@ -1953,7 +1953,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       appsParentProject,
       'project.json',
     );
-    rmSync(projectJson1);
+    rmSync(projectJson1, { force: true });
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );
