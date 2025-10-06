@@ -409,25 +409,25 @@ describe('nx-maven maven-root-directory e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `nx-maven/apps/${appDir}/${randomName}/pom.xml`,
-        `nx-maven/apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `nx-maven/apps/${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
+        `nx-maven/${appDir}/${randomName}/pom.xml`,
+        `nx-maven/${appDir}/${randomName}/src/main/resources/application.yml`,
+        `nx-maven/${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `nx-maven/apps/${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
+        `nx-maven/${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`nx-maven/apps/${appDir}/${randomName}/pom.xml`);
+    const pomXml = readFile(`nx-maven/${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(
-      `nx-maven/apps/${appDir}/${randomName}/project.json`,
+      `nx-maven/${appDir}/${randomName}/project.json`,
     );
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
