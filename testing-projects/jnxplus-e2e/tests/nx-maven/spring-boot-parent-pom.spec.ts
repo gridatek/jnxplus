@@ -1853,6 +1853,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
+      'libs',
       appsParentProject,
       'project.json',
     );
@@ -1948,6 +1949,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
+      'libs',
       appsParentProject,
       'project.json',
     );

@@ -1718,6 +1718,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
+      'libs',
       parentProjectName,
       'project.json',
     );

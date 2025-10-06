@@ -1662,7 +1662,7 @@ describe('nx-maven quarkus bom e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
-
+      'libs',
       appsParentProject,
       'project.json',
     );
