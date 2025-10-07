@@ -1,3 +1,13 @@
+## 1.22.0 (2025-10-07)
+
+### 🚀 Features
+
+- set default values for directory option ([#1927](https://github.com/gridatek/jnxplus/pull/1927))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @kgridou
+
 ## 1.21.1 (2025-10-04)
 
 ### 🩹 Fixes
