@@ -22,7 +22,7 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@nx/devkit": ">= 19"
+    "@nx/devkit": ">= 22"
   },
   "repository": {
     "type": "git",

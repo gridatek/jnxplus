@@ -29,7 +29,8 @@ nx serve my-app
 
 | @jnxplus/nx-gradle | Nx            | Spring Boot | Quarkus | Micronaut |
 | ------------------ | ------------- | ----------- | ------- | --------- |
-| 1.x.x              | >= 19         | 3.x.x       | 3.x.x   | 4.x.x     |
+| 2.x.x              | >= 22         | 3.x.x       | 3.x.x   | 4.x.x     |
+| 1.x.x              | >= 19 & <= 21 | 3.x.x       | 3.x.x   | 4.x.x     |
 | 0.x.x              | >= 17 & <= 18 | 3.x.x       | 3.x.x   | 4.x.x     |
 
 ## Getting Started
