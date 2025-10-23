@@ -1,3 +1,13 @@
+## 2.1.0 (2025-10-23)
+
+### 🚀 Features
+
+- set minimum version of nx to 22 ([fa18eb6d](https://github.com/gridatek/jnxplus/commit/fa18eb6d))
+
+### ❤️ Thank You
+
+- kgridou @kgridou
+
 # 2.0.0 (2025-10-23)
 
 ### 🚀 Features

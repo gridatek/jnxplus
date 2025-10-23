@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-maven",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "commonjs",
   "main": "src/index.js",
   "generators": "./generators.json",
@@ -39,8 +39,8 @@
     "directory": "packages/nx-maven"
   },
   "dependencies": {
-    "@jnxplus/common": "2.0.0",
-    "@jnxplus/xml": "2.0.0",
+    "@jnxplus/common": "2.1.0",
+    "@jnxplus/xml": "2.1.0",
     "xmldoc": "^2.0.1",
     "tslib": "^2.8.1"
   },
