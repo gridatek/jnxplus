@@ -2,17 +2,8 @@
 
 ### 🚀 Features
 
-- set minimum version of nx to 22 ([fa18eb6d](https://github.com/gridatek/jnxplus/commit/fa18eb6d))
-
-### ❤️ Thank You
-
-- kgridou @kgridou
-
-# 2.0.0 (2025-10-23)
-
-### 🚀 Features
-
 - ⚠️ nx 22 support ([#1949](https://github.com/gridatek/jnxplus/pull/1949))
+- set minimum version of nx to 22 ([fa18eb6d](https://github.com/gridatek/jnxplus/commit/fa18eb6d))
 - remove NX_SKIP_MAVEN_WRAPPER env var ([#1324](https://github.com/gridatek/jnxplus/pull/1324))
 
 ### ⚠️ Breaking Changes
@@ -21,9 +12,7 @@
 
 ### ❤️ Thank You
 
-- kgridou @kgridou
 - Khalil LAGRIDA @kgridou
-- khalilou88 @khalilou88
 
 ## 1.22.0 (2025-10-07)
 
