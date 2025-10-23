@@ -1,6 +1,6 @@
 import { NxGradlePluginOptions } from '@jnxplus/common';
 import {
-  CreateNodesContext,
+  CreateNodesContextV2,
   createNodesFromFiles,
   CreateNodesV2,
   ProjectConfiguration,
@@ -30,12 +30,12 @@ export const createNodesV2: CreateNodesV2<NxGradlePluginOptions> = [
   },
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 async function createNodesInternal(
   configFilePath: string,
   options: NxGradlePluginOptions | undefined,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  context: CreateNodesContext,
+  context: CreateNodesContextV2,
 ) {
   if (!fs.existsSync(outputDirectory)) {
     fs.mkdirSync(outputDirectory, { recursive: true });

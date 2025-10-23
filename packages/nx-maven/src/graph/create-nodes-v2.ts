@@ -1,6 +1,6 @@
 import { NxMavenPluginOptions, TargetsType } from '@jnxplus/common';
 import {
-  CreateNodesContext,
+  CreateNodesContextV2,
   createNodesFromFiles,
   CreateNodesV2,
   ProjectConfiguration,
@@ -35,7 +35,7 @@ async function createNodesInternal(
   configFilePath: string,
   options: NxMavenPluginOptions | undefined,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  context: CreateNodesContext,
+  context: CreateNodesContextV2,
 ) {
   const workspaceData: WorkspaceDataType = await getWorkspaceData(options);
   const mavenProjects = workspaceData.projects;
