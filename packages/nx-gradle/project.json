@@ -4,7 +4,7 @@
   "sourceRoot": "packages/nx-gradle/src",
   "projectType": "library",
   "tags": [],
-  "implicitDependencies": ["internal-generators-files"],
+  "implicitDependencies": ["internal-generators-files", "gradle-plugin"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
