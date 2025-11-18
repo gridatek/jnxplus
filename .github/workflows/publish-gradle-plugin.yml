@@ -1,0 +1,36 @@
+name: Publish Gradle Plugin
+
+on:
+  # Run manually using the GitHub UI
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish to Gradle Plugin Portal
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build and publish plugin
+        run: npx nx run gradle-plugin:publish-plugin
+        env:
+          GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
+          GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
