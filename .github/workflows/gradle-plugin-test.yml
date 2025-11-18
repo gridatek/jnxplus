@@ -1,0 +1,57 @@
+name: Gradle Plugin Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/gradle-plugin/**'
+      - '.github/workflows/gradle-plugin-test.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'packages/gradle-plugin/**'
+      - '.github/workflows/gradle-plugin-test.yml'
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        java: ['17', '21']
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run tests (Unix)
+        if: runner.os != 'Windows'
+        working-directory: packages/gradle-plugin
+        run: ./gradlew check --no-daemon
+
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        working-directory: packages/gradle-plugin
+        run: .\gradlew.bat check --no-daemon
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ matrix.os }}-java${{ matrix.java }}
+          path: |
+            packages/gradle-plugin/build/reports/tests/
+            packages/gradle-plugin/build/test-results/
+          retention-days: 7
