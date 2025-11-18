@@ -2,12 +2,21 @@
 
 This repository contains Gradle plugin for managing gradle projects inside a nx workspace. Plugin registers task `projectDependencyTask` that generate project dependencies in a json file.
 
+## Compatibility
+
+| Plugin Version | Gradle Version |
+| -------------- | -------------- |
+| 1.x            | Gradle 9.x     |
+| 0.x            | Gradle 8.x     |
+
+**Note:** Version 1.0.0+ uses updated APIs compatible with Gradle 9. If you're using Gradle 8.x, please use version 0.4.0 or earlier.
+
 ## Installation
 
 ### gradle.properties
 
 ```bash
-jnxplusGradlePluginVersion=0.1.3
+jnxplusGradlePluginVersion=1.0.0
 ```
 
 ### Settings.gradle
