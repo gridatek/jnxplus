@@ -48,7 +48,7 @@ export function getGradleProjects() {
 
   if (result.pluginVersion !== jnxplusGradlePluginVersion) {
     logger.warn(
-      `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
+      `You are not using the supported version of com.gridatek.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
     );
   }
 

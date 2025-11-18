@@ -76,9 +76,9 @@ function getElements(
     elements.versions.push(`java = "${javaVersion}"`);
   }
 
-  if (!catalog?.plugins['github-khalilou88-jnxplus']) {
+  if (!catalog?.plugins['gridatek-jnxplus']) {
     elements.plugins.push(
-      `github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "${jnxplusGradlePluginVersion}" }`,
+      `gridatek-jnxplus = { id = "com.gridatek.jnxplus", version = "${jnxplusGradlePluginVersion}" }`,
     );
   }
 

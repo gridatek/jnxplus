@@ -12,7 +12,7 @@ plugins {
 	id 'com.diffplug.spotless' version '6.25.0'
 }
 
-group = 'io.github.khalilou88.jnxplus'
+group = 'com.gridatek.jnxplus'
 version = version
 
 repositories {
@@ -31,11 +31,11 @@ gradlePlugin {
 	vcsUrl = 'https://github.com/khalilou88/jnxplus'
 	plugins {
 		jnxplusPlugin {
-			id = 'io.github.khalilou88.jnxplus'
+			id = 'com.gridatek.jnxplus'
 			displayName = 'jnxplus gradle plugin'
 			description = 'jnxplus gradle plugin for depedency graph'
 			tags.set(['nx', 'jnxplus'])
-			implementationClass = 'io.github.khalilou88.jnxplus.GradlePlugin'
+			implementationClass = 'com.gridatek.jnxplus.GradlePlugin'
 		}
 	}
 }

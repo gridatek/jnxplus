@@ -9,7 +9,7 @@ pluginManagement {
     id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
     id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
     id 'org.jetbrains.kotlin.plugin.allopen' version "${kotlinVersion}"
-    id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
+    id 'com.gridatek.jnxplus' version "${jnxplusGradlePluginVersion}"
   }
 <% if(generateRepositories) { -%>
   repositories {
@@ -35,7 +35,7 @@ pluginManagement {
     id("com.github.johnrengelman.shadow") version shadowVersion
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
-    id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
+    id("com.gridatek.jnxplus") version jnxplusGradlePluginVersion
   }
 <% if(generateRepositories) { -%>
   repositories {
