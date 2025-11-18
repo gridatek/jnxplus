@@ -69,8 +69,11 @@ abstract class ProjectDependencyTask extends DefaultTask {
 						l: {
 							element = (ProjectDependency) element
 
+							// Use the new Gradle 9 compatible API
+							Project depProject = currentProject.project(element.path)
+
 							String projectDependencyName = element.name
-							File projectDependencyJsonFile = element.dependencyProject.file('project.json')
+							File projectDependencyJsonFile = depProject.file('project.json')
 							boolean isProjectDependencyJsonExists = projectDependencyJsonFile.exists()
 
 							if (isProjectDependencyJsonExists) {
@@ -78,10 +81,10 @@ abstract class ProjectDependencyTask extends DefaultTask {
 								projectDependencyName = projectDependencyJson.name
 							}
 
-							return [relativePath       : currentProject.rootProject.relativePath(element.dependencyProject.projectDir),
+							return [relativePath       : currentProject.rootProject.relativePath(depProject.projectDir),
 								name               : projectDependencyName,
 								isProjectJsonExists: isProjectDependencyJsonExists,
-								isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
+								isBuildGradleExists: depProject.file('build.gradle').exists()]
 						}
 					}
 
