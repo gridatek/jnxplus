@@ -27,7 +27,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
 
 		def result = [
-			pluginVersion: "0.4.0",
+			pluginVersion: "1.0.0",
 			projects     : projects
 		]
 
