@@ -19,6 +19,7 @@ import {
   parseTags,
   quarkusVersion,
   springBootVersion,
+  springBoot4Version,
 } from '@jnxplus/common';
 import {
   Tree,
@@ -56,6 +57,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   relativePath: string;
   kotlinVersion: string;
   springBootVersion: string;
+  springBoot4Version: string;
   quarkusVersion: string;
   micronautVersion: string;
   mavenRootDirectory: string;
@@ -126,6 +128,7 @@ function normalizeOptions(
     relativePath,
     kotlinVersion,
     springBootVersion,
+    springBoot4Version,
     quarkusVersion,
     micronautVersion,
     mavenRootDirectory,

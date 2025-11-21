@@ -9,7 +9,7 @@
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-maven</description>
 
-<% if(parentProjectName && dependencyManagement !== 'spring-boot-parent-pom' && dependencyManagement !== 'micronaut-parent-pom') { -%>
+<% if(parentProjectName && dependencyManagement !== 'spring-boot-parent-pom' && dependencyManagement !== 'spring-boot-4-parent-pom' && dependencyManagement !== 'micronaut-parent-pom') { -%>
   <parent>
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
@@ -49,6 +49,24 @@
     </properties>
 <% } -%>
 
+<% if(dependencyManagement === 'spring-boot-4-parent-pom') { -%>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version><%= springBoot4Version %></version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <% if(javaVersion !== 'none') { -%>
+        <java.version><%= javaVersion %></java.version>
+        <% } -%>
+        <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+            <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <% } -%>
+    </properties>
+<% } -%>
+
 <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
     <parent>
         <groupId>io.micronaut.platform</groupId>
@@ -69,7 +87,7 @@
     </properties>
 <% } -%>
 
-<% if(dependencyManagement === 'spring-boot-bom') { -%>
+<% if(dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'spring-boot-4-bom') { -%>
   <properties>
     <% if(javaVersion !== 'none') { -%>
     <java.version><%= javaVersion %></java.version>
@@ -77,7 +95,12 @@
     <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
       <kotlin.version><%= kotlinVersion %></kotlin.version>
     <% } -%>
+    <% if(dependencyManagement === 'spring-boot-bom') { -%>
     <spring.boot.version><%= springBootVersion %></spring.boot.version>
+    <% } -%>
+    <% if(dependencyManagement === 'spring-boot-4-bom') { -%>
+    <spring.boot.version><%= springBoot4Version %></spring.boot.version>
+    <% } -%>
     <resource.delimiter>@</resource.delimiter>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

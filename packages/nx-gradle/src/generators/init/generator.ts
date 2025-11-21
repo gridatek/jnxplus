@@ -11,6 +11,8 @@ import {
   shadowVersion,
   springBootVersion,
   springDependencyManagementVersion,
+  springBoot4Version,
+  springDependencyManagement4Version,
   updateNxJsonConfiguration,
 } from '@jnxplus/common';
 import {
@@ -35,6 +37,8 @@ interface NormalizedSchema extends NxGradleInitGeneratorSchema {
   kotlinExtension: string;
   springBootVersion: string;
   springDependencyManagementVersion: string;
+  springBoot4Version: string;
+  springDependencyManagement4Version: string;
   quarkusVersion: string;
   micronautVersion: string;
   kspVersion: string;
@@ -57,6 +61,8 @@ function normalizeOptions(
     kotlinExtension,
     springBootVersion,
     springDependencyManagementVersion,
+    springBoot4Version,
+    springDependencyManagement4Version,
     quarkusVersion,
     micronautVersion,
     kspVersion,
