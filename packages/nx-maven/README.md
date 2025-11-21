@@ -278,7 +278,7 @@ The init command configures the plugin in your `nx.json` file. You can customize
     {
       "plugin": "@jnxplus/nx-maven",
       "options": {
-        "mavenRootDirectory": "nx-maven",
+        "mavenRootDirectory": "",
         "localRepoRelativePath": ".m2/repository",
         "buildTargetName": "build",
         "testTargetName": "test",

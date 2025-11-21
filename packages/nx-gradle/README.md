@@ -231,7 +231,7 @@ The init command configures the plugin in your `nx.json` file. You can customize
     {
       "plugin": "@jnxplus/nx-gradle",
       "options": {
-        "gradleRootDirectory": "nx-gradle",
+        "gradleRootDirectory": "",
         "buildTargetName": "build",
         "testTargetName": "test",
         "serveTargetName": "serve",
