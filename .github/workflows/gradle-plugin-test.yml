@@ -35,6 +35,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 9.2.1
 
       - name: Run tests (Unix)
         if: runner.os != 'Windows'

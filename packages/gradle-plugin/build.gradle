@@ -22,7 +22,8 @@ repositories {
 
 dependencies {
 	// Use the awesome Spock testing and specification framework
-	testImplementation 'org.spockframework:spock-core:2.2-groovy-3.0'
+	testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 gradlePlugin {
@@ -47,6 +48,7 @@ sourceSets {
 }
 
 configurations.functionalTestImplementation.extendsFrom(configurations.testImplementation)
+configurations.functionalTestRuntimeOnly.extendsFrom(configurations.testRuntimeOnly)
 
 // Add a task to run the functional tests
 tasks.register('functionalTest', Test) {
