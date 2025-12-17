@@ -19,7 +19,7 @@
   "dependencies": {
     "@nx/devkit": "22.2.5",
     "@swc/helpers": "0.5.17",
-    "create-nx-workspace": "22.2.5",
+    "create-nx-workspace": "22.2.7",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
