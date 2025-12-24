@@ -1,0 +1,20 @@
+<% if(versionManagement === 'properties') { -%>
+plugins {
+<% if(dsl === 'groovy') { -%>
+  id 'io.github.khalilou88.jnxplus'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+  id("io.github.khalilou88.jnxplus")
+<% } -%>
+}
+<% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+plugins {
+<% if(dsl === 'groovy') { -%>
+  alias libs.plugins.github.khalilou88.jnxplus
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+  alias(libs.plugins.github.khalilou88.jnxplus)
+<% } -%>
+}
+<% } -%>
