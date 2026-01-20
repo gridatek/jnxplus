@@ -88,6 +88,8 @@
       "enum": [
         "spring-boot-parent-pom",
         "spring-boot-bom",
+        "spring-boot-4-parent-pom",
+        "spring-boot-4-bom",
         "quarkus-bom",
         "micronaut-parent-pom",
         "micronaut-bom",
@@ -99,11 +101,19 @@
         "items": [
           {
             "value": "spring-boot-parent-pom",
-            "label": "Spring Boot parent POM"
+            "label": "Spring Boot 3 parent POM"
           },
           {
             "value": "spring-boot-bom",
-            "label": "Spring Boot BOM"
+            "label": "Spring Boot 3 BOM"
+          },
+          {
+            "value": "spring-boot-4-parent-pom",
+            "label": "Spring Boot 4 parent POM"
+          },
+          {
+            "value": "spring-boot-4-bom",
+            "label": "Spring Boot 4 BOM"
           },
           {
             "value": "quarkus-bom",
