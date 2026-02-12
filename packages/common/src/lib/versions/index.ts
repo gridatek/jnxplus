@@ -20,6 +20,7 @@ export const shadowVersion = '8.1.1';
 
 //Jnxplus gradle plugin
 export const jnxplusGradlePluginVersion = '0.4.0';
+export const jnxplusGradlePluginSupportedVersions = ['0.4.0', '1.0.0'];
 
 //Prettier
 export const prettierVersion = '^3.2.4';
