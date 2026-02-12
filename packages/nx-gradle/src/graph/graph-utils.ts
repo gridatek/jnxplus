@@ -1,4 +1,4 @@
-import { jnxplusGradlePluginVersion } from '@jnxplus/common';
+import { jnxplusGradlePluginSupportedVersions } from '@jnxplus/common';
 import { joinPathFragments, logger } from '@nx/devkit';
 import * as fs from 'fs';
 import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
@@ -46,9 +46,9 @@ export function getProjectRoot(
 export function getGradleProjects() {
   const result = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
 
-  if (result.pluginVersion !== jnxplusGradlePluginVersion) {
+  if (!jnxplusGradlePluginSupportedVersions.includes(result.pluginVersion)) {
     logger.warn(
-      `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
+      `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginSupportedVersions[0]} for Gradle 8 or version ${jnxplusGradlePluginSupportedVersions[1]} for Gradle 9`,
     );
   }
 
