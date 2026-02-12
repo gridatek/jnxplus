@@ -543,4 +543,4 @@ Use this generator to:
 
 ## License
 
-MIT © 2021-2025 Khalil LAGRIDA
+MIT © 2021-2026 Khalil LAGRIDA
