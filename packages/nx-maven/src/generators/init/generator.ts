@@ -8,6 +8,7 @@ import {
   micronautVersion,
   quarkusVersion,
   springBootVersion,
+  springBoot4Version,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -29,6 +30,7 @@ import { NxMavenInitGeneratorSchema } from './schema';
 interface NormalizedSchema extends NxMavenInitGeneratorSchema {
   dot: string;
   springBootVersion: string;
+  springBoot4Version: string;
   quarkusVersion: string;
   micronautVersion: string;
 }
@@ -43,6 +45,7 @@ function normalizeOptions(
     ...options,
     dot,
     springBootVersion,
+    springBoot4Version,
     quarkusVersion,
     micronautVersion,
   };
