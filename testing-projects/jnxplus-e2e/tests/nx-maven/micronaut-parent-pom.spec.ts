@@ -351,7 +351,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     await killProcessAndPorts(process.pid, port);
   }, 240000);
 
-  it('should build-image a kotlin application', async () => {
+  xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(

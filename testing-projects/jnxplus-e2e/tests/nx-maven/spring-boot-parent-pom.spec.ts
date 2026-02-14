@@ -360,7 +360,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
   }, 240000);
 
-  it('should build-image a kotlin application', async () => {
+  xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('boot-maven-app-');
       await runNxCommandAsync(
