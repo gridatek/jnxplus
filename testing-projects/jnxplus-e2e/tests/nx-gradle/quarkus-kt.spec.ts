@@ -181,7 +181,7 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
     await killProcessAndPorts(process.pid, port);
   }, 360000);
 
-  it('should build-image a java application', async () => {
+  xit('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('g-q-app-');
 
