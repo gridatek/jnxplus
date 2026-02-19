@@ -1,16 +1,11 @@
 ## 2.3.0 (2026-02-19)
 
-This was a version bump only, there were no code changes.
-
-## 2.2.0 (2026-02-19)
-
 ### 🚀 Features
 
 - add version 1.0.0 to supported versions of Gradle plugin ([#2101](https://github.com/gridatek/jnxplus/pull/2101))
 
 ### ❤️ Thank You
 
-- kgridou @kgridou
 - Khalil LAGRIDA @klagrida
 
 ## 2.1.0 (2025-10-23)
