@@ -34,7 +34,7 @@
     "@nx/workspace": "22.6.3",
     "@prettier/plugin-xml": "^3.4.1",
     "@swc-node/register": "1.11.1",
-    "@swc/cli": "0.8.0",
+    "@swc/cli": "0.8.1",
     "@swc/core": "1.15.21",
     "@swc/wasm": "~1.15.21",
     "@types/jest": "30.0.0",
