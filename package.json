@@ -48,7 +48,7 @@
     "axios": "^1.14.0",
     "chalk": "4.1.0",
     "enquirer": "^2.4.1",
-    "eslint": "10.1.0",
+    "eslint": "10.2.0",
     "eslint-config-prettier": "10.1.8",
     "husky": "^9.1.7",
     "jest": "30.3.0",
