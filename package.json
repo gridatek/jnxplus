@@ -70,7 +70,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "^8.60.1",
     "verdaccio": "6.7.2",
-    "xmldoc": "^2.0.3",
+    "xmldoc": "^3.0.0",
     "yargs": "17.7.2"
   },
   "nx": {
