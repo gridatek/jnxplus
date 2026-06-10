@@ -197,9 +197,11 @@ function addSpringBootFiles(
   options: NormalizedSchema,
   templateOptions: TemplateOptionsType,
 ) {
+  const springBootFolder =
+    options.framework === 'spring-boot-4' ? 'spring-boot-4' : 'spring-boot';
   generateFiles(
     tree,
-    path.join(d, 'files', 'spring-boot', options.language),
+    path.join(d, 'files', springBootFolder, options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -339,7 +341,10 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     template: '',
   };
 
-  if (options.framework === 'spring-boot') {
+  if (
+    options.framework === 'spring-boot' ||
+    options.framework === 'spring-boot-4'
+  ) {
     addSpringBootFiles(__dirname, tree, options, templateOptions);
   }
 
@@ -396,7 +401,10 @@ async function applicationGenerator(
 
   const targets = projectConfiguration.targets ?? {};
 
-  if (options.framework === 'spring-boot') {
+  if (
+    options.framework === 'spring-boot' ||
+    options.framework === 'spring-boot-4'
+  ) {
     targets[`${normalizedOptions.buildTargetName}`].options = {
       ...targets[`${normalizedOptions.buildTargetName}`].options,
       task: 'package spring-boot:repackage -DskipTests=true',
