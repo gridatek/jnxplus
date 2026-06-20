@@ -1,8 +1,8 @@
 import { NxGradlePluginOptions } from '@jnxplus/common';
 import {
-  CreateNodesContextV2,
+  CreateNodesContext,
   createNodesFromFiles,
-  CreateNodesV2,
+  CreateNodes,
   ProjectConfiguration,
   workspaceRoot,
 } from '@nx/devkit';
@@ -17,7 +17,7 @@ import {
   outputFile,
 } from './graph-utils';
 
-export const createNodesV2: CreateNodesV2<NxGradlePluginOptions> = [
+export const createNodesV2: CreateNodes<NxGradlePluginOptions> = [
   'nx.json',
   async (configFiles, options, context) => {
     return await createNodesFromFiles(
@@ -30,12 +30,11 @@ export const createNodesV2: CreateNodesV2<NxGradlePluginOptions> = [
   },
 ];
 
- 
 async function createNodesInternal(
   configFilePath: string,
   options: NxGradlePluginOptions | undefined,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  context: CreateNodesContextV2,
+  context: CreateNodesContext,
 ) {
   if (!fs.existsSync(outputDirectory)) {
     fs.mkdirSync(outputDirectory, { recursive: true });
