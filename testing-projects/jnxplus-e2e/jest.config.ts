@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'jnxplus-e2e',
   preset: '../../jest.preset.js',

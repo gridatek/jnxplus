@@ -72,5 +72,7 @@
     }
   },
   "parallel": 1,
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "analytics": false,
+  "neverConnectToCloud": true
 }

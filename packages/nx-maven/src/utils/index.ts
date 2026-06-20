@@ -16,7 +16,7 @@ import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 
 export function getExecutable() {
-  let executable = '';
+  let executable: string;
 
   const mavenRootDirectory = getMavenRootDirectory();
 
@@ -105,7 +105,7 @@ function getProjectRootFromTree(
   mavenRootDirectory: string,
   projectName: string,
 ): string {
-  let projectRoot = '';
+  let projectRoot: string;
 
   try {
     projectRoot = readProjectConfiguration(tree, projectName).root;

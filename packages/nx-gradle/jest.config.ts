@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'nx-gradle',
   preset: '../../jest.preset.js',

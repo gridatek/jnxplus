@@ -1,8 +1,8 @@
 import { NxMavenPluginOptions, TargetsType } from '@jnxplus/common';
 import {
-  CreateNodesContextV2,
+  CreateNodesContext,
   createNodesFromFiles,
-  CreateNodesV2,
+  CreateNodes,
   ProjectConfiguration,
   readJsonFile,
 } from '@nx/devkit';
@@ -18,7 +18,7 @@ import {
   WorkspaceDataType,
 } from './graph-utils';
 
-export const createNodesV2: CreateNodesV2<NxMavenPluginOptions> = [
+export const createNodesV2: CreateNodes<NxMavenPluginOptions> = [
   'nx.json',
   async (configFiles, options, context) => {
     return await createNodesFromFiles(
@@ -35,7 +35,7 @@ async function createNodesInternal(
   configFilePath: string,
   options: NxMavenPluginOptions | undefined,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  context: CreateNodesContextV2,
+  context: CreateNodesContext,
 ) {
   const workspaceData: WorkspaceDataType = await getWorkspaceData(options);
   const mavenProjects = workspaceData.projects;
@@ -48,7 +48,7 @@ async function createNodesInternal(
     }
 
     let projectName;
-    let targets: TargetsType = {};
+    let targets: TargetsType;
 
     const projectJsonPath = path.join(
       project.projectAbsolutePath,
