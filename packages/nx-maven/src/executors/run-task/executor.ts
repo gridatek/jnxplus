@@ -17,7 +17,7 @@ export default async function runExecutor(
 
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);
 
-  let task = '';
+  let task: string;
   if (Array.isArray(options.task)) {
     task = options.task.join(' ');
   } else {

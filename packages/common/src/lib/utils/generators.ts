@@ -60,7 +60,7 @@ export function generateAppClassName(
   projectName: string,
   options: { framework: string | undefined },
 ) {
-  let appClassName = '';
+  let appClassName: string;
   if (options.framework === 'micronaut') {
     appClassName = names(projectName).className;
   } else {

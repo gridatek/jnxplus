@@ -21,14 +21,14 @@ export default async function runExecutor(
     gradleRootDirectory,
   );
 
-  let projectPath = '';
+  let projectPath: string;
   if (options.projectPath) {
     projectPath = options.projectPath;
   } else {
     projectPath = getProjectPath(context, gradleRootDirectoryAbsolutePath);
   }
 
-  let task = '';
+  let task: string;
   if (Array.isArray(options.task)) {
     task = options.task.join(' ');
   } else {

@@ -97,7 +97,7 @@ export function getGradleRootDirectory(): string {
 }
 
 export function getExecutable() {
-  let executable = '';
+  let executable: string;
 
   if (process.env['NX_SKIP_GRADLE_WRAPPER'] === 'true') {
     executable = 'gradle';

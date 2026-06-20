@@ -69,13 +69,12 @@ function updateGitIgnore(tree: Tree) {
   const filePath = '.gitignore';
   const contents = tree.read(filePath, 'utf-8') || '';
 
-  let mavenIgnore = '';
   const mavenIgnore1 = '\n\n# Maven Wrapper';
   const mavenIgnore2 = '\n.mvn/';
   const mavenIgnore3 = '\nmvnw';
   const mavenIgnore4 = '\nmvnw.cmd';
 
-  mavenIgnore = mavenIgnore1 + mavenIgnore2 + mavenIgnore3 + mavenIgnore4;
+  const mavenIgnore = mavenIgnore1 + mavenIgnore2 + mavenIgnore3 + mavenIgnore4;
 
   const newContents = contents.concat(mavenIgnore);
   tree.write(filePath, newContents);

@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'create-nx-maven-workspace',
   preset: '../../jest.preset.js',

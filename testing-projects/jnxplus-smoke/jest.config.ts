@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'jnxplus-smoke',
   preset: '../../jest.preset.js',

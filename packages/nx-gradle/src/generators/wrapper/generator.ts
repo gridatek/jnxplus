@@ -65,13 +65,13 @@ export function updateGitIgnore(tree: Tree) {
   const filePath = '.gitignore';
   const contents = tree.read(filePath, 'utf-8') || '';
 
-  let gradleIgnore = '';
   const gradleIgnore1 = '\n\n# Gradle Wrapper';
   const gradleIgnore2 = '\ngradle/';
   const gradleIgnore3 = '\ngradlew';
   const gradleIgnore4 = '\ngradlew.bat';
 
-  gradleIgnore = gradleIgnore1 + gradleIgnore2 + gradleIgnore3 + gradleIgnore4;
+  const gradleIgnore =
+    gradleIgnore1 + gradleIgnore2 + gradleIgnore3 + gradleIgnore4;
 
   const newContents = contents.concat(gradleIgnore);
   tree.write(filePath, newContents);
