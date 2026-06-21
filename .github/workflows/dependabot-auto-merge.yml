@@ -22,10 +22,10 @@ jobs:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
 
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node_version }}
       #          cache: 'npm'
@@ -34,7 +34,7 @@ jobs:
         run: npm i
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
