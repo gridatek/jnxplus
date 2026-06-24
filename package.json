@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^21.1.0",
-    "@commitlint/config-angular": "^21.0.2",
+    "@commitlint/config-angular": "^21.1.0",
     "@eslint/js": "^10.0.0",
     "@nx/eslint": "23.0.1",
     "@nx/eslint-plugin": "23.0.1",
