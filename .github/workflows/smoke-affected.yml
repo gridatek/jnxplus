@@ -60,6 +60,21 @@ jobs:
         with:
           maven-version: 3.9.9
 
+      # Cache the Gradle home so Spotless' greclipse formatter (provisioned from
+      # the flaky download.eclipse.org P2 site) is downloaded once and reused,
+      # and cache the Maven local repo so generated Maven smoke workspaces don't
+      # re-download every dependency (and are less exposed to transient outages).
+      - name: Cache Gradle & Maven
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.m2/repository
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties', '**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
       - name: Install dependencies
         run: npm i
 
