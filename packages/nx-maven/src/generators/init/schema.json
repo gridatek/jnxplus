@@ -92,11 +92,19 @@
           },
           {
             "value": "spring-boot-parent-pom",
-            "label": "Spring Boot Parent POM"
+            "label": "Spring Boot 3 Parent POM"
           },
           {
             "value": "spring-boot-bom",
-            "label": "Spring Boot BOM (Bill of Materials)"
+            "label": "Spring Boot 3 BOM (Bill of Materials)"
+          },
+          {
+            "value": "spring-boot-4-parent-pom",
+            "label": "Spring Boot 4 Parent POM"
+          },
+          {
+            "value": "spring-boot-4-bom",
+            "label": "Spring Boot 4 BOM (Bill of Materials)"
           },
           {
             "value": "quarkus-bom",
