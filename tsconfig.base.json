@@ -23,7 +23,12 @@
       "@jnxplus/nx-gradle": ["packages/nx-gradle/src/index.ts"],
       "@jnxplus/nx-maven": ["packages/nx-maven/src/index.ts"],
       "@jnxplus/xml": ["packages/xml/src/index.ts"]
-    }
+    },
+    "strict": false,
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
 }
