@@ -382,14 +382,22 @@ function getTargetDefaults() {
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
   if (nxJson.targetDefaults) {
     for (const [targetName, target] of Object.entries(nxJson.targetDefaults)) {
-      validateTargetInputs(targetName, 'nx.json', target.inputs);
+      // Since Nx 23.1.0, a targetDefaults value can be either a plain config
+      // object or an array of filtered entries. Normalize to an array so both
+      // forms are handled the same way.
+      const entries = Array.isArray(target) ? target : [target];
 
-      if (
-        (target.outputs ?? []).some(
-          (element: string) => element === '{options.outputDirLocalRepo}',
-        )
-      ) {
-        targetDefaults.push(targetName);
+      for (const entry of entries) {
+        validateTargetInputs(targetName, 'nx.json', entry.inputs);
+
+        if (
+          (entry.outputs ?? []).some(
+            (element: string) => element === '{options.outputDirLocalRepo}',
+          )
+        ) {
+          targetDefaults.push(targetName);
+          break;
+        }
       }
     }
   }
