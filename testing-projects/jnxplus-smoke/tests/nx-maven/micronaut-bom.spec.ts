@@ -2,6 +2,7 @@ import { readJson, uniq } from '@nx/plugin/testing';
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 import { dirSync } from 'tmp';
+import { getParallel } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -33,6 +34,8 @@ const testLib5 = uniq('test-lib5-');
 const testApp6 = uniq('test-app6-');
 
 describe('nx-maven micronaut bom smoke', () => {
+  const parallel = getParallel();
+
   beforeAll(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -117,7 +120,7 @@ describe('nx-maven micronaut bom smoke', () => {
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
 
-    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
+    execSync(`npx nx run-many --target=build ${parallel}`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 

@@ -1,4 +1,7 @@
-import { showAffectedProjectsJson } from '@jnxplus/internal/testing';
+import {
+  getParallel,
+  showAffectedProjectsJson,
+} from '@jnxplus/internal/testing';
 import { readJson, uniq } from '@nx/plugin/testing';
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
@@ -31,6 +34,8 @@ const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
 describe('nx-maven spring-boot smoke-affected', () => {
+  const parallel = getParallel();
+
   beforeAll(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -100,7 +105,7 @@ describe('nx-maven spring-boot smoke-affected', () => {
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
 
-    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
+    execSync(`npx nx run-many --target=build ${parallel}`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
