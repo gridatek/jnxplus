@@ -56,7 +56,7 @@
     "jest-environment-jsdom": "30.4.1",
     "jest-environment-node": "^30.4.1",
     "jest-util": "30.4.1",
-    "jsonc-eslint-parser": "^3.2.0",
+    "jsonc-eslint-parser": "^3.3.0",
     "kill-port": "^2.0.1",
     "lint-staged": "^17.3.0",
     "nx": "23.1.1",
