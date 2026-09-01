@@ -16,6 +16,14 @@
         <relativePath/>
     </parent>
     <% } -%>
+    <% if(dependencyManagement === 'spring-boot-4-parent-pom') { -%>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version><%= springBoot4Version %></version>
+        <relativePath/>
+    </parent>
+    <% } -%>
     <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
     <parent>
         <groupId>io.micronaut.platform</groupId>
@@ -35,6 +43,9 @@
         <% if(dependencyManagement === 'spring-boot-bom') { -%>
         <spring-boot.version><%= springBootVersion %></spring-boot.version>
         <% } -%>
+        <% if(dependencyManagement === 'spring-boot-4-bom') { -%>
+        <spring-boot.version><%= springBoot4Version %></spring-boot.version>
+        <% } -%>
         <% if(dependencyManagement === 'quarkus-bom') { -%>
         <quarkus.version><%= quarkusVersion %></quarkus.version>
         <% } -%>
@@ -48,10 +59,10 @@
     </properties>
     <% } -%>
 
-    <% if(dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom') { -%>
+    <% if(dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'spring-boot-4-bom' || dependencyManagement === 'quarkus-bom' || dependencyManagement === 'micronaut-bom') { -%>
     <dependencyManagement>
         <dependencies>
-            <% if(dependencyManagement === 'spring-boot-bom') { -%>
+            <% if(dependencyManagement === 'spring-boot-bom' || dependencyManagement === 'spring-boot-4-bom') { -%>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

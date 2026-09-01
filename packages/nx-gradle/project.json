@@ -73,6 +73,26 @@
             "output": "./src/generators/library/files/spring-boot"
           },
           {
+            "input": "./packages/internal/generators-files/spring-boot-4/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files/spring-boot-4"
+          },
+          {
+            "input": "./packages/internal/generators-files/spring-boot-4/application/gradle",
+            "glob": "**",
+            "output": "./src/generators/application/files/spring-boot-4"
+          },
+          {
+            "input": "./packages/internal/generators-files/spring-boot-4/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files/spring-boot-4"
+          },
+          {
+            "input": "./packages/internal/generators-files/spring-boot-4/library/gradle",
+            "glob": "**",
+            "output": "./src/generators/library/files/spring-boot-4"
+          },
+          {
             "input": "./packages/internal/generators-files/quarkus/application/shared",
             "glob": "**",
             "output": "./src/generators/application/files/quarkus"

@@ -9,12 +9,24 @@ export type CustomCli =
   | 'create-nx-maven-workspace'
   | 'create-nx-gradle-workspace';
 export type TargetsType = Record<string, TargetConfiguration>;
-export type FrameworkType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
-export type PresetType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
+export type FrameworkType =
+  | 'spring-boot'
+  | 'spring-boot-4'
+  | 'quarkus'
+  | 'micronaut'
+  | 'none';
+export type PresetType =
+  | 'spring-boot'
+  | 'spring-boot-4'
+  | 'quarkus'
+  | 'micronaut'
+  | 'none';
 export type DependencyManagementType =
   | 'none'
   | 'spring-boot-parent-pom'
   | 'spring-boot-bom'
+  | 'spring-boot-4-parent-pom'
+  | 'spring-boot-4-bom'
   | 'quarkus-bom'
   | 'micronaut-parent-pom'
   | 'micronaut-bom';

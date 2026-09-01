@@ -18,6 +18,8 @@ on:
           - nx-gradle quarkus kotlin dsl e2e
           - nx-gradle spring-boot e2e
           - nx-gradle spring-boot kotlin dsl e2e
+          - nx-gradle spring-boot-4 e2e
+          - nx-gradle spring-boot-4 kotlin dsl e2e
           - graph should works with optional project.json
           - should use specified options to create an sb application
           - should create a sb java application
@@ -30,6 +32,7 @@ on:
           - nx-maven quarkus bom e2e
           - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
+          - nx-maven spring-boot-4 parent-pom e2e
           - should use specified options and hyphen in groupId to create an application
           - should --aggregator-project option works and generate java nested sub-projects
           - should generate java apps that use a parent project
