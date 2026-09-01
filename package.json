@@ -54,7 +54,7 @@
     "husky": "^9.1.7",
     "jest": "30.4.2",
     "jest-environment-jsdom": "30.4.1",
-    "jest-environment-node": "^30.4.1",
+    "jest-environment-node": "^30.5.0",
     "jest-util": "30.4.1",
     "jsonc-eslint-parser": "^3.3.0",
     "kill-port": "^2.0.1",
