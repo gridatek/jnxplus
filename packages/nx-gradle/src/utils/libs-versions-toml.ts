@@ -10,6 +10,8 @@ import {
   shadowVersion,
   springBootVersion,
   springDependencyManagementVersion,
+  springBoot4Version,
+  springDependencyManagement4Version,
 } from '@jnxplus/common';
 import { Tree, joinPathFragments } from '@nx/devkit';
 
@@ -108,6 +110,33 @@ function getElements(
     if (!catalog?.plugins['spring-dependency-management']) {
       elements.plugins.push(
         `spring-dependency-management = { id = "io.spring.dependency-management", version = "${springDependencyManagementVersion}" }`,
+      );
+    }
+
+    if (
+      language === 'kotlin' &&
+      !catalog?.plugins['jetbrains-kotlin-plugin-spring']
+    ) {
+      elements.plugins.push(
+        'jetbrains-kotlin-plugin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }',
+      );
+    }
+  }
+
+  if (preset === 'spring-boot-4') {
+    if (!catalog?.versions['spring-boot']) {
+      elements.versions.push(`spring-boot = "${springBoot4Version}"`);
+    }
+
+    if (!catalog?.plugins['springframework-boot']) {
+      elements.plugins.push(
+        'springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }',
+      );
+    }
+
+    if (!catalog?.plugins['spring-dependency-management']) {
+      elements.plugins.push(
+        `spring-dependency-management = { id = "io.spring.dependency-management", version = "${springDependencyManagement4Version}" }`,
       );
     }
 
