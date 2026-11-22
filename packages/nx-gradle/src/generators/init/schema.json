@@ -69,14 +69,18 @@
       "description": "preset",
       "type": "string",
       "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
+      "enum": ["spring-boot", "spring-boot-4", "quarkus", "micronaut", "none"],
       "x-prompt": {
         "message": "Which preset to use? or 'none' to skip.",
         "type": "list",
         "items": [
           {
             "value": "spring-boot",
-            "label": "Spring Boot"
+            "label": "Spring Boot 3"
+          },
+          {
+            "value": "spring-boot-4",
+            "label": "Spring Boot 4"
           },
           {
             "value": "quarkus",

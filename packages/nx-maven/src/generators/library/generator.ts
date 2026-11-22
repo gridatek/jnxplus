@@ -130,9 +130,11 @@ function addSpringBootFiles(
   options: NormalizedSchema,
   templateOptions: TemplateOptionsType,
 ) {
+  const springBootFolder =
+    options.framework === 'spring-boot-4' ? 'spring-boot-4' : 'spring-boot';
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'spring-boot', options.language),
+    path.join(__dirname, 'files', springBootFolder, options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -269,7 +271,10 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     template: '',
   };
 
-  if (options.framework === 'spring-boot') {
+  if (
+    options.framework === 'spring-boot' ||
+    options.framework === 'spring-boot-4'
+  ) {
     addSpringBootFiles(tree, options, templateOptions);
   }
 
